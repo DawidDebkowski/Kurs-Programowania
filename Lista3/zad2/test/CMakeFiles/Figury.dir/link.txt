@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\Figury.dir/objects.a
+C:\PROGRA~1\CODEBL~1\MinGW\bin\ar.exe qc CMakeFiles\Figury.dir/objects.a @CMakeFiles\Figury.dir\objects1.rsp
+C:\PROGRA~1\CODEBL~1\MinGW\bin\C__~1.EXE -Wl,--whole-archive CMakeFiles\Figury.dir/objects.a -Wl,--no-whole-archive -o Figury.exe -Wl,--out-implib,libFigury.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Figury.dir\linkLibs.rsp
