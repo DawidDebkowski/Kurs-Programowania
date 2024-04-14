@@ -26,13 +26,9 @@ public class App {
         MainFrame mf = new MainFrame();
         mf.Initialise();
 
-        for(int i=0;i<10;i++)
-        {
-            PascalLabelRow testRow = new PascalLabelRow(i);
-            testRow.Initialise();
-    
-            mf.add(testRow);
-        }
+        TrianglePanel trianglePanel = new TrianglePanel(Integer.parseInt(args[0]));
+        trianglePanel.showTriangle();
+        mf.add(trianglePanel);
         mf.setLayout(new GridLayout(10, 1));
         mf.setVisible(true);
     }
