@@ -26,10 +26,27 @@ public class App {
         MainFrame mf = new MainFrame();
         mf.Initialise();
 
-        TrianglePanel trianglePanel = new TrianglePanel(Integer.parseInt(args[0]));
-        trianglePanel.showTriangle();
-        mf.add(trianglePanel);
-        mf.setLayout(new GridLayout(10, 1));
+
+        Panel buttonPanel = new Panel();
+
+        TextField inputField = new TextField();
+        Button makeButton = new Button("Stworz Trojkat");
+
+        TrianglePanel tPanel = new TrianglePanel();
+        
+        makeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                tPanel.showTriangle(Integer.parseInt(inputField.getText()));
+                mf.pack();
+            }
+        });
+        
+        buttonPanel.add(inputField);
+        buttonPanel.add(makeButton);
+        mf.add(buttonPanel);
+        mf.add(tPanel);
+        
+        mf.setLayout(new GridLayout(2, 1));
         mf.setVisible(true);
     }
 }
