@@ -5,31 +5,25 @@ import java.awt.GridLayout;
 import java.awt.Panel;
 import java.awt.ScrollPane;
 
-public class TrianglePanel extends ScrollPane{
-    private int triangleSize;
-
-    public TrianglePanel(int triangleSize)
+public class TrianglePanel extends Panel{
+    public TrianglePanel()
     {
-        super(ScrollPane.SCROLLBARS_ALWAYS);
-        this.setBounds(100, 100, 400, 400);
-        this.triangleSize = triangleSize;
+        //super(Panel.SCROLLBARS_ALWAYS);
+        //this.setBounds(100, 100, 400, 400);
     }
 
-    public void showTriangle()
+    public void showTriangle(int triangleSize)
     {
-        Panel insidePanel = new Panel();
-        insidePanel.setLayout(new GridLayout(triangleSize, 1));
+        //Panel insidePanel = new Panel();
+        this.setLayout(new GridLayout(triangleSize, 1));
 
         for(int i=0;i<triangleSize;i++)
         {
             PascalLabelRow testRow = new PascalLabelRow(i);
             testRow.Initialise();
 
-            insidePanel.add(testRow);
+            this.add(testRow);
         }
-
-        // insidePanel.setVisible(true);
-        this.add(insidePanel);
         this.revalidate();
     }
 }

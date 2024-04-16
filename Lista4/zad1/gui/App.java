@@ -26,10 +26,12 @@ public class App {
         MainFrame mf = new MainFrame();
         mf.Initialise();
 
-        TrianglePanel trianglePanel = new TrianglePanel(Integer.parseInt(args[0]));
-        trianglePanel.showTriangle();
-        mf.add(trianglePanel);
-        mf.setLayout(new GridLayout(10, 1));
+        TriangleMaker tMaker = new TriangleMaker();
+
+        mf.add(tMaker);
+        tMaker.Initialise();
+        mf.setLayout(new GridLayout(2, 2));
         mf.setVisible(true);
+        mf.pack();
     }
 }
