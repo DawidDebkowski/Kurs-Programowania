@@ -1,7 +1,7 @@
 package gui;
 
-import java.awt.Label;
-import java.awt.Panel;
+import java.awt.*;
+import javafx.animation.*;
 
 import trojkatpascala.*;
 
@@ -18,12 +18,12 @@ public class PascalLabelRow extends Panel{
     public void Initialise()
     {
         wsp.obliczWiersz();
+        String text = "";
         for(int i=0;i<=rowNumber;i++)
         {
             try
             {
-                Label l = new Label(Integer.toString(wsp.wezElement(i)));
-                this.add(l);
+                text+="   " + wsp.wezElement(i);
             }
             catch(BladZakresu e)
             {
@@ -32,7 +32,6 @@ public class PascalLabelRow extends Panel{
                 this.add(l);
             }
         }
-
-
+        this.add(new Label(text));
     }
 }
