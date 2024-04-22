@@ -13,32 +13,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
-class OutputBox extends VBox {
-    VBox lastOutput;
-
-    public OutputBox()
-    {
-        super();
-    }
-
-    public void ShowTriangle(int triangleSize)
-    {
-        if(lastOutput != null)
-            this.getChildren().remove(lastOutput);
-        
-        lastOutput = new VBox();
-        for(int i=0;i<=triangleSize;i++)
-        {
-            
-        }
-    }
-}
-
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
+        //INPUT
         int inputMaxWidth = 100;
         int inputMaxHeigth = 40;
         HBox inputBox = new HBox();
@@ -53,9 +32,23 @@ public class Main extends Application {
         inputBox.getChildren().addAll(inputTextArea, mkButton);
         inputBox.setAlignment(Pos.CENTER);
 
+
+        //TRIANGLE
+        OutputBox outputBox = new OutputBox();
+        //outputBox.test(4);
+        try {
+
+            outputBox.showTriangle(4);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+
         BorderPane root = new BorderPane();
         root.setPrefSize(400, 400);
         root.setTop(inputBox);
+        root.setCenter(outputBox);
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
