@@ -1,5 +1,7 @@
 package gui;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,33 +20,27 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception{
         //INPUT
-        int inputMaxWidth = 100;
-        int inputMaxHeigth = 40;
-        HBox inputBox = new HBox();
-        Button mkButton = new Button("Stworz");
-        TextArea inputTextArea = new TextArea();
-        inputTextArea.setMaxSize(inputMaxWidth, inputMaxHeigth);
-        mkButton.setPrefSize(inputMaxWidth, inputMaxHeigth);
-
-        inputBox.setPadding(new Insets(10));
-        inputBox.setSpacing(10);
-        inputBox.setStyle("-fx-background-color: #336699;");
-        inputBox.getChildren().addAll(inputTextArea, mkButton);
-        inputBox.setAlignment(Pos.CENTER);
-
-
+        InputBox inputBox = new InputBox();
+        
         //TRIANGLE
         OutputBox outputBox = new OutputBox();
-        //outputBox.test(4);
-        try {
+        outputBox.showTriangle(4);
+        inputBox.setButtonFunction(new EventHandler<ActionEvent>() {
 
-            outputBox.showTriangle(4);
-        }
-        catch (Exception e)
-        {
-            System.out.println(e);
-        }
-
+            @Override
+            public void handle(ActionEvent arg0) {
+                int triangleSize = 0;
+                try {
+                    triangleSize = inputBox.getTriangleSize();
+                    outputBox.showTriangle(triangleSize);
+                    
+                } catch (NumberFormatException e) {
+                    outputBox.showError("Nieprawidlowa liczba");
+                }
+            }
+            
+        });
+        
         BorderPane root = new BorderPane();
         root.setPrefSize(400, 400);
         root.setTop(inputBox);

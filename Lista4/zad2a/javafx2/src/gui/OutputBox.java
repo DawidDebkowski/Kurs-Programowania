@@ -17,15 +17,29 @@ public class OutputBox extends VBox {
         this.setPadding(new Insets(5));
     }
 
-    public void showTriangle(int triangleSize)
+    private void Clear()
     {
         if(lastOutput != null)
            this.getChildren().remove(lastOutput);
-        
         lastOutput = new VBox();
+        lastOutput.setAlignment(Pos.CENTER);
+
+        this.getChildren().add(lastOutput);
+    }
+
+    public void showError(String text)
+    {
+        Clear();
+        Label errorLabel = new Label(text);
+        lastOutput.getChildren().add(errorLabel);
+    }
+
+    public void showTriangle(int triangleSize)
+    {
+        Clear();
+        
         for(int rowNumber=0;rowNumber<=triangleSize;rowNumber++)
         {
-
             String rowString = "";
             WierszTrojkataPascala wsp = new WierszTrojkataPascala(rowNumber);
             wsp.obliczWiersz();
@@ -45,7 +59,5 @@ public class OutputBox extends VBox {
             Label rowLabel = new Label(rowString);
             lastOutput.getChildren().add(rowLabel);
         }
-        lastOutput.setAlignment(Pos.CENTER);
-        this.getChildren().add(lastOutput);
     }
 }
