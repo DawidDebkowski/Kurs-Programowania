@@ -24,7 +24,7 @@ public class Main extends Application {
         
         //TRIANGLE
         OutputBox outputBox = new OutputBox();
-        outputBox.showTriangle(4);
+        // outputBox.showTriangle(4);
         inputBox.setButtonFunction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -37,16 +37,19 @@ public class Main extends Application {
                 } catch (NumberFormatException e) {
                     outputBox.showError("Nieprawidlowa liczba");
                 }
+                stage.sizeToScene();
             }
             
         });
         
         BorderPane root = new BorderPane();
-        root.setPrefSize(400, 400);
+        //root.setSize(400, 400);
         root.setTop(inputBox);
         root.setCenter(outputBox);
 
         Scene scene = new Scene(root);
+        stage.setMinHeight(200);
+        stage.setMinWidth(200);
         stage.setScene(scene);
         stage.setTitle("Trojkat Pascala");
         stage.show();
