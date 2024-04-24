@@ -30,6 +30,7 @@ public class OutputBox extends VBox {
     {
         Clear();
         Label errorLabel = new Label(text);
+        errorLabel.setStyle("-fx-background-color: #9E3636");
         lastOutput.getChildren().add(errorLabel);
     }
 
