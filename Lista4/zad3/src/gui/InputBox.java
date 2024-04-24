@@ -1,6 +1,5 @@
 package gui;
 
-
 import javafx.event.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -42,6 +41,8 @@ public class InputBox extends HBox{
     private Button mkButton;
     private ParamTextField mainArgField;
     private ParamTextField otherArgField;
+    
+    private OutputBoxMethods outputBox;
     public InputBox()
     {
         setupGUI();
@@ -65,6 +66,25 @@ public class InputBox extends HBox{
     public String getOtherArgument()
     {
         return otherArgField.getInputValue();
+    }
+
+    public void setOutputBox(OutputBoxMethods outputBox)
+    {
+        this.outputBox = outputBox;
+
+        mkButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent arg0) {
+                outputBox.showText(processInput());
+            }
+            
+        });
+    }
+
+    public String processInput()
+    {
+        return getMainArgument() + getOtherArgument();
     }
 
     public void setupGUI()

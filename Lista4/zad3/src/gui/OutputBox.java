@@ -5,7 +5,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-public class OutputBox extends VBox {
+interface OutputBoxMethods {
+
+    public void showError(String text);
+    public void showText(String text);
+}
+
+public class OutputBox extends VBox implements OutputBoxMethods{
     private VBox lastOutput;
 
     public OutputBox()
@@ -29,13 +35,21 @@ public class OutputBox extends VBox {
     public void showError(String text)
     {
         Clear();
+        //DRY!
         Label errorLabel = new Label(text);
-        errorLabel.setStyle("-fx-background-color: #9E3636");
+        errorLabel.setStyle("-fx-background-color: #9E3636; -fx-text-fill: white;");
+        errorLabel.setPadding(new Insets(10));
         lastOutput.getChildren().add(errorLabel);
     }
 
-    public void showTriangle(int triangleSize)
+    public void showText(String text)
     {
         Clear();
+        
+        //DRY!
+        Label textLabel = new Label(text);
+        textLabel.setStyle("-fx-background-color: #9A72A6; -fx-text-fill: white;");
+        textLabel.setPadding(new Insets(10));
+        lastOutput.getChildren().add(textLabel);
     }
 }

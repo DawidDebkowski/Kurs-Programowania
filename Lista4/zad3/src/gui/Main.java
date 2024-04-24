@@ -15,7 +15,9 @@ public class Main extends Application {
     
         //TRIANGLE
         OutputBox outputBox = new OutputBox();
-        // outputBox.showTriangle(4);
+        //outputBox.showError("Nieprawidłowa liczba!");
+
+        inputBox.setOutputBox(outputBox);
         
         BorderPane root = new BorderPane();
         //root.setSize(400, 400);
