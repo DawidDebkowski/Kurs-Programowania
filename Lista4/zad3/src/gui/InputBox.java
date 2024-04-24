@@ -1,5 +1,9 @@
 package gui;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import javafx.event.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -76,15 +80,40 @@ public class InputBox extends HBox{
 
             @Override
             public void handle(ActionEvent arg0) {
-                outputBox.showText(processInput());
+                try {
+                    outputBox.showText(processInput());
+                } catch (IOException e) {
+                    outputBox.showError("Blad IO");
+                    e.printStackTrace();
+                }
             }
             
         });
     }
 
-    public String processInput()
+    public String processInput() throws IOException
     {
-        return getMainArgument() + getOtherArgument();
+        String[] otherArgs = getOtherArgument().split(" ");
+        String[] command = new String[2+otherArgs.length];
+        
+        command[0] = ".\\Test.exe";
+        command[1] = getMainArgument();
+        for(int i=2;i<otherArgs.length+2;i++)
+        {
+            command[i] = otherArgs[i-2];
+        }
+        
+        String output = "";
+        Process p = Runtime.getRuntime().exec(command);
+
+        BufferedReader reader = new BufferedReader(
+            new InputStreamReader(p.getInputStream()));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            output += line;
+        }
+
+        return output;
     }
 
     public void setupGUI()
