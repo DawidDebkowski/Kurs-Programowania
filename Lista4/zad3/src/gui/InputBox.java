@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -14,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 class ParamTextField extends VBox {
     private Label descLabel;
@@ -75,45 +77,6 @@ public class InputBox extends HBox{
     public void setOutputBox(OutputBoxMethods outputBox)
     {
         this.outputBox = outputBox;
-
-        mkButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent arg0) {
-                try {
-                    outputBox.showText(processInput());
-                } catch (IOException e) {
-                    outputBox.showError("Blad IO");
-                    e.printStackTrace();
-                }
-            }
-            
-        });
-    }
-
-    public String processInput() throws IOException
-    {
-        String[] otherArgs = getOtherArgument().split(" ");
-        String[] command = new String[2+otherArgs.length];
-        
-        command[0] = ".\\Test.exe";
-        command[1] = getMainArgument();
-        for(int i=2;i<otherArgs.length+2;i++)
-        {
-            command[i] = otherArgs[i-2];
-        }
-        
-        String output = "";
-        Process p = Runtime.getRuntime().exec(command);
-
-        BufferedReader reader = new BufferedReader(
-            new InputStreamReader(p.getInputStream()));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            output += line;
-        }
-
-        return output;
     }
 
     public void setupGUI()

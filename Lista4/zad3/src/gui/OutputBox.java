@@ -20,6 +20,7 @@ public class OutputBox extends VBox implements OutputBoxMethods{
         lastOutput = null;
         //this.setAlignment(Pos.CENTER);
         this.setPadding(new Insets(5));
+        this.setStyle("-fx-background-color: #DFE5EB;");
     }
 
     private void Clear()
@@ -48,7 +49,7 @@ public class OutputBox extends VBox implements OutputBoxMethods{
         
         //DRY!
         Label textLabel = new Label(text);
-        textLabel.setStyle("-fx-background-color: #9A72A6; -fx-text-fill: white;");
+        //textLabel.setStyle("-fx-background-color: #9A72A6; -fx-text-fill: white;");
         textLabel.setPadding(new Insets(10));
         lastOutput.getChildren().add(textLabel);
     }

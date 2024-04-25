@@ -15,10 +15,10 @@ public class Main extends Application {
     
         //TRIANGLE
         OutputBox outputBox = new OutputBox();
-        //outputBox.showError("Nieprawidłowa liczba!");
 
-        inputBox.setOutputBox(outputBox);
-        
+        InputProcesser processer = new InputProcesser(inputBox, outputBox);
+        processer.SetupInButton(stage);
+
         BorderPane root = new BorderPane();
         //root.setSize(400, 400);
         root.setTop(inputBox);
@@ -28,7 +28,6 @@ public class Main extends Application {
         stage.setMinHeight(200);
         stage.setMinWidth(200);
         stage.setScene(scene);
-
 
         stage.setTitle("Trojkat Pascala - 3");
         stage.show();
