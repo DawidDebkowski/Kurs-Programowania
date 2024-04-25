@@ -10,9 +10,9 @@ import javafx.stage.Stage;
 
 public class InputProcesser {
     private InputBox inBox;
-    private OutputBox outBox;
+    private OutputBoxMethods outBox;
 
-    public InputProcesser(InputBox inputBox, OutputBox outputBox) {
+    public InputProcesser(InputBox inputBox, OutputBoxMethods outputBox) {
         inBox = inputBox;
         outBox = outputBox;
     }
