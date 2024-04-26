@@ -4,12 +4,15 @@ public class WierszTrojkataPascala {
     private int numerWiersza;
     private int[] wiersz;
 
-    public WierszTrojkataPascala(int n) {
+    public WierszTrojkataPascala(int n) throws BladZakresu{
+        if(numerWiersza<0)
+            throw new BladZakresu("nie moze byc ujemna");
         numerWiersza = n;
     }
 
     // nC(k+1) = nCk * (n-k) / (k+1) | source: math on paper
     public void obliczWiersz(){
+
         wiersz = new int[numerWiersza+1];
 
         int choose = 1; // n choose 0

@@ -27,13 +27,13 @@ public class Main extends Application {
         // outputBox.showTriangle(4);
         inputBox.setButtonFunction(new EventHandler<ActionEvent>() {
 
+
             @Override
             public void handle(ActionEvent arg0) {
                 int triangleSize = 0;
                 try {
                     triangleSize = inputBox.getTriangleSize();
                     outputBox.showTriangle(triangleSize);
-                    
                 } catch (NumberFormatException e) {
                     outputBox.showError("Nieprawidlowa liczba");
                 }

@@ -41,21 +41,21 @@ public class OutputBox extends VBox {
         for(int rowNumber=0;rowNumber<=triangleSize;rowNumber++)
         {
             String rowString = "";
-            WierszTrojkataPascala wsp = new WierszTrojkataPascala(rowNumber);
-            wsp.obliczWiersz();
-            for(int el=0;el<=rowNumber;el++)
-            {
-                try
+            WierszTrojkataPascala wsp;
+            try {
+                wsp = new WierszTrojkataPascala(rowNumber);
+                wsp.obliczWiersz();
+                for(int el=0;el<=rowNumber;el++)
                 {
                     rowString += "   ";
                     rowString += wsp.wezElement(el);
                 }
-                catch(BladZakresu e)
-                {
-                    rowString += e;
-                }
-            }
 
+            } catch (BladZakresu e) {
+                showError(e.getMessage());
+                System.err.println(e);
+                   return;
+            }    
             Label rowLabel = new Label(rowString);
             lastOutput.getChildren().add(rowLabel);
         }

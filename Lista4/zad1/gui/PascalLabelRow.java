@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.*;
-import javafx.animation.*;
 
 import trojkatpascala.*;
 
