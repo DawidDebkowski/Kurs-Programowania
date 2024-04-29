@@ -1,11 +1,11 @@
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class MovableCircle extends Circle implements MovableShape{
+public class MCircle extends Circle implements MovableShape{
     private double startX;
     private double startY;
     
-    public MovableCircle(double startX, double startY, Paint paint)
+    public MCircle(double startX, double startY, Paint paint)
     {
         super(0, paint);
 

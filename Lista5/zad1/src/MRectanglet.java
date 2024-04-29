@@ -4,11 +4,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
-public class MovableRect extends Rectangle implements MovableShape {
+public class MRectanglet extends Rectangle implements MovableShape {
     private double startX;
     private double startY;
 
-    public MovableRect(double startX, double startY, Paint paint) {
+    public MRectanglet(double startX, double startY, Paint paint) {
         super(0, 0, paint);
         setX(startX);
         setY(startY);
@@ -43,11 +43,11 @@ public class MovableRect extends Rectangle implements MovableShape {
 }
 
 class RectMoveHandler implements EventHandler<MouseEvent> {
-    MovableRect rect;
+    MRectanglet rect;
 
     @Override
     public void handle(MouseEvent event) {
-        rect = (MovableRect) event.getTarget();
+        rect = (MRectanglet) event.getTarget();
         // if(event.getEventType() == MouseEvent.MOUSE_DRAGGED)
         rect.setWidth(rect.getX() + event.getX());
     }

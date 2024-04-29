@@ -5,7 +5,6 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
-import javax.swing.text.Position;
 
 import javafx.event.*;
 /**

@@ -51,11 +51,11 @@ public class CanvasPane extends Pane {
                 shape = triangle;
                 break;
             case PossibleShapes.Rectangle:
-                MovableRect rect = new MovableRect(x, y, Color.CYAN);
+                MRectanglet rect = new MRectanglet(x, y, Color.CYAN);
                 shape = rect;
                 break;
             case PossibleShapes.Circle:
-                MovableCircle circle = new MovableCircle(x, y, Color.BLUEVIOLET);
+                MCircle circle = new MCircle(x, y, Color.BLUEVIOLET);
                 shape = circle;
                 break;
             default:
