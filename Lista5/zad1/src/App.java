@@ -1,7 +1,6 @@
 import javafx.application.*;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.media.Media;
 import javafx.stage.Stage;
 
 public class App extends Application{
@@ -12,12 +11,12 @@ public class App extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         BorderPane root = new BorderPane();
-
-        MainMenu mainMenu = new MainMenu();
-        root.setTop(mainMenu);
         
         CanvasPane canvasPane = new CanvasPane();
         root.setCenter(canvasPane);
+
+        MainMenu mainMenu = new MainMenu(canvasPane);
+        root.setTop(mainMenu);
         
         Scene scene = new Scene(root);
         stage.setMinHeight(200);

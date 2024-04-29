@@ -3,8 +3,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+
+import javax.swing.text.Position;
+
 import javafx.event.*;
 /**
  * MainMenu
@@ -12,8 +14,12 @@ import javafx.event.*;
  */
 
 public class MainMenu extends MenuBar{
-    public MainMenu()
+    private CanvasPane canvasPane;
+
+    public MainMenu(CanvasPane canvasPane)
     {
+        this.canvasPane = canvasPane;
+
         InitShapeMenu();
         InitInfoMenu();
     }
@@ -50,9 +56,30 @@ public class MainMenu extends MenuBar{
     {
         Menu chooseShape = new Menu("Rysuj");
 
-        MenuItem circleItem = new MenuItem("Koło");
-        MenuItem rectangleItem = new MenuItem("Prostokąt");
         MenuItem triangleItem = new MenuItem("Trójkąt");
+        MenuItem rectangleItem = new MenuItem("Prostokąt");
+        MenuItem circleItem = new MenuItem("Koło");
+
+        class MyShapeChangeHandler implements EventHandler<ActionEvent>{
+            private PossibleShapes shape;
+            private CanvasPane canvasPane;
+
+            public MyShapeChangeHandler(PossibleShapes chosenShape, CanvasPane cp)
+            {
+                shape = chosenShape;
+                canvasPane = cp;
+            }
+
+            @Override
+            public void handle(ActionEvent arg0) {
+                canvasPane.setShape(shape);
+            }
+
+        }
+
+        triangleItem.setOnAction(new MyShapeChangeHandler(PossibleShapes.Triangle, canvasPane));
+        rectangleItem.setOnAction(new MyShapeChangeHandler(PossibleShapes.Rectangle, canvasPane));
+        circleItem.setOnAction(new MyShapeChangeHandler(PossibleShapes.Circle, canvasPane));
 
         //TODO Zrobic interfejs zeby Chooseshape? i wtedy cos takiego przyjmowac?
         chooseShape.getItems().addAll(circleItem,rectangleItem,triangleItem);

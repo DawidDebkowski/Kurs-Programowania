@@ -16,14 +16,7 @@ enum PossibleShapes {
  * MovableShape
  */
 interface MovableShape {
-    public void setWidth(double w);
-    public void setHeight(double h);
-
-    public void setX(double x);
-    public void setY(double y);
-
-    public double getStartX();
-    public double getStartY();
+    public void handleCreationResize(double mX, double mY);
 }
 
 public class CanvasPane extends Pane {
@@ -39,33 +32,11 @@ public class CanvasPane extends Pane {
             }
         });
         setOnMouseDragged(new EventHandler<MouseEvent>() {
-
             @Override
             public void handle(MouseEvent event) {
                 if(selectedShape != null)
                 {
-                    double width = event.getX()-selectedShape.getStartX();
-                    double height = event.getY()-selectedShape.getStartY();
-                    if(width > 0)
-                    {
-                        selectedShape.setWidth(width); 
-                        // selectedShape.setX(selectedShape.getStartX());
-                    }
-                    else 
-                    {
-                        selectedShape.setX(event.getX());
-                        selectedShape.setWidth(-width); 
-                    }
-                    if(height > 0)
-                    {
-                        selectedShape.setHeight(height); 
-                        // selectedShape.setY(selectedShape.getStartY());
-                    }
-                    else
-                    {
-                        selectedShape.setY(event.getY());
-                        selectedShape.setHeight(-height); 
-                    }
+                    selectedShape.handleCreationResize(event.getX(), event.getY());
                 }
             }
 

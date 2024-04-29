@@ -6,16 +6,7 @@ import javafx.scene.shape.Rectangle;
 
 public class MovableRect extends Rectangle implements MovableShape {
     private double startX;
-
-    public double getStartX() {
-        return startX;
-    }
-
     private double startY;
-
-    public double getStartY() {
-        return startY;
-    }
 
     public MovableRect(double startX, double startY, Paint paint) {
         super(0, 0, paint);
@@ -24,7 +15,30 @@ public class MovableRect extends Rectangle implements MovableShape {
 
         this.startX = startX;
         this.startY = startY;
-        // setOnMouseDragged(new RectMoveHandler());
+    }
+
+    public void handleCreationResize(double mouseX, double mouseY)
+    {
+        double width = mouseX-startX;
+        double height = mouseY-startY;
+        if(width > 0)
+        {
+            setWidth(width); 
+        }
+        else 
+        {
+            setX(mouseX);
+            setWidth(-width); 
+        }
+        if(height > 0)
+        {
+            setHeight(height); 
+        }
+        else
+        {
+            setY(mouseY);
+            setHeight(-height); 
+        }
     }
 }
 

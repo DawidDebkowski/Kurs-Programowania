@@ -2,24 +2,12 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 public class MovableCircle extends Circle implements MovableShape{
-    private double width;
-    private double height;
-    
     private double startX;
-
-    public double getStartX() {
-        return startX;
-    }
-
     private double startY;
-
-    public double getStartY() {
-        return startY;
-    }
-
+    
     public MovableCircle(double startX, double startY, Paint paint)
     {
-        super(10, paint);
+        super(0, paint);
 
         setCenterX(startX);
         setCenterY(startY);
@@ -29,24 +17,11 @@ public class MovableCircle extends Circle implements MovableShape{
     }
 
     @Override
-    public void setWidth(double w) {
-        width = w;
-        setRadius(w/2);
-    }
-
-    @Override
-    public void setHeight(double h) {
-        height = h;
-        setRadius(h/2);
-    }
-
-    @Override
-    public void setX(double x) {
-        setCenterX(startX+(x-startX)/2);
-    }
-
-    @Override
-    public void setY(double y) {
-        setCenterY(startY+(y-startY)/2);
+    public void handleCreationResize(double mouseX, double mouseY) {
+        double width = mouseX-startX;
+        double height = mouseY-startY;
+        setCenterX(startX+width/2);
+        setCenterY(startY+height/2);
+        setRadius(Math.min(Math.abs(width), Math.abs(height))/2);
     }
 }
