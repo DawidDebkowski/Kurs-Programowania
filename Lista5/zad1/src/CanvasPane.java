@@ -1,12 +1,8 @@
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.shape.TriangleMesh;
 
 enum PossibleShapes {
     Triangle, Rectangle, Circle,
@@ -51,12 +47,11 @@ public class CanvasPane extends Pane {
         Shape shape = null;
         switch (chosenShape) {
             case PossibleShapes.Triangle:
-                System.err.println("trojkat");
+                MTriangle triangle = new MTriangle(x, y, Color.FORESTGREEN);
+                shape = triangle;
                 break;
             case PossibleShapes.Rectangle:
                 MovableRect rect = new MovableRect(x, y, Color.CYAN);
-                // rect.setX(x);
-                // rect.setY(y);
                 shape = rect;
                 break;
             case PossibleShapes.Circle:
