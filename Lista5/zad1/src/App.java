@@ -19,8 +19,8 @@ public class App extends Application{
         root.setTop(mainMenu);
         
         Scene scene = new Scene(root);
-        stage.setMinHeight(200);
-        stage.setMinWidth(200);
+        stage.setMinHeight(400);
+        stage.setMinWidth(400);
         stage.setScene(scene);
 
         stage.setTitle("Paint 2.0");
