@@ -92,7 +92,7 @@ public class CanvasPane extends Pane {
                 shape = triangle;
                 break;
             case PossibleShapes.Rectangle:
-                MRectanglet rect = new MRectanglet(x, y, Color.CYAN);
+                MRectangle rect = new MRectangle(x, y, Color.CYAN);
                 shape = rect;
                 break;
             case PossibleShapes.Circle:
