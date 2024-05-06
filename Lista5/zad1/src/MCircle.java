@@ -67,7 +67,7 @@ class ActiveMoveHandler implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent event) {
         activeShape = (ActivableShape) event.getTarget();
-        if (event.getEventType() == MouseEvent.MOUSE_CLICKED) {
+        if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
             canvasPane.setActiveShape(activeShape);
             activeShape.setStroke(CanvasPane.activeColor);
             startX = event.getX();

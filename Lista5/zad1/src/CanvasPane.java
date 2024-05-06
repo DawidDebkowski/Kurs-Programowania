@@ -48,8 +48,7 @@ public class CanvasPane extends Pane {
                 {   
                     if(!activeShape.isHit(event.getX(), event.getY()))
                     {
-                        activeShape.setStroke(Color.BLACK);
-                        setActiveShape(null);
+                        deactiveShape();
                     }
                 }
             }
@@ -68,7 +67,17 @@ public class CanvasPane extends Pane {
 
     public void setActiveShape(ActivableShape shape)
     {
+        deactiveShape();
         activeShape = shape;
+    }
+
+    private void deactiveShape()
+    {
+        if(activeShape!=null)
+        {
+            activeShape.setStroke(Color.BLACK);
+            activeShape = null;
+        }
     }
 
     public void setShape(PossibleShapes newShape) {
@@ -96,6 +105,7 @@ public class CanvasPane extends Pane {
         if (shape != null) {
             selectedShape = (MovableShape)shape;
             shape.setOnMouseClicked(new ActiveMoveHandler(this));
+            shape.setOnMousePressed(new ActiveMoveHandler(this));
             shape.setOnMouseDragged(new ActiveMoveHandler(this));
             this.getChildren().addAll(shape);
         }
