@@ -40,6 +40,18 @@ public class MCircle extends Circle implements MovableShape, ActivableShape {
     public Boolean isHit(double x, double y) {
         return getBoundsInLocal().contains(x, y);
     }
+
+    @Override
+    public void addWidth(double d) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addWidth'");
+    }
+
+    @Override
+    public void addHeight(double d) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addHeight'");
+    }
 }
 
 class ActiveMoveHandler implements EventHandler<MouseEvent> {
@@ -53,8 +65,8 @@ class ActiveMoveHandler implements EventHandler<MouseEvent> {
     }
 
     public void Move(MouseEvent event) {
-        double dx = event.getX() - startX;
-        double dy = event.getY() - startY;
+        double dx = event.getSceneX() - startX;
+        double dy = event.getSceneY() - startY;
 
         if (activeShape.isHit(startX, startY)) {
             activeShape.addX(dx);
@@ -70,8 +82,8 @@ class ActiveMoveHandler implements EventHandler<MouseEvent> {
         if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
             canvasPane.setActiveShape(activeShape);
             activeShape.setStroke(CanvasPane.activeColor);
-            startX = event.getX();
-            startY = event.getY();
+            startX = event.getSceneX();
+            startY = event.getSceneY();
         } else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
             Move(event);
         }

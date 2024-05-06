@@ -1,6 +1,7 @@
 
 import javafx.event.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
@@ -55,4 +56,41 @@ public class MRectangle extends Rectangle implements MovableShape, ActivableShap
     public void addY(double dy) {
         setY(getY()+dy);
     }
+
+    @Override
+    public void addWidth(double d) {
+        setWidth(getWidth()+d);
+    }
+    
+    @Override
+    public void addHeight(double d) {
+        setHeight(getHeight()+d);
+    }
 }
+
+class ActivableScrollHandler implements EventHandler<ScrollEvent>{
+    CanvasPane canvasPane;
+    ActivableShape activeShape;
+    public ActivableScrollHandler(CanvasPane cp) {
+        canvasPane = cp;
+    }
+
+    private void doScale(ScrollEvent e) {    
+        double x = e.getX();
+        double y = e.getY();
+        // Jesli nacisnelismy na elipse
+        if (activeShape.isHit(x, y)) {                 
+            activeShape.addWidth(e.getDeltaY()*0.2);
+            activeShape.addHeight(e.getDeltaY()*0.2);
+        }
+    }            
+
+    @Override
+    public void handle(ScrollEvent event) {
+        activeShape = (ActivableShape) event.getTarget();
+        if (canvasPane.getActiveShape() == activeShape)
+        {
+            doScale(event);
+        }
+    }
+  }

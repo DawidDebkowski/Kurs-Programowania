@@ -23,6 +23,8 @@ interface ActivableShape {
     public Boolean isHit(double x, double y);
     public void addX(double dx);
     public void addY(double dy);
+    public void addWidth(double d);
+	public void addHeight(double d);
 }
 
 public class CanvasPane extends Pane {
@@ -33,6 +35,7 @@ public class CanvasPane extends Pane {
     private ActivableShape activeShape;
 
     public CanvasPane() {
+        this.setStyle("-fx-background-color: black;");
         chosenShape = PossibleShapes.Circle;
         activeShape = null;
 
@@ -63,6 +66,11 @@ public class CanvasPane extends Pane {
             }
 
         });
+    }
+
+    public ActivableShape getActiveShape()
+    {
+        return activeShape;
     }
 
     public void setActiveShape(ActivableShape shape)
@@ -107,6 +115,7 @@ public class CanvasPane extends Pane {
             shape.setOnMouseClicked(new ActiveMoveHandler(this));
             shape.setOnMousePressed(new ActiveMoveHandler(this));
             shape.setOnMouseDragged(new ActiveMoveHandler(this));
+            shape.setOnScroll(new ActivableScrollHandler(this));
             this.getChildren().addAll(shape);
         }
     }

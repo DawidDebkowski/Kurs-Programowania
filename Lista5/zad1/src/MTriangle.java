@@ -36,11 +36,23 @@ public class MTriangle extends Polygon implements MovableShape, ActivableShape {
 
     @Override
     public void addX(double dx) {
-        setLayoutX(getLayoutX()+dx);
+        setTranslateX(getTranslateX() + dx);
     }
     
     @Override
     public void addY(double dy) {
-        setLayoutY(getLayoutY()+dy);
+        setTranslateY(getTranslateY() + dy);
+    }
+
+    @Override
+    public void addWidth(double d) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addWidth'");
+    }
+
+    @Override
+    public void addHeight(double d) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addHeight'");
     }
 }
