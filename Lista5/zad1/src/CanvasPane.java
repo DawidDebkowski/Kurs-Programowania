@@ -19,11 +19,10 @@ interface MovableShape {
  * ActivableShape
  */
 interface ActivableShape {
-    public void activate();
-    public void setFill(Paint paint);
     public void setStroke(Paint paint);
     public Boolean isHit(double x, double y);
-    public void moveTo(double x, double y);
+    public void addX(double dx);
+    public void addY(double dy);
 }
 
 public class CanvasPane extends Pane {
