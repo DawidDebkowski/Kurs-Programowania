@@ -49,7 +49,7 @@ public class CanvasPane extends Pane {
                 }
                 else
                 {   
-                    if(!activeShape.isHit(event.getX(), event.getY()))
+                    if(!activeShape.isHit(event.getSceneX(), event.getSceneY()))
                     {
                         deactiveShape();
                     }

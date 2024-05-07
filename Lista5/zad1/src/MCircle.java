@@ -43,14 +43,12 @@ public class MCircle extends Circle implements MovableShape, ActivableShape {
 
     @Override
     public void addWidth(double d) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addWidth'");
+        setRadius(getRadius()+d*0.5);
     }
-
+    
     @Override
     public void addHeight(double d) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addHeight'");
+        setRadius(getRadius()+d*0.5);
     }
 }
 

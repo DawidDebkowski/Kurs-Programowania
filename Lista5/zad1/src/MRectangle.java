@@ -76,8 +76,8 @@ class ActivableScrollHandler implements EventHandler<ScrollEvent>{
     }
 
     private void doScale(ScrollEvent e) {    
-        double x = e.getX();
-        double y = e.getY();
+        double x = e.getSceneX();
+        double y = e.getSceneY();
         // Jesli nacisnelismy na elipse
         if (activeShape.isHit(x, y)) {                 
             activeShape.addWidth(e.getDeltaY()*0.2);

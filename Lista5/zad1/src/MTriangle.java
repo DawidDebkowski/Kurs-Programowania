@@ -31,28 +31,28 @@ public class MTriangle extends Polygon implements MovableShape, ActivableShape {
 
     @Override
     public Boolean isHit(double x, double y) {
-        return getBoundsInLocal().contains(x, y);
+        return getBoundsInParent().contains(x, y); //Inne nie działają, nie wiem czemu
     }
 
     @Override
     public void addX(double dx) {
-        setTranslateX(getTranslateX() + dx);
+        setLayoutX(getLayoutX() + dx);
+        System.out.println(getPoints());
+        System.out.println(getTranslateX());
     }
     
     @Override
     public void addY(double dy) {
-        setTranslateY(getTranslateY() + dy);
+        setLayoutY(getLayoutY() + dy);
     }
 
     @Override
     public void addWidth(double d) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addWidth'");
+        setScaleX(getScaleX()+d*0.01);
     }
-
+    
     @Override
     public void addHeight(double d) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addHeight'");
+        setScaleY(getScaleY()+d*0.01);
     }
 }
