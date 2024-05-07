@@ -116,9 +116,10 @@ public class CanvasPane extends Pane {
         }
         if (shape != null) {
             selectedShape = (MovableShape) shape;
-            shape.setOnMouseClicked(new ActiveMoveHandler(this));
-            shape.setOnMousePressed(new ActiveMoveHandler(this));
-            shape.setOnMouseDragged(new ActiveMoveHandler(this));
+            ActiveMoveHandler activeMoveHandler = new ActiveMoveHandler(this);
+            shape.setOnMouseClicked(activeMoveHandler);
+            shape.setOnMousePressed(activeMoveHandler);
+            shape.setOnMouseDragged(activeMoveHandler);
             shape.setOnScroll(new ActivableScrollHandler(this));
             this.getChildren().addAll(shape);
         }
