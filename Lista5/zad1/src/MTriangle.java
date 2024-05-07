@@ -31,14 +31,16 @@ public class MTriangle extends Polygon implements MovableShape, ActivableShape {
 
     @Override
     public Boolean isHit(double x, double y) {
-        return getBoundsInParent().contains(x, y); //Inne nie działają, nie wiem czemu
+        System.out.println(x + " " + y);
+        System.out.println(getLayoutX());
+        System.out.println(getBoundsInParent());
+        System.out.println(getBoundsInLocal());
+        return getBoundsInLocal().contains(sceneToLocal(x, y)); //Inne nie działają, nie wiem czemu
     }
 
     @Override
     public void addX(double dx) {
         setLayoutX(getLayoutX() + dx);
-        System.out.println(getPoints());
-        System.out.println(getTranslateX());
     }
     
     @Override

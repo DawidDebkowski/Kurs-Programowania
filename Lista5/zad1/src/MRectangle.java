@@ -44,7 +44,7 @@ public class MRectangle extends Rectangle implements MovableShape, ActivableShap
 
     @Override
     public Boolean isHit(double x, double y) {
-        return getBoundsInLocal().contains(x, y);
+        return getBoundsInLocal().contains(sceneToLocal(x, y));
     }
 
     @Override

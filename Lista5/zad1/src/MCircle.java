@@ -38,7 +38,7 @@ public class MCircle extends Circle implements MovableShape, ActivableShape {
 
     @Override
     public Boolean isHit(double x, double y) {
-        return getBoundsInLocal().contains(x, y);
+        return getBoundsInLocal().contains(sceneToLocal(x, y));
     }
 
     @Override
