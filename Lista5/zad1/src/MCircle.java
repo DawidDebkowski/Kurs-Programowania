@@ -1,4 +1,6 @@
 import javafx.event.EventHandler;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -26,13 +28,12 @@ public class MCircle extends Circle implements MovableShape, ActivableShape {
         setCenterY(startY + height / 2);
         setRadius(Math.min(Math.abs(width), Math.abs(height)) / 2);
     }
-    public void addX(double dx)
-    {
+
+    public void addX(double dx) {
         setCenterX(getCenterX() + dx);
     }
 
-    public void addY(double dy)
-    {
+    public void addY(double dy) {
         setCenterY(getCenterY() + dy);
     }
 
@@ -43,12 +44,12 @@ public class MCircle extends Circle implements MovableShape, ActivableShape {
 
     @Override
     public void addWidth(double d) {
-        setRadius(getRadius()+d*0.5);
+        setRadius(getRadius() + d * 0.5);
     }
-    
+
     @Override
     public void addHeight(double d) {
-        setRadius(getRadius()+d*0.5);
+        setRadius(getRadius() + d * 0.5);
     }
 }
 
@@ -70,8 +71,8 @@ class ActiveMoveHandler implements EventHandler<MouseEvent> {
             activeShape.addX(dx);
             activeShape.addY(dy);
         }
-        startX+=dx;
-        startY+=dy;
+        startX += dx;
+        startY += dy;
     }
 
     @Override
@@ -82,6 +83,10 @@ class ActiveMoveHandler implements EventHandler<MouseEvent> {
             activeShape.setStroke(CanvasPane.activeColor);
             startX = event.getSceneX();
             startY = event.getSceneY();
+            if (event.getButton() == MouseButton.SECONDARY) {
+                ContextMenu menu = new PopupMenu();
+                menu.show(canvasPane, event.getScreenX(), event.getScreenY());
+            }
         } else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
             Move(event);
         }

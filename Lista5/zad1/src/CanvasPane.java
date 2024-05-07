@@ -19,6 +19,7 @@ interface MovableShape {
  * ActivableShape
  */
 interface ActivableShape {
+    public PopupMenu popupMenu = new PopupMenu();
     public void setStroke(Paint paint);
     public Boolean isHit(double x, double y);
     public void addX(double dx);
