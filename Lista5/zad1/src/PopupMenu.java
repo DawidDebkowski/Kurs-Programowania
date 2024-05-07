@@ -24,10 +24,12 @@ public class PopupMenu extends ContextMenu {
         angle90.setOnAction(new RotationHandler(90));
         MenuItem angle270 = new MenuItem("Obróc o 90° w lewo");
         angle270.setOnAction(new RotationHandler(270));
-        MenuItem angleAny = new MenuItem("Dowolnie obróc");
-        angleAny.setOnAction(new RotationHandler(45));
+        MenuItem angle45 = new MenuItem("Obróc o 45° w prawo");
+        angle45.setOnAction(new RotationHandler(45));
+        MenuItem angle315 = new MenuItem("Obróc o 45° w prawo");
+        angle315.setOnAction(new RotationHandler(315));
 
-        this.getItems().addAll(flip, angle90, angle270, angleAny);
+        this.getItems().addAll(flip, angle90, angle270, angle45, angle315);
         setStyle("-fx-padding: 3px;");
     }
 }
