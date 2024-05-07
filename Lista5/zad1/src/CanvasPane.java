@@ -15,17 +15,24 @@ enum PossibleShapes {
 interface MovableShape {
     public void handleCreationResize(double mouseX, double mouseY);
 }
+
 /**
  * ActivableShape
  */
 interface ActivableShape {
-    public PopupMenu popupMenu = new PopupMenu();
     public void setStroke(Paint paint);
+
     public Boolean isHit(double x, double y);
+
     public void addX(double dx);
+
     public void addY(double dy);
+
     public void addWidth(double d);
-	public void addHeight(double d);
+
+    public void addHeight(double d);
+
+    public void rotate(double degrees);
 }
 
 public class CanvasPane extends Pane {
@@ -34,6 +41,8 @@ public class CanvasPane extends Pane {
     private PossibleShapes chosenShape;
     private MovableShape selectedShape;
     private ActivableShape activeShape;
+
+    public PopupMenu popupMenu = new PopupMenu(this);
 
     public CanvasPane() {
         this.setStyle("-fx-background-color: black;");
@@ -44,14 +53,10 @@ public class CanvasPane extends Pane {
             @Override
             public void handle(MouseEvent event) {
                 selectedShape = null;
-                if(activeShape == null)
-                {
+                if (activeShape == null) {
                     createShape(event.getX(), event.getY());
-                }
-                else
-                {   
-                    if(!activeShape.isHit(event.getSceneX(), event.getSceneY()))
-                    {
+                } else {
+                    if (!activeShape.isHit(event.getSceneX(), event.getSceneY())) {
                         deactiveShape();
                     }
                 }
@@ -60,8 +65,7 @@ public class CanvasPane extends Pane {
         setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(selectedShape != null && activeShape == null)
-                {
+                if (selectedShape != null && activeShape == null) {
                     selectedShape.handleCreationResize(event.getX(), event.getY());
                 }
             }
@@ -69,23 +73,22 @@ public class CanvasPane extends Pane {
         });
     }
 
-    public ActivableShape getActiveShape()
-    {
+    public ActivableShape getActiveShape() {
         return activeShape;
     }
 
-    public void setActiveShape(ActivableShape shape)
-    {
+    public void setActiveShape(ActivableShape shape) {
+        if(shape == activeShape)
+            return;
         deactiveShape();
         activeShape = shape;
     }
 
-    private void deactiveShape()
-    {
-        if(activeShape!=null)
-        {
+    private void deactiveShape() {
+        if (activeShape != null) {
             activeShape.setStroke(Color.BLACK);
             activeShape = null;
+            popupMenu.hide();
         }
     }
 
@@ -112,7 +115,7 @@ public class CanvasPane extends Pane {
                 break;
         }
         if (shape != null) {
-            selectedShape = (MovableShape)shape;
+            selectedShape = (MovableShape) shape;
             shape.setOnMouseClicked(new ActiveMoveHandler(this));
             shape.setOnMousePressed(new ActiveMoveHandler(this));
             shape.setOnMouseDragged(new ActiveMoveHandler(this));

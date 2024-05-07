@@ -57,4 +57,9 @@ public class MTriangle extends Polygon implements MovableShape, ActivableShape {
     public void addHeight(double d) {
         setScaleY(getScaleY()+d*0.01);
     }
+
+    @Override
+    public void rotate(double degrees) {
+        setRotate(getRotate()+degrees);
+    }
 }

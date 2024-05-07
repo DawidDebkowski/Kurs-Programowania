@@ -51,6 +51,11 @@ public class MCircle extends Circle implements MovableShape, ActivableShape {
     public void addHeight(double d) {
         setRadius(getRadius() + d * 0.5);
     }
+
+    @Override
+    public void rotate(double degrees) {
+        setRotate(getRotate()+degrees);
+    }
 }
 
 class ActiveMoveHandler implements EventHandler<MouseEvent> {
@@ -84,8 +89,7 @@ class ActiveMoveHandler implements EventHandler<MouseEvent> {
             startX = event.getSceneX();
             startY = event.getSceneY();
             if (event.getButton() == MouseButton.SECONDARY) {
-                ContextMenu menu = new PopupMenu();
-                menu.show(canvasPane, event.getScreenX(), event.getScreenY());
+                canvasPane.popupMenu.show(canvasPane, event.getScreenX(), event.getScreenY());
             }
         } else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
             Move(event);

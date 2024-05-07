@@ -66,6 +66,11 @@ public class MRectangle extends Rectangle implements MovableShape, ActivableShap
     public void addHeight(double d) {
         setHeight(getHeight()+d);
     }
+
+    @Override
+    public void rotate(double degrees) {
+        setRotate(getRotate()+degrees);
+    }
 }
 
 class ActivableScrollHandler implements EventHandler<ScrollEvent>{
