@@ -63,6 +63,8 @@ class ActiveMoveHandler implements EventHandler<MouseEvent> {
     ActivableShape activeShape;
     private double startX;
     private double startY;
+    private double gapX;
+    private double gapY;
 
     public ActiveMoveHandler(CanvasPane cp) {
         canvasPane = cp;
@@ -71,6 +73,9 @@ class ActiveMoveHandler implements EventHandler<MouseEvent> {
     public void Move(MouseEvent event) {
         double dx = event.getSceneX() - startX;
         double dy = event.getSceneY() - startY;
+
+        System.err.println("s" + startX + " " + startY);
+        System.err.println("m" + event.getSceneX() + " " + event.getSceneY());
 
         if (activeShape.isHit(startX, startY)) {
             activeShape.addX(dx);
@@ -88,6 +93,7 @@ class ActiveMoveHandler implements EventHandler<MouseEvent> {
             activeShape.setStroke(CanvasPane.activeColor);
             startX = event.getSceneX();
             startY = event.getSceneY();
+            System.out.println(startX + " " + startY);
             if (event.getButton() == MouseButton.SECONDARY) {
                 canvasPane.popupMenu.show(canvasPane, event.getScreenX(), event.getScreenY());
             }
