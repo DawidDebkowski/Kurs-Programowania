@@ -22,6 +22,8 @@ interface MovableShape {
 interface ActivableShape {
     public void setStroke(Paint paint);
 
+    public void setFill(Paint paint);
+
     public Boolean isHit(double x, double y);
 
     public void addX(double dx);
