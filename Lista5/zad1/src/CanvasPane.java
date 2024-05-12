@@ -38,6 +38,21 @@ interface ActivableShape {
 
     public void rotate(double degrees);
 }
+
+/**
+ * SaveableShape
+ */
+interface SaveableShape {
+    public PossibleShapes getShapeType();
+    public double getStartX();
+    public double getStartY();
+    public double getWidth();
+    public double getHeight();
+    public double getScaleX();
+    public double getScaleY();
+    public double getRotate();
+    public Paint getFill();
+}
 /**
  * CanvasPane
  * 

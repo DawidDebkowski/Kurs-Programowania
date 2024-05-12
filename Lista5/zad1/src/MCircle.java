@@ -4,9 +4,27 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class MCircle extends Circle implements MovableShape, ActivableShape {
+public class MCircle extends Circle implements MovableShape, ActivableShape, SaveableShape {
+    public static final PossibleShapes shapeType = PossibleShapes.Circle;
     private double startX;
+    public double getStartX() {
+        return startX;
+    }
+
     private double startY;
+    public double getStartY() {
+        return startY;
+    }
+
+    private double width;
+    public double getWidth() {
+        return width;
+    }
+
+    private double height;
+    public double getHeight() {
+        return height;
+    }
 
     public MCircle(double startX, double startY, Paint paint) {
         super(0, paint);
@@ -53,6 +71,11 @@ public class MCircle extends Circle implements MovableShape, ActivableShape {
     @Override
     public void rotate(double degrees) {
         setRotate(getRotate() + degrees);
+    }
+    
+    @Override
+    public PossibleShapes getShapeType() {
+        return shapeType;
     }
 }
 

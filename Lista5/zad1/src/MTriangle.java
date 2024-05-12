@@ -1,3 +1,4 @@
+import javafx.scene.effect.Shadow;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 
@@ -5,9 +6,27 @@ import javafx.scene.shape.Polygon;
  * Klasa odpowiadajaca za figure trojkata
  */
 
-public class MTriangle extends Polygon implements MovableShape, ActivableShape {
+public class MTriangle extends Polygon implements MovableShape, ActivableShape, SaveableShape {
+    public static final PossibleShapes shapeType = PossibleShapes.Triangle;
     private double startX;
+    public double getStartX() {
+        return startX;
+    }
+
     private double startY;
+    public double getStartY() {
+        return startY;
+    }
+
+    private double width;
+    public double getWidth() {
+        return width;
+    }
+
+    private double height;
+    public double getHeight() {
+        return height;
+    }
 
     /**
      * @param startX miejsce tworzenia x
@@ -24,9 +43,9 @@ public class MTriangle extends Polygon implements MovableShape, ActivableShape {
 
     @Override
     public void handleCreationResize(double mouseX, double mouseY) {
-        double width = mouseX - startX;
-        double height = mouseY - startY;
-
+        width = mouseX - startX;
+        height = mouseY - startY;
+        
         getPoints().removeAll(getPoints());
         getPoints().addAll(new Double[] {
                 width / 2 + startX, startY,
@@ -63,5 +82,10 @@ public class MTriangle extends Polygon implements MovableShape, ActivableShape {
     @Override
     public void rotate(double degrees) {
         setRotate(getRotate() + degrees);
+    }
+
+    @Override
+    public PossibleShapes getShapeType() {
+        return shapeType;
     }
 }
