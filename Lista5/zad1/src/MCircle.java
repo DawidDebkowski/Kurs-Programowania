@@ -60,12 +60,12 @@ public class MCircle extends Circle implements MovableShape, ActivableShape, Sav
 
     @Override
     public void addWidth(double d) {
-        setRadius(getRadius() + d * 0.5);
+        setScaleX(getScaleX() + d * 0.01);
     }
 
     @Override
     public void addHeight(double d) {
-        setRadius(getRadius() + d * 0.5);
+        setScaleY(getScaleY() + d * 0.01);
     }
 
     @Override
@@ -76,6 +76,16 @@ public class MCircle extends Circle implements MovableShape, ActivableShape, Sav
     @Override
     public PossibleShapes getShapeType() {
         return shapeType;
+    }
+
+    @Override
+    public double getX() {
+        return getCenterX();
+    }
+    
+    @Override
+    public double getY() {
+        return getCenterY();
     }
 }
 

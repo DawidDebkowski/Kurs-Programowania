@@ -28,8 +28,8 @@ public class FileHandler {
 
         save += shape.getShapeType().saveString + ",";
         save += shape.getStartX() + "," + shape.getStartY()+ ",";
+        save += shape.getX() + "," + shape.getY()+ ",";
         save += shape.getWidth() + "," + shape.getHeight()+ ",";
-        save += shape.getTranslateX() + "," + shape.getTranslateY()+ ",";
         save += shape.getScaleX() + "," + shape.getScaleY()+ ",";
         save += shape.getRotate() + ",";
         save += shape.getFill();

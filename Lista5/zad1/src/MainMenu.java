@@ -19,12 +19,12 @@ public class MainMenu extends MenuBar{
     {
         this.canvasPane = canvasPane;
 
-        InitSaveMenu(canvasPane);
         InitShapeMenu();
+        InitSaveMenu();
         InitInfoMenu();
     }
 
-    private void InitSaveMenu(CanvasPane canvasPane) {
+    private void InitSaveMenu() {
         Menu saveMenu = new Menu("Plik");
         MenuItem saveItem = new MenuItem("Zapisz");
 

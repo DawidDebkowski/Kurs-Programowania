@@ -48,8 +48,8 @@ interface SaveableShape {
     public double getStartY();
     public double getWidth();
     public double getHeight();
-    public double getTranslateX();
-    public double getTranslateY();
+    public double getX();
+    public double getY();
     public double getScaleX();
     public double getScaleY();
     public double getRotate();

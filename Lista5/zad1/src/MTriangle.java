@@ -87,4 +87,14 @@ public class MTriangle extends Polygon implements MovableShape, ActivableShape, 
     public PossibleShapes getShapeType() {
         return shapeType;
     }
+
+    @Override
+    public double getX() {
+        return getTranslateX();
+    }
+    
+    @Override
+    public double getY() {
+        return getTranslateY();
+    }
 }

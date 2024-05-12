@@ -56,17 +56,16 @@ public class MRectangle extends Rectangle implements MovableShape, ActivableShap
     public void addY(double dy) {
         setY(getY() + dy);
     }
-
+    
     @Override
     public void addWidth(double d) {
-        setWidth(getWidth() + d);
+        setScaleX(getScaleX() + d * 0.01);
     }
 
     @Override
     public void addHeight(double d) {
-        setHeight(getHeight() + d);
+        setScaleY(getScaleY() + d * 0.01);
     }
-
     @Override
     public void rotate(double degrees) {
         setRotate(getRotate() + degrees);
