@@ -6,7 +6,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 
 enum PossibleShapes {
-    Triangle, Rectangle, Circle,
+    Triangle("T"), Rectangle("R"), Circle("C");
+    public String saveString;
+    PossibleShapes(String saveString) {this.saveString = saveString;}
 }
 
 /**
@@ -36,7 +38,10 @@ interface ActivableShape {
 
     public void rotate(double degrees);
 }
-
+/**
+ * CanvasPane
+ * 
+ */
 public class CanvasPane extends Pane {
     public static Color activeColor = Color.LEMONCHIFFON;
 

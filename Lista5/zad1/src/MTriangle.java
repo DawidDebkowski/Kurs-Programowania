@@ -1,10 +1,19 @@
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 
+/**
+ * Klasa odpowiadajaca za figure trojkata
+ */
+
 public class MTriangle extends Polygon implements MovableShape, ActivableShape {
     private double startX;
     private double startY;
 
+    /**
+     * @param startX miejsce tworzenia x
+     * @param startY miejsce tworzenia y
+     * @param paint kolor wypełnienia
+     */
     public MTriangle(double startX, double startY, Paint paint) {
         super();
 
