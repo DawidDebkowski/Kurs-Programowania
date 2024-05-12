@@ -27,7 +27,6 @@ public class MainMenu extends MenuBar{
     private void InitSaveMenu() {
         Menu saveMenu = new Menu("Plik");
         MenuItem saveItem = new MenuItem("Zapisz");
-
         saveItem.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -37,20 +36,17 @@ public class MainMenu extends MenuBar{
             }
             
         });
-        saveMenu.getItems().addAll(saveItem);
 
         MenuItem loadItem = new MenuItem("Wczytaj");
-
-        saveItem.setOnAction(new EventHandler<ActionEvent>() {
-
+        loadItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
-                System.out.println("zapisuje");
-                FileHandler.shapeToFile((SaveableShape)canvasPane.getActiveShape());
+                System.out.println("laduje");
+                FileHandler.loadShape(FileHandler.readFile("./shape"), canvasPane);
             }
-            
         });
-        saveMenu.getItems().addAll(saveItem);
+
+        saveMenu.getItems().addAll(saveItem, loadItem);
 
         this.getMenus().addAll(saveMenu);
     }

@@ -120,6 +120,16 @@ public class CanvasPane extends Pane {
         chosenShape = newShape;
     }
 
+    public void createShape(PossibleShapes shape, double startX, double startY, double x, double y, double width, double height, Paint colorPaint)
+    {
+        chosenShape = shape;
+        createShape(startX, startY);
+        ActivableShape activableShape = (ActivableShape) selectedShape;
+        selectedShape.handleCreationResize(width+startX, height+startY);
+        activableShape.addX(x);
+        activableShape.addY(y);
+    }
+
     private void createShape(double x, double y) {
         Shape shape = null;
         switch (chosenShape) {
