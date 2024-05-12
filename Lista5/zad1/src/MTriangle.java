@@ -61,12 +61,12 @@ public class MTriangle extends Polygon implements MovableShape, ActivableShape, 
 
     @Override
     public void addX(double dx) {
-        setLayoutX(getLayoutX() + dx);
+        setTranslateX(getTranslateX() + dx);
     }
 
     @Override
     public void addY(double dy) {
-        setLayoutY(getLayoutY() + dy);
+        setTranslateY(getTranslateY() + dy);
     }
 
     @Override
