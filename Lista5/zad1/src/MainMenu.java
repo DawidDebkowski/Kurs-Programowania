@@ -19,8 +19,40 @@ public class MainMenu extends MenuBar{
     {
         this.canvasPane = canvasPane;
 
+        InitSaveMenu(canvasPane);
         InitShapeMenu();
         InitInfoMenu();
+    }
+
+    private void InitSaveMenu(CanvasPane canvasPane) {
+        Menu saveMenu = new Menu("Plik");
+        MenuItem saveItem = new MenuItem("Zapisz");
+
+        saveItem.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent arg0) {
+                System.out.println("zapisuje");
+                FileHandler.shapeToFile((SaveableShape)canvasPane.getActiveShape());
+            }
+            
+        });
+        saveMenu.getItems().addAll(saveItem);
+
+        MenuItem loadItem = new MenuItem("Wczytaj");
+
+        saveItem.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent arg0) {
+                System.out.println("zapisuje");
+                FileHandler.shapeToFile((SaveableShape)canvasPane.getActiveShape());
+            }
+            
+        });
+        saveMenu.getItems().addAll(saveItem);
+
+        this.getMenus().addAll(saveMenu);
     }
 
     private void InitInfoMenu() {

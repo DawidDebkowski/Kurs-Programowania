@@ -38,8 +38,8 @@ public class MCircle extends Circle implements MovableShape, ActivableShape, Sav
 
     @Override
     public void handleCreationResize(double mouseX, double mouseY) {
-        double width = mouseX - startX;
-        double height = mouseY - startY;
+        width = mouseX - startX;
+        height = mouseY - startY;
         setCenterX(startX + width / 2);
         setCenterY(startY + height / 2);
         setRadius(Math.min(Math.abs(width), Math.abs(height)) / 2);

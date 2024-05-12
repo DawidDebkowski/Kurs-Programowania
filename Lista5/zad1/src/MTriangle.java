@@ -1,4 +1,3 @@
-import javafx.scene.effect.Shadow;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 

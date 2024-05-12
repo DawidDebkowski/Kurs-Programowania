@@ -7,32 +7,39 @@ public class FileHandler {
 
     }
 
-    public static void saveShape(ActivableShape shape, String path)
+    public static void saveToFile(String string, String path)
     {
-        String shapeSave;
-
-        if()
-
         try (FileWriter file = new FileWriter(path)) {
-            file.write("hi");
+            file.write(string);
         } catch (IOException e) {
             System.err.println("zle sie dzieje");
             e.printStackTrace();
         }
     }
 
-    private static String shapeToString(ActivableShape shape)
+    public static void shapeToFile(SaveableShape shape)
     {
-        String shapeSave = "";
+        saveToFile(shapeToString(shape), "./shape");
+    }
 
-        shapeSave += shape.getShapeType().saveString + ",";
+    private static String shapeToString(SaveableShape shape)
+    {
+        String save = "";
 
+        save += shape.getShapeType().saveString + ",";
+        save += shape.getStartX() + "," + shape.getStartY()+ ",";
+        save += shape.getWidth() + "," + shape.getHeight()+ ",";
+        save += shape.getTranslateX() + "," + shape.getTranslateY()+ ",";
+        save += shape.getScaleX() + "," + shape.getScaleY()+ ",";
+        save += shape.getRotate() + ",";
+        save += shape.getFill();
+        save += ";";
 
-        return shapeSave;
+        return save;
     }
 
     public static void main(String[] args) {
-        FileHandler.saveShape(null, "./hi");
+        // FileHandler.saveShape(shapeToString(null), "./hi");
     }
 }
 
