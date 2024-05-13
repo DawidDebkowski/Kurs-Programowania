@@ -107,7 +107,7 @@ public class MainMenu extends MenuBar {
 
             @Override
             public void handle(ActionEvent arg0) {
-                canvasPane.setShape(shape);
+                canvasPane.setShapeType(shape);
             }
 
         }

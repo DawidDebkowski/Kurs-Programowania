@@ -91,11 +91,20 @@ public class CanvasPane extends Pane {
 
     public PopupMenu popupMenu = new PopupMenu(this);
 
+    /**
+     * Podstawowy konstruktor
+     * 
+     * Ustawia logikę klikania i przeciągania po planszy.
+     */
     public CanvasPane() {
         this.setStyle("-fx-background-color: black;");
         chosenShape = MShapeTypes.Circle;
         activeShape = null;
 
+        setupHandlers();
+    }
+
+    private void setupHandlers() {
         setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -128,9 +137,10 @@ public class CanvasPane extends Pane {
     }
 
     /**
+     * Procedura deaktywuje poprzednią figurę, a potem ustawią nową
+     * jako aktywną
+     * 
      * @param shape nowa figura do ustawienia jako aktywna
-     *              Procedura deaktywuje poprzednią figurę, a potem ustawią nową
-     *              jako aktywną
      *
      */
     public void setActiveShape(MShape shape) {
@@ -154,12 +164,29 @@ public class CanvasPane extends Pane {
     }
 
     /**
+     * Ustawia typ kształtu do narysowania
+     * 
      * @param newShape kształt do rysowania
      */
-    public void setShape(MShapeTypes newShape) {
+    public void setShapeType(MShapeTypes newShape) {
         chosenShape = newShape;
     }
 
+    /**
+     * Procedura tworząca figurę na podstawie zapisu
+     * Używa prywatnego createShape(), a potem przesuwa, skaluje i obraca figurę
+     * @param shape typ figury
+     * @param startX pozycja startowa X
+     * @param startY pozycja startowa Y
+     * @param x aktualna pozycja x
+     * @param y aktualna pozycja y
+     * @param width szerokość prostokąta tworzącego
+     * @param height wysokość prostokąta tworzącego
+     * @param scaleX skala X
+     * @param scaleY skala Y
+     * @param rotate kąt obrotu 
+     * @param colorPaint kolor wypełnienia
+     */
     public void createShape(MShapeTypes shape, double startX,
             double startY, double x, double y, double width, double height,
             double scaleX, double scaleY, double rotate, Paint colorPaint) {
