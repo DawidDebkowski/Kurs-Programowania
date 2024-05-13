@@ -21,7 +21,7 @@ public class FileHandler {
         {
             possibleShape = PossibleShapes.Triangle;
         }
-        else if(shape == PossibleShapes.Rectangle.saveString)
+        else if(shape.equals(PossibleShapes.Rectangle.saveString))
         {
             possibleShape = PossibleShapes.Rectangle;
         }
@@ -43,7 +43,9 @@ public class FileHandler {
         canvasPane.createShape(possibleShape, parameters[0], parameters[1], 
         parameters[2], parameters[3], 
         parameters[4], parameters[5], 
-        Color.ALICEBLUE);
+        parameters[6], parameters[7],
+        parameters[8],
+        Color.web(subStrings[subStrings.length-1]));
     }
 
     public static String readFile(String path)
@@ -95,7 +97,7 @@ public class FileHandler {
         save += shape.getScaleX() + "," + shape.getScaleY()+ ",";
         save += shape.getRotate() + ",";
         save += shape.getFill();
-        save += ";";
+        save += "";
 
         return save;
     }

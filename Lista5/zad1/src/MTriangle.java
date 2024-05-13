@@ -90,11 +90,11 @@ public class MTriangle extends Polygon implements MovableShape, ActivableShape, 
 
     @Override
     public double getX() {
-        return getTranslateX();
+        return getTranslateX()+startX;
     }
     
     @Override
     public double getY() {
-        return getTranslateY();
+        return getTranslateY()+startY;
     }
 }

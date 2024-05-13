@@ -37,6 +37,10 @@ interface ActivableShape {
     public void addHeight(double d);
 
     public void rotate(double degrees);
+
+    public void setScaleX(double scaleX);
+
+    public void setScaleY(double scaleY);
 }
 
 /**
@@ -120,14 +124,20 @@ public class CanvasPane extends Pane {
         chosenShape = newShape;
     }
 
-    public void createShape(PossibleShapes shape, double startX, double startY, double x, double y, double width, double height, Paint colorPaint)
+    public void createShape(PossibleShapes shape, double startX, 
+    double startY, double x, double y, double width, double height, 
+    double scaleX, double scaleY, double rotate, Paint colorPaint)
     {
         chosenShape = shape;
         createShape(startX, startY);
         ActivableShape activableShape = (ActivableShape) selectedShape;
         selectedShape.handleCreationResize(width+startX, height+startY);
-        activableShape.addX(x);
-        activableShape.addY(y);
+        activableShape.addX(x-startX); // dodanie przesuniecia od pozycji poczatkowej
+        activableShape.addY(y-startY);
+        activableShape.setScaleX(scaleX);
+        activableShape.setScaleY(scaleY);
+        activableShape.rotate(rotate);
+        activableShape.setFill(colorPaint);
     }
 
     private void createShape(double x, double y) {

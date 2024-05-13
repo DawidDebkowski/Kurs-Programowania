@@ -80,12 +80,12 @@ public class MCircle extends Circle implements MovableShape, ActivableShape, Sav
 
     @Override
     public double getX() {
-        return getCenterX() - width/2 - startX;
+        return getCenterX() - width/2;
     }
     
     @Override
     public double getY() {
-        return getCenterY() - height/2 - startY;
+        return getCenterY() - height/2;
     }
 }
 
