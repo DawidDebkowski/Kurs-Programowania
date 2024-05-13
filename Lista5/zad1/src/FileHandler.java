@@ -6,8 +6,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.paint.Color;
-
+/**
+ * Klasa statyczna służąca do zapisywania i wczytywania stanu CanvasPane
+ * @see CanvasPane
+ */
 public class FileHandler {
+    //PLIK
+    
+    public static void loadAll(String path, CanvasPane canvasPane) {
+        List<String> shapeList = readFile(path);
+        for (String save : shapeList) {
+            loadShape(save, canvasPane);
+        }
+    }
+
+    private static List<String> readFile(String path) {
+        List<String> shapeList = new ArrayList<String>();
+        try (FileReader file = new FileReader(path)) {
+            BufferedReader bfr = new BufferedReader(file);
+            String linia = "";
+            // ODCZYT KOLEJNYCH LINII Z PLIKU:
+            try {
+                while ((linia = bfr.readLine()) != null) {
+                    shapeList.add(linia);
+                }
+            } catch (IOException e) {
+                System.out.println("BŁĄD ODCZYTU Z PLIKU!");
+                System.exit(2);
+            }
+    
+            return shapeList;
+        } catch (IOException e) {
+            System.err.println("zle sie dzieje");
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    private static void saveToFile(String save, String path) {
+        try (FileWriter file = new FileWriter(path)) {
+            file.write(save);
+        } catch (IOException e) {
+            System.err.println("zle sie dzieje");
+            e.printStackTrace();
+        }
+    }
+
+    //LADOWANIE
     private static void loadShape(String save, CanvasPane canvasPane) {
         // typ figury
         String shape;
@@ -36,43 +81,15 @@ public class FileHandler {
                 Color.web(subStrings[subStrings.length - 1]));
     }
 
-    public static void loadAll(String path, CanvasPane canvasPane) {
-        List<String> shapeList = readFile(path);
-        for (String save : shapeList) {
-            loadShape(save, canvasPane);
-        }
-    }
+    //ZAPISYWANIE
 
-    private static List<String> readFile(String path) {
-        List<String> shapeList = new ArrayList<String>();
-        try (FileReader file = new FileReader(path)) {
-            BufferedReader bfr = new BufferedReader(file);
-            String linia = "";
-            // ODCZYT KOLEJNYCH LINII Z PLIKU:
-            try {
-                while ((linia = bfr.readLine()) != null) {
-                    shapeList.add(linia);
-                }
-            } catch (IOException e) {
-                System.out.println("BŁĄD ODCZYTU Z PLIKU!");
-                System.exit(2);
-            }
-
-            return shapeList;
-        } catch (IOException e) {
-            System.err.println("zle sie dzieje");
-            e.printStackTrace();
-            return null;
+    public static void saveAll(List<SaveableShape> shapes, String path) {
+        String save = "";
+        for (SaveableShape shape : shapes) {
+            save += FileHandler.shapeToString(shape) + "\n";
         }
-    }
 
-    public static void saveToFile(String save, String path) {
-        try (FileWriter file = new FileWriter(path)) {
-            file.write(save);
-        } catch (IOException e) {
-            System.err.println("zle sie dzieje");
-            e.printStackTrace();
-        }
+        saveToFile(save, path);
     }
 
     private static String shapeToString(SaveableShape shape) {
@@ -90,12 +107,4 @@ public class FileHandler {
         return save;
     }
 
-    public static void saveAll(List<SaveableShape> shapes, String path) {
-        String save = "";
-        for (SaveableShape shape : shapes) {
-            save += FileHandler.shapeToString(shape) + "\n";
-        }
-
-        saveToFile(save, path);
-    }
 }

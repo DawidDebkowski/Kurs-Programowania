@@ -175,6 +175,7 @@ public class CanvasPane extends Pane {
         if (shape != null) {
             selectedShape = (MovableShape) shape;
             ActiveMoveHandler activeMoveHandler = new ActiveMoveHandler(this);
+            shape.setStroke(Color.BLACK);
             shape.setOnMouseClicked(activeMoveHandler);
             shape.setOnMousePressed(activeMoveHandler);
             shape.setOnMouseDragged(activeMoveHandler);
