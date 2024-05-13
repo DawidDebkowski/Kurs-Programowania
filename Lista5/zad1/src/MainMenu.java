@@ -1,22 +1,25 @@
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.event.*;
+
 /**
  * MainMenu
  * Klasa odpowiadająca za menu
  */
 
-public class MainMenu extends MenuBar{
+public class MainMenu extends MenuBar {
     private CanvasPane canvasPane;
 
-    public MainMenu(CanvasPane canvasPane)
-    {
+    public MainMenu(CanvasPane canvasPane) {
         this.canvasPane = canvasPane;
 
         InitShapeMenu();
@@ -27,17 +30,24 @@ public class MainMenu extends MenuBar{
     private void InitSaveMenu() {
         Menu saveMenu = new Menu("Plik");
         MenuItem saveItem = new MenuItem("Zapisz");
+        MenuItem loadItem = new MenuItem("Wczytaj");
         saveItem.setOnAction(new EventHandler<ActionEvent>() {
-
             @Override
             public void handle(ActionEvent arg0) {
                 System.out.println("zapisuje");
-                FileHandler.shapeToFile((SaveableShape)canvasPane.getActiveShape());
+                List<SaveableShape> shapes = new ArrayList<SaveableShape>();
+                System.out.println(canvasPane.getChildren());
+                for (Node node : canvasPane.getChildren()) {
+                    try {
+                        shapes.add((SaveableShape) node);
+                    } catch (ClassCastException e) {
+                        System.out.println("Inne dziecko - " + node);
+                    }
+                }
+                FileHandler.saveAll(shapes, "./shape");
             }
-            
         });
 
-        MenuItem loadItem = new MenuItem("Wczytaj");
         loadItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
@@ -58,41 +68,39 @@ public class MainMenu extends MenuBar{
         Dialog<String> dialog = new Dialog<String>();
         dialog.setTitle("Informacje");
         ButtonType type = new ButtonType("Ok", ButtonData.CANCEL_CLOSE);
-        dialog.setContentText("""
-            Nazwa: Paint 2.0
-            Przeznaczenie: Program służy do prostego generowania, obracania i przesuwania prostych figur geometrycznych.
-            Autor: Dawid Dębkowski"""
-                );
+        dialog.setContentText(
+                """
+                        Nazwa: Paint 2.0
+                        Przeznaczenie: Program służy do prostego generowania, obracania i przesuwania prostych figur geometrycznych.
+                        Autor: Dawid Dębkowski""");
         dialog.getDialogPane().getButtonTypes().add(type);
 
-        info.setOnAction(new EventHandler<ActionEvent>(){
+        info.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent arg0) {
                 dialog.showAndWait();
             }
 
-        } );
+        });
 
         infoMenu.getItems().add(info);
         this.getMenus().add(infoMenu);
     }
 
-    //Inicjuje menu do wybierania kształtu
-    private void InitShapeMenu()
-    {
+    // Inicjuje menu do wybierania kształtu
+    private void InitShapeMenu() {
         Menu chooseShape = new Menu("Rysuj");
 
         MenuItem triangleItem = new MenuItem("Trójkąt");
         MenuItem rectangleItem = new MenuItem("Prostokąt");
         MenuItem circleItem = new MenuItem("Koło");
 
-        class MyShapeChangeHandler implements EventHandler<ActionEvent>{
+        class MyShapeChangeHandler implements EventHandler<ActionEvent> {
             private PossibleShapes shape;
             private CanvasPane canvasPane;
 
-            public MyShapeChangeHandler(PossibleShapes chosenShape, CanvasPane cp)
-            {
+            public MyShapeChangeHandler(PossibleShapes chosenShape, CanvasPane cp) {
                 shape = chosenShape;
                 canvasPane = cp;
             }
@@ -108,8 +116,8 @@ public class MainMenu extends MenuBar{
         rectangleItem.setOnAction(new MyShapeChangeHandler(PossibleShapes.Rectangle, canvasPane));
         circleItem.setOnAction(new MyShapeChangeHandler(PossibleShapes.Circle, canvasPane));
 
-        //TODO Zrobic interfejs zeby Chooseshape? i wtedy cos takiego przyjmowac?
-        chooseShape.getItems().addAll(circleItem,rectangleItem,triangleItem);
+        // TODO Zrobic interfejs zeby Chooseshape? i wtedy cos takiego przyjmowac?
+        chooseShape.getItems().addAll(circleItem, rectangleItem, triangleItem);
         this.getMenus().add(chooseShape);
     }
 }

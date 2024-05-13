@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 import javafx.scene.paint.Color;
 
@@ -65,10 +66,6 @@ public class FileHandler {
         }
     }
 
-    public static void shapeToFile(SaveableShape shape) {
-        saveToFile(shapeToString(shape), "./shape");
-    }
-
     private static String shapeToString(SaveableShape shape) {
         String save = "";
 
@@ -84,7 +81,13 @@ public class FileHandler {
         return save;
     }
 
-    public static void main(String[] args) {
-        // FileHandler.saveShape(shapeToString(null), "./hi");
+    public static void saveAll(List<SaveableShape> shapes, String path)
+    {
+        String save = "";
+        for (SaveableShape shape : shapes) {
+           save += FileHandler.shapeToString(shape) + ";"; 
+        }
+
+        saveToFile(save, path);
     }
 }
