@@ -36,8 +36,7 @@ public class FileHandler {
                 Color.web(subStrings[subStrings.length - 1]));
     }
 
-    public static void loadAll(String path, CanvasPane canvasPane)
-    {
+    public static void loadAll(String path, CanvasPane canvasPane) {
         List<String> shapeList = readFile(path);
         for (String save : shapeList) {
             loadShape(save, canvasPane);
@@ -91,11 +90,10 @@ public class FileHandler {
         return save;
     }
 
-    public static void saveAll(List<SaveableShape> shapes, String path)
-    {
+    public static void saveAll(List<SaveableShape> shapes, String path) {
         String save = "";
         for (SaveableShape shape : shapes) {
-           save += FileHandler.shapeToString(shape) + "\n"; 
+            save += FileHandler.shapeToString(shape) + "\n";
         }
 
         saveToFile(save, path);

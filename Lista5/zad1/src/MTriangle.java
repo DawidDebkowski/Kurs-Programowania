@@ -8,21 +8,25 @@ import javafx.scene.shape.Polygon;
 public class MTriangle extends Polygon implements MovableShape, ActivableShape, SaveableShape {
     public static final PossibleShapes shapeType = PossibleShapes.Triangle;
     private double startX;
+
     public double getStartX() {
         return startX;
     }
 
     private double startY;
+
     public double getStartY() {
         return startY;
     }
 
     private double width;
+
     public double getWidth() {
         return width;
     }
 
     private double height;
+
     public double getHeight() {
         return height;
     }
@@ -30,7 +34,7 @@ public class MTriangle extends Polygon implements MovableShape, ActivableShape, 
     /**
      * @param startX miejsce tworzenia x
      * @param startY miejsce tworzenia y
-     * @param paint kolor wypełnienia
+     * @param paint  kolor wypełnienia
      */
     public MTriangle(double startX, double startY, Paint paint) {
         super();
@@ -44,7 +48,7 @@ public class MTriangle extends Polygon implements MovableShape, ActivableShape, 
     public void handleCreationResize(double mouseX, double mouseY) {
         width = mouseX - startX;
         height = mouseY - startY;
-        
+
         getPoints().removeAll(getPoints());
         getPoints().addAll(new Double[] {
                 width / 2 + startX, startY,
@@ -90,11 +94,11 @@ public class MTriangle extends Polygon implements MovableShape, ActivableShape, 
 
     @Override
     public double getX() {
-        return getTranslateX()+startX;
+        return getTranslateX() + startX;
     }
-    
+
     @Override
     public double getY() {
-        return getTranslateY()+startY;
+        return getTranslateY() + startY;
     }
 }

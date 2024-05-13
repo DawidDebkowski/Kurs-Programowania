@@ -7,8 +7,12 @@ import javafx.scene.shape.Shape;
 
 enum PossibleShapes {
     Triangle("T"), Rectangle("R"), Circle("C");
+
     public String saveString;
-    PossibleShapes(String saveString) {this.saveString = saveString;}
+
+    PossibleShapes(String saveString) {
+        this.saveString = saveString;
+    }
 }
 
 /**
@@ -48,17 +52,28 @@ interface ActivableShape {
  */
 interface SaveableShape {
     public PossibleShapes getShapeType();
+
     public double getStartX();
+
     public double getStartY();
+
     public double getWidth();
+
     public double getHeight();
+
     public double getX();
+
     public double getY();
+
     public double getScaleX();
+
     public double getScaleY();
+
     public double getRotate();
+
     public Paint getFill();
 }
+
 /**
  * CanvasPane
  * 
@@ -106,7 +121,7 @@ public class CanvasPane extends Pane {
     }
 
     public void setActiveShape(ActivableShape shape) {
-        if(shape == activeShape)
+        if (shape == activeShape)
             return;
         deactiveShape();
         activeShape = shape;
@@ -124,16 +139,15 @@ public class CanvasPane extends Pane {
         chosenShape = newShape;
     }
 
-    public void createShape(PossibleShapes shape, double startX, 
-    double startY, double x, double y, double width, double height, 
-    double scaleX, double scaleY, double rotate, Paint colorPaint)
-    {
+    public void createShape(PossibleShapes shape, double startX,
+            double startY, double x, double y, double width, double height,
+            double scaleX, double scaleY, double rotate, Paint colorPaint) {
         chosenShape = shape;
         createShape(startX, startY);
         ActivableShape activableShape = (ActivableShape) selectedShape;
-        selectedShape.handleCreationResize(width+startX, height+startY);
-        activableShape.addX(x-startX); // dodanie przesuniecia od pozycji poczatkowej
-        activableShape.addY(y-startY);
+        selectedShape.handleCreationResize(width + startX, height + startY);
+        activableShape.addX(x - startX); // dodanie przesuniecia od pozycji poczatkowej
+        activableShape.addY(y - startY);
         activableShape.setScaleX(scaleX);
         activableShape.setScaleY(scaleY);
         activableShape.rotate(rotate);

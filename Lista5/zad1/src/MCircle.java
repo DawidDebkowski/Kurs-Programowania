@@ -7,21 +7,25 @@ import javafx.scene.shape.Circle;
 public class MCircle extends Circle implements MovableShape, ActivableShape, SaveableShape {
     public static final PossibleShapes shapeType = PossibleShapes.Circle;
     private double startX;
+
     public double getStartX() {
         return startX;
     }
 
     private double startY;
+
     public double getStartY() {
         return startY;
     }
 
     private double width;
+
     public double getWidth() {
         return width;
     }
 
     private double height;
+
     public double getHeight() {
         return height;
     }
@@ -72,7 +76,7 @@ public class MCircle extends Circle implements MovableShape, ActivableShape, Sav
     public void rotate(double degrees) {
         setRotate(getRotate() + degrees);
     }
-    
+
     @Override
     public PossibleShapes getShapeType() {
         return shapeType;
@@ -80,12 +84,12 @@ public class MCircle extends Circle implements MovableShape, ActivableShape, Sav
 
     @Override
     public double getX() {
-        return getCenterX() - width/2;
+        return getCenterX() - width / 2;
     }
-    
+
     @Override
     public double getY() {
-        return getCenterY() - height/2;
+        return getCenterY() - height / 2;
     }
 }
 
