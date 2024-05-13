@@ -19,13 +19,18 @@ enum PossibleShapes {
  * MovableShape
  */
 interface MovableShape {
+    /**
+     * Zmienia wielkość figury na podstawie początkowej i aktualnej pozycji myszki
+     * @param mouseX - pozycja myszki x
+     * @param mouseY - pozycja myszki y
+     */
     public void handleCreationResize(double mouseX, double mouseY);
 }
 
 /**
- * ActivableShape
+ * MShape
  */
-interface ActivableShape {
+interface MShape {
     public void setStroke(Paint paint);
 
     public void setFill(Paint paint);
@@ -51,6 +56,9 @@ interface ActivableShape {
  * SaveableShape
  */
 interface SaveableShape {
+    /**
+     * zwraca typ figury
+     */
     public PossibleShapes getShapeType();
 
     public double getStartX();
@@ -83,7 +91,7 @@ public class CanvasPane extends Pane {
 
     private PossibleShapes chosenShape;
     private MovableShape selectedShape;
-    private ActivableShape activeShape;
+    private MShape activeShape;
 
     public PopupMenu popupMenu = new PopupMenu(this);
 
@@ -116,11 +124,11 @@ public class CanvasPane extends Pane {
         });
     }
 
-    public ActivableShape getActiveShape() {
+    public MShape getActiveShape() {
         return activeShape;
     }
 
-    public void setActiveShape(ActivableShape shape) {
+    public void setActiveShape(MShape shape) {
         if (shape == activeShape)
             return;
         deactiveShape();
@@ -144,14 +152,14 @@ public class CanvasPane extends Pane {
             double scaleX, double scaleY, double rotate, Paint colorPaint) {
         chosenShape = shape;
         createShape(startX, startY);
-        ActivableShape activableShape = (ActivableShape) selectedShape;
+        MShape MShape = (MShape) selectedShape;
         selectedShape.handleCreationResize(width + startX, height + startY);
-        activableShape.addX(x - startX); // dodanie przesuniecia od pozycji poczatkowej
-        activableShape.addY(y - startY);
-        activableShape.setScaleX(scaleX);
-        activableShape.setScaleY(scaleY);
-        activableShape.rotate(rotate);
-        activableShape.setFill(colorPaint);
+        MShape.addX(x - startX); // dodanie przesuniecia od pozycji poczatkowej
+        MShape.addY(y - startY);
+        MShape.setScaleX(scaleX);
+        MShape.setScaleY(scaleY);
+        MShape.rotate(rotate);
+        MShape.setFill(colorPaint);
     }
 
     private void createShape(double x, double y) {

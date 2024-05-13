@@ -5,7 +5,7 @@ import javafx.scene.shape.Polygon;
  * Klasa odpowiadajaca za figure trojkata
  */
 
-public class MTriangle extends Polygon implements MovableShape, ActivableShape, SaveableShape {
+public class MTriangle extends Polygon implements MovableShape, MShape, SaveableShape {
     public static final PossibleShapes shapeType = PossibleShapes.Triangle;
     private double startX;
 

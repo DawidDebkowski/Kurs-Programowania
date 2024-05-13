@@ -4,7 +4,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class MCircle extends Circle implements MovableShape, ActivableShape, SaveableShape {
+public class MCircle extends Circle implements MovableShape, MShape, SaveableShape {
     public static final PossibleShapes shapeType = PossibleShapes.Circle;
     private double startX;
 
@@ -95,7 +95,7 @@ public class MCircle extends Circle implements MovableShape, ActivableShape, Sav
 
 class ActiveMoveHandler implements EventHandler<MouseEvent> {
     CanvasPane canvasPane;
-    ActivableShape activeShape;
+    MShape activeShape;
     private double startX;
     private double startY;
 
@@ -117,7 +117,7 @@ class ActiveMoveHandler implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent event) {
-        activeShape = (ActivableShape) event.getTarget();
+        activeShape = (MShape) event.getTarget();
         if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
             canvasPane.setActiveShape(activeShape);
             activeShape.setStroke(CanvasPane.activeColor);

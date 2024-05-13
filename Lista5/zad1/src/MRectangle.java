@@ -4,7 +4,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
-public class MRectangle extends Rectangle implements MovableShape, ActivableShape, SaveableShape {
+public class MRectangle extends Rectangle implements MovableShape, MShape, SaveableShape {
     public static final PossibleShapes shapeType = PossibleShapes.Rectangle;
     private double startX;
 
@@ -82,7 +82,7 @@ public class MRectangle extends Rectangle implements MovableShape, ActivableShap
 
 class ActivableScrollHandler implements EventHandler<ScrollEvent> {
     CanvasPane canvasPane;
-    ActivableShape activeShape;
+    MShape activeShape;
 
     public ActivableScrollHandler(CanvasPane cp) {
         canvasPane = cp;
@@ -100,7 +100,7 @@ class ActivableScrollHandler implements EventHandler<ScrollEvent> {
 
     @Override
     public void handle(ScrollEvent event) {
-        activeShape = (ActivableShape) event.getTarget();
+        activeShape = (MShape) event.getTarget();
         if (canvasPane.getActiveShape() == activeShape) {
             doScale(event);
         }
