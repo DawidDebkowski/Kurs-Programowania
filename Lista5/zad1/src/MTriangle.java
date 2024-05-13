@@ -6,7 +6,7 @@ import javafx.scene.shape.Polygon;
  */
 
 public class MTriangle extends Polygon implements MShape, SaveableShape {
-    public static final PossibleShapes shapeType = PossibleShapes.Triangle;
+    public static final MShapeTypes shapeType = MShapeTypes.Triangle;
     private double startX;
 
     public double getStartX() {
@@ -88,7 +88,7 @@ public class MTriangle extends Polygon implements MShape, SaveableShape {
     }
 
     @Override
-    public PossibleShapes getShapeType() {
+    public MShapeTypes getShapeType() {
         return shapeType;
     }
 

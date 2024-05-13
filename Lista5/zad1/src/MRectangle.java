@@ -5,7 +5,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 public class MRectangle extends Rectangle implements MShape, SaveableShape {
-    public static final PossibleShapes shapeType = PossibleShapes.Rectangle;
+    public static final MShapeTypes shapeType = MShapeTypes.Rectangle;
     private double startX;
 
     public double getStartX() {
@@ -75,7 +75,7 @@ public class MRectangle extends Rectangle implements MShape, SaveableShape {
     }
 
     @Override
-    public PossibleShapes getShapeType() {
+    public MShapeTypes getShapeType() {
         return shapeType;
     }
 }

@@ -5,7 +5,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 public class MCircle extends Circle implements MShape, SaveableShape {
-    public static final PossibleShapes shapeType = PossibleShapes.Circle;
+    public static final MShapeTypes shapeType = MShapeTypes.Circle;
     private double startX;
 
     public double getStartX() {
@@ -78,7 +78,7 @@ public class MCircle extends Circle implements MShape, SaveableShape {
     }
 
     @Override
-    public PossibleShapes getShapeType() {
+    public MShapeTypes getShapeType() {
         return shapeType;
     }
 

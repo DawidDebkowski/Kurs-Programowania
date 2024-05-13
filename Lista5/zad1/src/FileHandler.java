@@ -57,13 +57,13 @@ public class FileHandler {
         // typ figury
         String shape;
         shape = save.substring(0, 1);
-        PossibleShapes possibleShape = null;
-        if (shape.equals(PossibleShapes.Triangle.saveString)) {
-            possibleShape = PossibleShapes.Triangle;
-        } else if (shape.equals(PossibleShapes.Rectangle.saveString)) {
-            possibleShape = PossibleShapes.Rectangle;
-        } else if (shape.equals(PossibleShapes.Circle.saveString)) {
-            possibleShape = PossibleShapes.Circle;
+        MShapeTypes possibleShape = null;
+        if (shape.equals(MShapeTypes.Triangle.saveString)) {
+            possibleShape = MShapeTypes.Triangle;
+        } else if (shape.equals(MShapeTypes.Rectangle.saveString)) {
+            possibleShape = MShapeTypes.Rectangle;
+        } else if (shape.equals(MShapeTypes.Circle.saveString)) {
+            possibleShape = MShapeTypes.Circle;
         }
 
         // parametry figury

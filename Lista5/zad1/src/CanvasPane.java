@@ -5,12 +5,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 
-enum PossibleShapes {
+enum MShapeTypes {
     Triangle("T"), Rectangle("R"), Circle("C");
 
     public String saveString;
 
-    PossibleShapes(String saveString) {
+    MShapeTypes(String saveString) {
         this.saveString = saveString;
     }
 }
@@ -21,6 +21,7 @@ enum PossibleShapes {
 interface MShape {
     /**
      * Zmienia wielkość figury na podstawie początkowej i aktualnej pozycji myszki
+     * 
      * @param mouseX - pozycja myszki x
      * @param mouseY - pozycja myszki y
      */
@@ -54,7 +55,7 @@ interface SaveableShape {
     /**
      * zwraca typ figury
      */
-    public PossibleShapes getShapeType();
+    public MShapeTypes getShapeType();
 
     public double getStartX();
 
@@ -84,7 +85,7 @@ interface SaveableShape {
 public class CanvasPane extends Pane {
     public static Color activeColor = Color.LEMONCHIFFON;
 
-    private PossibleShapes chosenShape;
+    private MShapeTypes chosenShape;
     private MShape selectedShape;
     private MShape activeShape;
 
@@ -92,7 +93,7 @@ public class CanvasPane extends Pane {
 
     public CanvasPane() {
         this.setStyle("-fx-background-color: black;");
-        chosenShape = PossibleShapes.Circle;
+        chosenShape = MShapeTypes.Circle;
         activeShape = null;
 
         setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -103,7 +104,7 @@ public class CanvasPane extends Pane {
                     createShape(event.getX(), event.getY());
                 } else {
                     if (!activeShape.isHit(event.getSceneX(), event.getSceneY())) {
-                        deactiveShape();
+                        deactivateShape();
                     }
                 }
             }
@@ -119,18 +120,32 @@ public class CanvasPane extends Pane {
         });
     }
 
+    /**
+     * @return aktualnie aktywny kształt
+     */
     public MShape getActiveShape() {
         return activeShape;
     }
 
+    /**
+     * @param shape nowa figura do ustawienia jako aktywna
+     *              Procedura deaktywuje poprzednią figurę, a potem ustawią nową
+     *              jako aktywną
+     *
+     */
     public void setActiveShape(MShape shape) {
         if (shape == activeShape)
             return;
-        deactiveShape();
+        deactivateShape();
         activeShape = shape;
     }
 
-    private void deactiveShape() {
+    /**
+     * Procedura usuwa efekty wizualne związane z aktywną figurą i przypisuje "null"
+     * jako aktywną figurę
+     * Wyłącza także menu
+     */
+    private void deactivateShape() {
         if (activeShape != null) {
             activeShape.setStroke(Color.BLACK);
             activeShape = null;
@@ -138,11 +153,14 @@ public class CanvasPane extends Pane {
         }
     }
 
-    public void setShape(PossibleShapes newShape) {
+    /**
+     * @param newShape kształt do rysowania
+     */
+    public void setShape(MShapeTypes newShape) {
         chosenShape = newShape;
     }
 
-    public void createShape(PossibleShapes shape, double startX,
+    public void createShape(MShapeTypes shape, double startX,
             double startY, double x, double y, double width, double height,
             double scaleX, double scaleY, double rotate, Paint colorPaint) {
         chosenShape = shape;
@@ -160,15 +178,15 @@ public class CanvasPane extends Pane {
     private void createShape(double x, double y) {
         Shape shape = null;
         switch (chosenShape) {
-            case PossibleShapes.Triangle:
+            case MShapeTypes.Triangle:
                 MTriangle triangle = new MTriangle(x, y, Color.FORESTGREEN);
                 shape = triangle;
                 break;
-            case PossibleShapes.Rectangle:
+            case MShapeTypes.Rectangle:
                 MRectangle rect = new MRectangle(x, y, Color.CYAN);
                 shape = rect;
                 break;
-            case PossibleShapes.Circle:
+            case MShapeTypes.Circle:
                 MCircle circle = new MCircle(x, y, Color.BLUEVIOLET);
                 shape = circle;
                 break;

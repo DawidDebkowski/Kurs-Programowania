@@ -97,10 +97,10 @@ public class MainMenu extends MenuBar {
         MenuItem circleItem = new MenuItem("Koło");
 
         class MyShapeChangeHandler implements EventHandler<ActionEvent> {
-            private PossibleShapes shape;
+            private MShapeTypes shape;
             private CanvasPane canvasPane;
 
-            public MyShapeChangeHandler(PossibleShapes chosenShape, CanvasPane cp) {
+            public MyShapeChangeHandler(MShapeTypes chosenShape, CanvasPane cp) {
                 shape = chosenShape;
                 canvasPane = cp;
             }
@@ -112,9 +112,9 @@ public class MainMenu extends MenuBar {
 
         }
 
-        triangleItem.setOnAction(new MyShapeChangeHandler(PossibleShapes.Triangle, canvasPane));
-        rectangleItem.setOnAction(new MyShapeChangeHandler(PossibleShapes.Rectangle, canvasPane));
-        circleItem.setOnAction(new MyShapeChangeHandler(PossibleShapes.Circle, canvasPane));
+        triangleItem.setOnAction(new MyShapeChangeHandler(MShapeTypes.Triangle, canvasPane));
+        rectangleItem.setOnAction(new MyShapeChangeHandler(MShapeTypes.Rectangle, canvasPane));
+        circleItem.setOnAction(new MyShapeChangeHandler(MShapeTypes.Circle, canvasPane));
 
         // TODO Zrobic interfejs zeby Chooseshape? i wtedy cos takiego przyjmowac?
         chooseShape.getItems().addAll(circleItem, rectangleItem, triangleItem);
