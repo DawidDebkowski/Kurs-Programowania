@@ -52,7 +52,7 @@ public class MainMenu extends MenuBar {
             @Override
             public void handle(ActionEvent arg0) {
                 System.out.println("laduje");
-                FileHandler.loadShape(FileHandler.readFile("./shape"), canvasPane);
+                FileHandler.loadAll("./shape", canvasPane);
             }
         });
 

@@ -2,12 +2,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.paint.Color;
 
 public class FileHandler {
-    public static void loadShape(String save, CanvasPane canvasPane) {
+    private static void loadShape(String save, CanvasPane canvasPane) {
         // typ figury
         String shape;
         shape = save.substring(0, 1);
@@ -35,25 +36,34 @@ public class FileHandler {
                 Color.web(subStrings[subStrings.length - 1]));
     }
 
-    public static String readFile(String path) {
+    public static void loadAll(String path, CanvasPane canvasPane)
+    {
+        List<String> shapeList = readFile(path);
+        for (String save : shapeList) {
+            loadShape(save, canvasPane);
+        }
+    }
+
+    private static List<String> readFile(String path) {
+        List<String> shapeList = new ArrayList<String>();
         try (FileReader file = new FileReader(path)) {
             BufferedReader bfr = new BufferedReader(file);
             String linia = "";
             // ODCZYT KOLEJNYCH LINII Z PLIKU:
             try {
                 while ((linia = bfr.readLine()) != null) {
-                    return linia;
+                    shapeList.add(linia);
                 }
             } catch (IOException e) {
                 System.out.println("BŁĄD ODCZYTU Z PLIKU!");
                 System.exit(2);
             }
 
-            return linia;
+            return shapeList;
         } catch (IOException e) {
             System.err.println("zle sie dzieje");
             e.printStackTrace();
-            return "false";
+            return null;
         }
     }
 
@@ -85,7 +95,7 @@ public class FileHandler {
     {
         String save = "";
         for (SaveableShape shape : shapes) {
-           save += FileHandler.shapeToString(shape) + ";"; 
+           save += FileHandler.shapeToString(shape) + "\n"; 
         }
 
         saveToFile(save, path);
