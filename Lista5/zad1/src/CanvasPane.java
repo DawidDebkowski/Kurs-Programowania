@@ -16,21 +16,16 @@ enum PossibleShapes {
 }
 
 /**
- * MovableShape
+ * MShape
  */
-interface MovableShape {
+interface MShape {
     /**
      * Zmienia wielkość figury na podstawie początkowej i aktualnej pozycji myszki
      * @param mouseX - pozycja myszki x
      * @param mouseY - pozycja myszki y
      */
     public void handleCreationResize(double mouseX, double mouseY);
-}
 
-/**
- * MShape
- */
-interface MShape {
     public void setStroke(Paint paint);
 
     public void setFill(Paint paint);
@@ -90,7 +85,7 @@ public class CanvasPane extends Pane {
     public static Color activeColor = Color.LEMONCHIFFON;
 
     private PossibleShapes chosenShape;
-    private MovableShape selectedShape;
+    private MShape selectedShape;
     private MShape activeShape;
 
     public PopupMenu popupMenu = new PopupMenu(this);
@@ -181,7 +176,7 @@ public class CanvasPane extends Pane {
                 break;
         }
         if (shape != null) {
-            selectedShape = (MovableShape) shape;
+            selectedShape = (MShape) shape;
             ActiveMoveHandler activeMoveHandler = new ActiveMoveHandler(this);
             shape.setStroke(Color.BLACK);
             shape.setOnMouseClicked(activeMoveHandler);

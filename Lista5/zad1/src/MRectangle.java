@@ -4,7 +4,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
-public class MRectangle extends Rectangle implements MovableShape, MShape, SaveableShape {
+public class MRectangle extends Rectangle implements MShape, SaveableShape {
     public static final PossibleShapes shapeType = PossibleShapes.Rectangle;
     private double startX;
 

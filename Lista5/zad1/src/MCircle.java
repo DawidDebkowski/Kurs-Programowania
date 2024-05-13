@@ -4,7 +4,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class MCircle extends Circle implements MovableShape, MShape, SaveableShape {
+public class MCircle extends Circle implements MShape, SaveableShape {
     public static final PossibleShapes shapeType = PossibleShapes.Circle;
     private double startX;
 
