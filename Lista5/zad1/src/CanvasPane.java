@@ -5,16 +5,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 
-enum MShapeTypes {
-    Triangle("T"), Rectangle("R"), Circle("C");
-
-    public String saveString;
-
-    MShapeTypes(String saveString) {
-        this.saveString = saveString;
-    }
-}
-
 /**
  * Klasa obsługująca tworzenie figur oraz zarządzanie aktywną figurą
  */
@@ -28,9 +18,7 @@ public class CanvasPane extends Pane {
     public PopupMenu popupMenu = new PopupMenu(this);
 
     /**
-     * Podstawowy konstruktor
-     * 
-     * Ustawia logikę klikania i przeciągania po planszy.
+     * Podstawowy konstruktor: ustawia logikę klikania i przeciągania po planszy.
      */
     public CanvasPane() {
         this.setStyle("-fx-background-color: black;");
@@ -66,6 +54,7 @@ public class CanvasPane extends Pane {
     }
 
     /**
+     * zwraca aktualnie aktywny kształt
      * @return aktualnie aktywny kształt
      */
     public MShape getActiveShape() {
