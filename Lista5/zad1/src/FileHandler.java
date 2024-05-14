@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 /**
  * Klasa statyczna służąca do zapisywania i wczytywania stanu CanvasPane
  * @see CanvasPane

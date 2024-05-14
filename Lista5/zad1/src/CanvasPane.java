@@ -83,11 +83,11 @@ interface SaveableShape {
  * 
  */
 public class CanvasPane extends Pane {
-    public static Color activeColor = Color.LEMONCHIFFON;
+    public static Color activeColor = Color.GREENYELLOW; // kolor obramowania aktywnej figury
 
-    private MShapeTypes chosenShape;
-    private MShape selectedShape;
-    private MShape activeShape;
+    private MShapeTypes chosenShape; //wybrany typ kształtu
+    private MShape selectedShape; // figura rysowana
+    private MShape activeShape; // aktywna figura
 
     public PopupMenu popupMenu = new PopupMenu(this);
 
@@ -98,26 +98,27 @@ public class CanvasPane extends Pane {
      */
     public CanvasPane() {
         this.setStyle("-fx-background-color: black;");
-        chosenShape = MShapeTypes.Circle;
+        chosenShape = MShapeTypes.Circle; //TODO do usunięca w ostatecznej wersji
         activeShape = null;
 
         setupHandlers();
     }
 
     private void setupHandlers() {
+        //odznaczanie aktywnej figury lub tworzenie figury
         setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 selectedShape = null;
                 if (activeShape == null) {
                     createShape(event.getX(), event.getY());
-                } else {
-                    if (!activeShape.isHit(event.getSceneX(), event.getSceneY())) {
-                        deactivateShape();
-                    }
+                } else if (!activeShape.isHit(event.getSceneX(), event.getSceneY())) {
+                    deactivateShape();
                 }
             }
         });
+
+        // rysowanie figury
         setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -125,7 +126,6 @@ public class CanvasPane extends Pane {
                     selectedShape.handleCreationResize(event.getX(), event.getY());
                 }
             }
-
         });
     }
 
@@ -175,7 +175,6 @@ public class CanvasPane extends Pane {
 
     /**
      * Procedura tworząca figurę na podstawie zapisu
-     * Używa prywatnego createShape(), a potem przesuwa, skaluje i obraca figurę
      * @param shape typ figury
      * @param startX pozycja startowa X
      * @param startY pozycja startowa Y
@@ -204,6 +203,10 @@ public class CanvasPane extends Pane {
     }
 
     private void createShape(double x, double y) {
+        //Jezeli nie wybrano kształu - nic nie rób
+        if(chosenShape == null)
+            return;
+        
         Shape shape = null;
         switch (chosenShape) {
             case MShapeTypes.Triangle:
@@ -217,8 +220,6 @@ public class CanvasPane extends Pane {
             case MShapeTypes.Circle:
                 MCircle circle = new MCircle(x, y, Color.BLUEVIOLET);
                 shape = circle;
-                break;
-            default:
                 break;
         }
         if (shape != null) {
