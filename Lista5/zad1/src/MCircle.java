@@ -1,6 +1,8 @@
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-
+/*
+ * Klasa figury koło
+ */
 public class MCircle extends Circle implements MShape, SaveableShape {
     public static final MShapeTypes shapeType = MShapeTypes.Circle;
     private double startX;
@@ -15,18 +17,25 @@ public class MCircle extends Circle implements MShape, SaveableShape {
         return startY;
     }
 
-    private double width;
+    private double width; //szerokosc prostokąta na ktorym zostalo stworzone koło
 
     public double getWidth() {
         return width;
     }
 
-    private double height;
+    private double height; //wysokosc prostokąta na ktorym zostalo stworzone koło
 
     public double getHeight() {
         return height;
     }
 
+    /**
+     * Tworzy klasę Circle z promieniem długości 0 na podanej pozycji i o podanym kolorze.
+     * @see Circle
+     * @param startX pozycja startowa X
+     * @param startY pozycja startowa Y
+     * @param paint kolor
+     */
     public MCircle(double startX, double startY, Paint paint) {
         super(0, paint);
 
@@ -41,9 +50,9 @@ public class MCircle extends Circle implements MShape, SaveableShape {
     public void handleCreationResize(double mouseX, double mouseY) {
         width = mouseX - startX;
         height = mouseY - startY;
-        setCenterX(startX + width / 2);
-        setCenterY(startY + height / 2);
-        setRadius(Math.min(Math.abs(width), Math.abs(height)) / 2);
+        setCenterX(startX + width / 2); //centrum w środku prostokąta tworzącego
+        setCenterY(startY + height / 2); //centrum w środku prostokąta tworzącego
+        setRadius(Math.min(Math.abs(width), Math.abs(height)) / 2); //promień długośći koła wpisanego w kwadrat
     }
 
     public void addX(double dx) {

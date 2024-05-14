@@ -12,7 +12,6 @@ import java.util.List;
 import javafx.event.*;
 
 /**
- * MainMenu
  * Klasa odpowiadająca za menu
  */
 
@@ -34,7 +33,6 @@ public class MainMenu extends MenuBar {
         saveItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
-                System.out.println("zapisuje");
                 List<SaveableShape> shapes = new ArrayList<SaveableShape>();
                 System.out.println(canvasPane.getChildren());
                 for (Node node : canvasPane.getChildren()) {

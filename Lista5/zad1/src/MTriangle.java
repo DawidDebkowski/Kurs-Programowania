@@ -1,5 +1,6 @@
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Klasa odpowiadajaca za figure trojkata
@@ -32,11 +33,13 @@ public class MTriangle extends Polygon implements MShape, SaveableShape {
     }
 
     /**
+     * Tworzy pustą klasę polygon we wskazanym miejscu startowym i kolorze
      * @param startX miejsce tworzenia x
      * @param startY miejsce tworzenia y
      * @param paint  kolor wypełnienia
      */
     public MTriangle(double startX, double startY, Paint paint) {
+
         super();
 
         this.setFill(paint);
@@ -49,6 +52,7 @@ public class MTriangle extends Polygon implements MShape, SaveableShape {
         width = mouseX - startX;
         height = mouseY - startY;
 
+        //trójkąt równoramienny wpisany w prostokąt 
         getPoints().removeAll(getPoints());
         getPoints().addAll(new Double[] {
                 width / 2 + startX, startY,
