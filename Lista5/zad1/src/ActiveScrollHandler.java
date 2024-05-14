@@ -1,7 +1,7 @@
 import javafx.event.EventHandler;
 import javafx.scene.input.ScrollEvent;
 
-/*
+/**
  * Klasa służaca do obsługi scrollowania - zmniejszania i zwięszkania aktywnej figury.
  */
 public class ActiveScrollHandler implements EventHandler<ScrollEvent> {

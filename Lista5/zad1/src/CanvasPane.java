@@ -16,8 +16,7 @@ enum MShapeTypes {
 }
 
 /**
- * CanvasPane
- * 
+ * Klasa obsługująca tworzenie figur oraz zarządzanie aktywną figurą
  */
 public class CanvasPane extends Pane {
     public static Color activeColor = Color.GREENYELLOW; // kolor obramowania aktywnej figury

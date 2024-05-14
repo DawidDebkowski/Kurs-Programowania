@@ -2,7 +2,7 @@
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
-/*
+/**
  * Klasa figury prostokąta
  */
 public class MRectangle extends Rectangle implements MShape, SaveableShape {

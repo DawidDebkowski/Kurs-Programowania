@@ -1,9 +1,9 @@
 import javafx.scene.paint.Paint;
 
 /**
- * Ogólny interfesj figury, którą można tworzyć, poruszać, skalować i obracać
+ * Ogólny interfejs figury, którą można tworzyć, poruszać, skalować i obracać
  */
-interface MShape {
+public interface MShape {
     /**
      * Zmienia wielkość figury na podstawie początkowej i aktualnej pozycji myszki
      * 

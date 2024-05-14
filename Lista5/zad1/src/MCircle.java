@@ -1,6 +1,6 @@
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-/*
+/**
  * Klasa figury koło
  */
 public class MCircle extends Circle implements MShape, SaveableShape {
