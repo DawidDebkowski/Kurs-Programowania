@@ -1,6 +1,4 @@
 
-import javafx.event.*;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
@@ -77,32 +75,5 @@ public class MRectangle extends Rectangle implements MShape, SaveableShape {
     @Override
     public MShapeTypes getShapeType() {
         return shapeType;
-    }
-}
-
-class ActivableScrollHandler implements EventHandler<ScrollEvent> {
-    CanvasPane canvasPane;
-    MShape activeShape;
-
-    public ActivableScrollHandler(CanvasPane cp) {
-        canvasPane = cp;
-    }
-
-    private void doScale(ScrollEvent e) {
-        double x = e.getSceneX();
-        double y = e.getSceneY();
-        // Jesli nacisnelismy na elipse
-        if (activeShape.isHit(x, y)) {
-            activeShape.addWidth(e.getDeltaY() * 0.2);
-            activeShape.addHeight(e.getDeltaY() * 0.2);
-        }
-    }
-
-    @Override
-    public void handle(ScrollEvent event) {
-        activeShape = (MShape) event.getTarget();
-        if (canvasPane.getActiveShape() == activeShape) {
-            doScale(event);
-        }
     }
 }

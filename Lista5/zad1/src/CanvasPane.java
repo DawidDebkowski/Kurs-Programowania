@@ -228,7 +228,7 @@ public class CanvasPane extends Pane {
             shape.setOnMouseClicked(activeMoveHandler);
             shape.setOnMousePressed(activeMoveHandler);
             shape.setOnMouseDragged(activeMoveHandler);
-            shape.setOnScroll(new ActivableScrollHandler(this));
+            shape.setOnScroll(new ActiveScrollHandler(this));
             this.getChildren().addAll(shape);
         }
     }
