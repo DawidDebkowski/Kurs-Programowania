@@ -13,6 +13,12 @@ import javafx.scene.paint.Color;
 public class FileHandler {
     //PLIK
     
+
+    /**
+     * Tworzy wszystkie figury z danego pliku na danym canvas.
+     * @param path ścieżka do pliku zapisu
+     * @param canvasPane canvas na którym figury mają być tworzone
+     */
     public static void loadAll(String path, CanvasPane canvasPane) {
         List<String> shapeList = readFile(path);
         for (String save : shapeList) {
