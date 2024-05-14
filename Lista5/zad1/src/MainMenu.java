@@ -12,18 +12,54 @@ import java.util.List;
 import javafx.event.*;
 
 /**
- * Klasa odpowiadająca za menu
+ * Klasa odpowiadająca za menu głowne na górze okna
  */
-
 public class MainMenu extends MenuBar {
     private CanvasPane canvasPane;
-
+    
+    /**
+     * Tworzy menu głowne
+     * @param canvasPane docelowy CanvasPane
+     */
     public MainMenu(CanvasPane canvasPane) {
         this.canvasPane = canvasPane;
-
+        
         InitShapeMenu();
         InitSaveMenu();
         InitInfoMenu();
+    }
+    //Pomocnicza klasa aby łatwiej tworzyć proste okienko dialogowe
+    class DialogMenuItem extends MenuItem {
+        DialogMenuItem(String menuTitle, String dialogTitle, String dialogText, double width, double height)
+        {
+            super(menuTitle);
+            Dialog<String> dialog = new Dialog<String>();
+            dialog.setTitle(dialogTitle);
+            ButtonType type = new ButtonType("Ok", ButtonData.CANCEL_CLOSE);
+            dialog.setContentText(dialogText);
+            dialog.getDialogPane().setMinSize(width, height);
+            dialog.getDialogPane().getButtonTypes().add(type);
+            
+            this.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent arg0) {
+                    dialog.showAndWait();
+                }
+            });
+        }
+    }
+    /**
+     * Pokazuje okno dialogowe błedu
+     * @param text tekst błedu
+     */
+    public static void ShowError(String text)
+    {
+        Dialog<String> dialog = new Dialog<String>();
+        dialog.setTitle("Błąd");
+        ButtonType type = new ButtonType("Ok", ButtonData.CANCEL_CLOSE);
+        dialog.setContentText(text);
+        dialog.getDialogPane().getButtonTypes().add(type);
+        dialog.showAndWait();
     }
 
     private void InitSaveMenu() {
@@ -62,26 +98,6 @@ public class MainMenu extends MenuBar {
     private void InitInfoMenu() {
         Menu infoMenu = new Menu("Info");
 
-        //Pomocnicza klasa aby łatwiej tworzyć proste okienko dialogowe
-        class DialogMenuItem extends MenuItem {
-            DialogMenuItem(String menuTitle, String dialogTitle, String dialogText, double width, double height)
-            {
-                super(menuTitle);
-                Dialog<String> dialog = new Dialog<String>();
-                dialog.setTitle(dialogTitle);
-                ButtonType type = new ButtonType("Ok", ButtonData.CANCEL_CLOSE);
-                dialog.setContentText(dialogText);
-                dialog.getDialogPane().setMinSize(width, height);
-                dialog.getDialogPane().getButtonTypes().add(type);
-                
-                this.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent arg0) {
-                        dialog.showAndWait();
-                    }
-                });
-            }
-        }
         String infoDialogText = 
         """     
                 Nazwa: Paint 2.0
@@ -139,8 +155,7 @@ public class MainMenu extends MenuBar {
         triangleItem.setOnAction(new MyShapeChangeHandler(MShapeTypes.Triangle, canvasPane));
         rectangleItem.setOnAction(new MyShapeChangeHandler(MShapeTypes.Rectangle, canvasPane));
         circleItem.setOnAction(new MyShapeChangeHandler(MShapeTypes.Circle, canvasPane));
-
-        // TODO Zrobic interfejs zeby Chooseshape? i wtedy cos takiego przyjmowac?
+        
         chooseShape.getItems().addAll(circleItem, rectangleItem, triangleItem);
         this.getMenus().add(chooseShape);
     }

@@ -5,7 +5,15 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
+/**
+ * Klasa odpowiadająca za menu kontekstowe pod prawym przyciskiem myszy
+ */
 public class PopupMenu extends ContextMenu {
+
+    /**
+     * Inicjuje menu kontekstowe do późniejszego pokazania
+     * @param canvasPane docelowy canvasPane
+     */
     public PopupMenu(CanvasPane canvasPane) {
         setupAngles(canvasPane);
         setupColorPicker(canvasPane);

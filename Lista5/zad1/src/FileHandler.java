@@ -6,17 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.paint.Color;
+
 /**
  * Klasa statyczna służąca do zapisywania i wczytywania stanu CanvasPane
+ * 
  * @see CanvasPane
  */
 public class FileHandler {
-    //PLIK
-    
+    // PLIK
 
     /**
      * Tworzy wszystkie figury z danego pliku na danym canvas.
-     * @param path ścieżka do pliku zapisu
+     * 
+     * @param path       ścieżka do pliku zapisu
      * @param canvasPane canvas na którym figury mają być tworzone
      */
     public static void loadAll(String path, CanvasPane canvasPane) {
@@ -29,36 +31,30 @@ public class FileHandler {
     private static List<String> readFile(String path) {
         List<String> shapeList = new ArrayList<String>();
         try (FileReader file = new FileReader(path)) {
+            // czyta kolejne linie z pliku
             BufferedReader bfr = new BufferedReader(file);
             String linia = "";
-            // ODCZYT KOLEJNYCH LINII Z PLIKU:
-            try {
-                while ((linia = bfr.readLine()) != null) {
-                    shapeList.add(linia);
-                }
-            } catch (IOException e) {
-                System.out.println("BŁĄD ODCZYTU Z PLIKU!");
-                System.exit(2);
+            while ((linia = bfr.readLine()) != null) {
+                shapeList.add(linia);
             }
-    
             return shapeList;
         } catch (IOException e) {
-            System.err.println("zle sie dzieje");
+            MainMenu.ShowError("Nie można odczytać pliku");
             e.printStackTrace();
             return null;
         }
     }
-    
+
     private static void saveToFile(String save, String path) {
         try (FileWriter file = new FileWriter(path)) {
             file.write(save);
         } catch (IOException e) {
-            System.err.println("zle sie dzieje");
+            MainMenu.ShowError("Nie można zapisać do pliku");
             e.printStackTrace();
         }
     }
 
-    //LADOWANIE
+    // LADOWANIE
     private static void loadShape(String save, CanvasPane canvasPane) {
         // typ figury
         String shape;
@@ -76,7 +72,11 @@ public class FileHandler {
         double[] parameters = new double[10];
         String[] subStrings = save.split(",");
         for (int i = 1; i < subStrings.length - 1; i++) {
-            parameters[i - 1] = Double.parseDouble(subStrings[i]);
+            try {
+                parameters[i - 1] = Double.parseDouble(subStrings[i]);
+            } catch (NumberFormatException e) {
+                MainMenu.ShowError("Błędny plik zapisu");
+            }
         }
 
         canvasPane.createShape(possibleShape, parameters[0], parameters[1],
@@ -87,8 +87,7 @@ public class FileHandler {
                 Color.web(subStrings[subStrings.length - 1]));
     }
 
-    //ZAPISYWANIE
-
+    // ZAPISYWANIE
     public static void saveAll(List<SaveableShape> shapes, String path) {
         String save = "";
         for (SaveableShape shape : shapes) {
