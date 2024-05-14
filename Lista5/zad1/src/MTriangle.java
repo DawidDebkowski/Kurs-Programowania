@@ -1,6 +1,5 @@
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
 
 /**
  * Klasa odpowiadajaca za figure trojkata
