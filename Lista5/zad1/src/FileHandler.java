@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -6,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Window;
 
 /**
  * Klasa statyczna służąca do zapisywania i wczytywania stanu CanvasPane
@@ -13,7 +17,42 @@ import javafx.scene.paint.Color;
  * @see CanvasPane
  */
 public class FileHandler {
-    // PLIK
+    /**
+     * Metoda obsługująca wybranie pliku zapisu przez użytkownika.
+     * @param root okno do którego okno wybierania pliku będzie przyczepione
+     * @return ścieżka do pliku
+     */
+    public static String getSaveFile(Window root) {
+        FileChooser fc = new FileChooser();
+        fc.setInitialFileName("figury.txt");
+        ExtensionFilter filter = new ExtensionFilter("TXT File .txt", "*.txt");
+        fc.getExtensionFilters().add(filter);
+        fc.setSelectedExtensionFilter(filter);
+        File f = fc.showSaveDialog(root);
+        if (f == null) {
+            MainMenu.ShowError("Błędnie wybrany plik. Nie zapisano!");
+            return null;
+        }
+        return f.getAbsolutePath();
+    }
+
+    /**
+     * Metoda obsługująca wybranie pliku wczytania przez użytkownika.
+     * @param root okno do którego okno wybierania pliku będzie przyczepione
+     * @return ścieżka do pliku
+     */
+    public static String getOpenFile(Window root) {
+        FileChooser fc = new FileChooser();
+        ExtensionFilter filter = new ExtensionFilter("TXT File .txt", "*.txt");
+        fc.getExtensionFilters().add(filter);
+        fc.setSelectedExtensionFilter(filter);
+        File f = fc.showOpenDialog(root);
+        if (f == null) {
+            MainMenu.ShowError("Błędnie wybrany plik. Nie wczytano!");
+            return null;
+        }
+        return f.getAbsolutePath();
+    }
 
     /**
      * Tworzy wszystkie figury z danego pliku na danym canvas.

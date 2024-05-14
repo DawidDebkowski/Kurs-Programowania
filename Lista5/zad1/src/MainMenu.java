@@ -77,10 +77,12 @@ public class MainMenu extends MenuBar {
                     try {
                         shapes.add((SaveableShape) node);
                     } catch (ClassCastException e) {
-                        System.out.println("Inne dziecko - " + node);
+                        System.out.println("Inne - " + node);
                     }
                 }
-                FileHandler.saveAll(shapes, "./shape");
+                String path = FileHandler.getSaveFile(canvasPane.getScene().getWindow());
+                if(path != null)
+                    FileHandler.saveAll(shapes, path);
             }
         });
 
@@ -88,7 +90,9 @@ public class MainMenu extends MenuBar {
             @Override
             public void handle(ActionEvent arg0) {
                 System.out.println("laduje");
-                FileHandler.loadAll("./shape", canvasPane);
+                String path = FileHandler.getOpenFile(canvasPane.getScene().getWindow());
+                if(path != null)
+                    FileHandler.loadAll(path, canvasPane);
             }
         });
 
