@@ -1,5 +1,6 @@
 /**
- * Enum zawierający nazwy figur możliwych do narysowania wraz z odpowiadjącymi im skrótami do pliku zapisu.
+ * Enum zawierający nazwy figur możliwych do narysowania wraz z odpowiadjącymi
+ * im skrótami do pliku zapisu.
  */
 public enum MShapeTypes {
     Triangle("T"), Rectangle("R"), Circle("C");

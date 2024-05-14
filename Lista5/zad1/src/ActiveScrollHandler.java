@@ -2,7 +2,8 @@ import javafx.event.EventHandler;
 import javafx.scene.input.ScrollEvent;
 
 /**
- * Klasa służaca do obsługi scrollowania - zmniejszania i zwięszkania aktywnej figury.
+ * Klasa służaca do obsługi scrollowania - zmniejszania i zwięszkania aktywnej
+ * figury.
  */
 public class ActiveScrollHandler implements EventHandler<ScrollEvent> {
     private CanvasPane canvasPane;
@@ -10,6 +11,7 @@ public class ActiveScrollHandler implements EventHandler<ScrollEvent> {
 
     /**
      * Podstawowy konstruktor.
+     * 
      * @param cp canvas pane który ma obsługiwać
      */
     public ActiveScrollHandler(CanvasPane cp) {
@@ -18,6 +20,7 @@ public class ActiveScrollHandler implements EventHandler<ScrollEvent> {
 
     /**
      * Skaluje figurę jeżeli na niej scrollujemy
+     * 
      * @param e event scrolla
      */
     private void doScale(ScrollEvent e) {

@@ -87,7 +87,12 @@ public class FileHandler {
                 Color.web(subStrings[subStrings.length - 1]));
     }
 
-    // ZAPISYWANIE
+    /**
+     * Zapisuje wszystkie podane figury.
+     * 
+     * @param shapes
+     * @param path
+     */
     public static void saveAll(List<SaveableShape> shapes, String path) {
         String save = "";
         for (SaveableShape shape : shapes) {

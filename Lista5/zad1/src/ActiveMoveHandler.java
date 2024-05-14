@@ -3,7 +3,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 /**
- * Klasa służąca do obsługi poruszania i zaznaczenia aktywnej figury. Włącza także menu pod prawym przyciskiem.
+ * Klasa służąca do obsługi poruszania i zaznaczenia aktywnej figury. Włącza
+ * także menu pod prawym przyciskiem.
  */
 public class ActiveMoveHandler implements EventHandler<MouseEvent> {
     private CanvasPane canvasPane;
@@ -17,6 +18,7 @@ public class ActiveMoveHandler implements EventHandler<MouseEvent> {
 
     /**
      * Porusza figurę na wskazaną pozycję.
+     * 
      * @param x docelowa pozycja X
      * @param y docelowa pozycja Y
      */
@@ -39,12 +41,17 @@ public class ActiveMoveHandler implements EventHandler<MouseEvent> {
             canvasPane.setActiveShape(activeShape);
             startX = event.getSceneX();
             startY = event.getSceneY();
+
+            // PopupMenu włączanie/wyłączanie
             if (event.getButton() == MouseButton.SECONDARY) {
                 canvasPane.popupMenu.show(canvasPane, event.getScreenX(), event.getScreenY());
+            } else if (event.getButton() == MouseButton.PRIMARY) {
+                canvasPane.popupMenu.hide();
             }
         } else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-            //getSceneX/Y, a nie getX/Y, ponieważ potrzebuje X/Y w odniesieniu do CanvasPane, a nie obiektu
-            //Aby trójkąt można było poprawnie poruszać
+            // getSceneX/Y, a nie getX/Y, ponieważ potrzebuje X/Y w odniesieniu do
+            // CanvasPane, a nie obiektu
+            // Aby trójkąt można było poprawnie poruszać
             Move(event.getSceneX(), event.getSceneY());
         }
     }

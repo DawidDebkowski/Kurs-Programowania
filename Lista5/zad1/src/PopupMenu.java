@@ -12,6 +12,7 @@ public class PopupMenu extends ContextMenu {
 
     /**
      * Inicjuje menu kontekstowe do późniejszego pokazania
+     * 
      * @param canvasPane docelowy canvasPane
      */
     public PopupMenu(CanvasPane canvasPane) {

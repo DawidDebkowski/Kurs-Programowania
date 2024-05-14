@@ -16,22 +16,23 @@ import javafx.event.*;
  */
 public class MainMenu extends MenuBar {
     private CanvasPane canvasPane;
-    
+
     /**
      * Tworzy menu głowne
+     * 
      * @param canvasPane docelowy CanvasPane
      */
     public MainMenu(CanvasPane canvasPane) {
         this.canvasPane = canvasPane;
-        
+
         InitShapeMenu();
         InitSaveMenu();
         InitInfoMenu();
     }
-    //Pomocnicza klasa aby łatwiej tworzyć proste okienko dialogowe
+
+    // Pomocnicza klasa aby łatwiej tworzyć proste okienko dialogowe
     class DialogMenuItem extends MenuItem {
-        DialogMenuItem(String menuTitle, String dialogTitle, String dialogText, double width, double height)
-        {
+        DialogMenuItem(String menuTitle, String dialogTitle, String dialogText, double width, double height) {
             super(menuTitle);
             Dialog<String> dialog = new Dialog<String>();
             dialog.setTitle(dialogTitle);
@@ -39,7 +40,7 @@ public class MainMenu extends MenuBar {
             dialog.setContentText(dialogText);
             dialog.getDialogPane().setMinSize(width, height);
             dialog.getDialogPane().getButtonTypes().add(type);
-            
+
             this.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent arg0) {
@@ -48,12 +49,13 @@ public class MainMenu extends MenuBar {
             });
         }
     }
+
     /**
      * Pokazuje okno dialogowe błedu
+     * 
      * @param text tekst błedu
      */
-    public static void ShowError(String text)
-    {
+    public static void ShowError(String text) {
         Dialog<String> dialog = new Dialog<String>();
         dialog.setTitle("Błąd");
         ButtonType type = new ButtonType("Ok", ButtonData.CANCEL_CLOSE);
@@ -98,8 +100,7 @@ public class MainMenu extends MenuBar {
     private void InitInfoMenu() {
         Menu infoMenu = new Menu("Info");
 
-        String infoDialogText = 
-        """     
+        String infoDialogText = """
                 Nazwa: Paint 2.0
                 Przeznaczenie: Program służy do generowania, obracania i przesuwania prostych figur geometrycznych.
                 Autor: Dawid Dębkowski""";
@@ -115,15 +116,15 @@ public class MainMenu extends MenuBar {
                         c) obrócić za pomocą menu kontekstowego dostępnego pod prawym przyciskiem myszy
                         d) zmienić jej kolor za pomocą menu kontekstowego dostępnego pod prawym przyciskiem myszy
                 3. Zapisywanie narysowanych figur
-                    Menu Głowne -> Plik -> Zapisz 
+                    Menu Głowne -> Plik -> Zapisz
                         Zapisuje stan całej planszy do poźniejszego wczytania.
                     Menu Głowne -> Plik -> Wczytaj
-                        Pozwala wybrać plik do wczytania na planszy. 
+                        Pozwala wybrać plik do wczytania na planszy.
                     To co zostało już narysowane nie będzie usunięte w żadnym przypadku.
                 """;
         DialogMenuItem info = new DialogMenuItem("O Programie", "Informacje", infoDialogText, 100, 200);
         DialogMenuItem instruction = new DialogMenuItem("Instrukcja", "Instrukcja", instructionDialogText, 700, 400);
-        
+
         infoMenu.getItems().addAll(info, instruction);
         this.getMenus().add(infoMenu);
     }
@@ -155,7 +156,7 @@ public class MainMenu extends MenuBar {
         triangleItem.setOnAction(new MyShapeChangeHandler(MShapeTypes.Triangle, canvasPane));
         rectangleItem.setOnAction(new MyShapeChangeHandler(MShapeTypes.Rectangle, canvasPane));
         circleItem.setOnAction(new MyShapeChangeHandler(MShapeTypes.Circle, canvasPane));
-        
+
         chooseShape.getItems().addAll(circleItem, rectangleItem, triangleItem);
         this.getMenus().add(chooseShape);
     }

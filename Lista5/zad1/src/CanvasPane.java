@@ -9,27 +9,32 @@ import javafx.scene.shape.Shape;
  * Klasa obsługująca tworzenie figur oraz zarządzanie aktywną figurą
  */
 public class CanvasPane extends Pane {
-    public static Color activeColor = Color.GREENYELLOW; // kolor obramowania aktywnej figury
+    /**
+     * Kolor obramowania aktywnej figury
+     */
+    public static Color activeColor = Color.GREENYELLOW;
+    /**
+     * Menu kontekstowe
+     */
+    public PopupMenu popupMenu = new PopupMenu(this);
 
-    private MShapeTypes chosenShape; //wybrany typ kształtu
+    private MShapeTypes chosenShape; // wybrany typ kształtu
     private MShape selectedShape; // figura rysowana
     private MShape activeShape; // aktywna figura
-
-    public PopupMenu popupMenu = new PopupMenu(this);
 
     /**
      * Podstawowy konstruktor: ustawia logikę klikania i przeciągania po planszy.
      */
     public CanvasPane() {
         this.setStyle("-fx-background-color: black;");
-        chosenShape = MShapeTypes.Circle; //TODO do usunięca w ostatecznej wersji
+        chosenShape = MShapeTypes.Circle; // TODO do usunięca w ostatecznej wersji
         activeShape = null;
 
         setupHandlers();
     }
 
     private void setupHandlers() {
-        //odznaczanie aktywnej figury lub tworzenie figury
+        // odznaczanie aktywnej figury lub tworzenie figury
         setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -55,6 +60,7 @@ public class CanvasPane extends Pane {
 
     /**
      * zwraca aktualnie aktywny kształt
+     * 
      * @return aktualnie aktywny kształt
      */
     public MShape getActiveShape() {
@@ -100,16 +106,17 @@ public class CanvasPane extends Pane {
 
     /**
      * Procedura tworząca figurę na podstawie zapisu
-     * @param shape typ figury
-     * @param startX pozycja startowa X
-     * @param startY pozycja startowa Y
-     * @param x aktualna pozycja x
-     * @param y aktualna pozycja y
-     * @param width szerokość prostokąta tworzącego
-     * @param height wysokość prostokąta tworzącego
-     * @param scaleX skala X
-     * @param scaleY skala Y
-     * @param rotate kąt obrotu 
+     * 
+     * @param shape      typ figury
+     * @param startX     pozycja startowa X
+     * @param startY     pozycja startowa Y
+     * @param x          aktualna pozycja x
+     * @param y          aktualna pozycja y
+     * @param width      szerokość prostokąta tworzącego
+     * @param height     wysokość prostokąta tworzącego
+     * @param scaleX     skala X
+     * @param scaleY     skala Y
+     * @param rotate     kąt obrotu
      * @param colorPaint kolor wypełnienia
      */
     public void createShape(MShapeTypes shape, double startX,
@@ -128,10 +135,10 @@ public class CanvasPane extends Pane {
     }
 
     private void createShape(double x, double y) {
-        //Jezeli nie wybrano kształu - nic nie rób
-        if(chosenShape == null)
+        // Jezeli nie wybrano kształu - nic nie rób
+        if (chosenShape == null)
             return;
-        
+
         Shape shape = null;
         switch (chosenShape) {
             case MShapeTypes.Triangle:

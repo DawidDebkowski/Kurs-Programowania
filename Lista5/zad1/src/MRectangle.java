@@ -20,11 +20,13 @@ public class MRectangle extends Rectangle implements MShape, SaveableShape {
     }
 
     /**
-     * Tworzy klasę Rectangle o szerokości i wysokości 0 na podanej pozycji i o podanym kolorze.
+     * Tworzy klasę Rectangle o szerokości i wysokości 0 na podanej pozycji i o
+     * podanym kolorze.
+     * 
      * @see Rectangle
      * @param startX pozycja startowa X
      * @param startY pozycja startowa Y
-     * @param paint kolor
+     * @param paint  kolor
      */
     public MRectangle(double startX, double startY, Paint paint) {
         super(0, 0, paint);
@@ -42,14 +44,14 @@ public class MRectangle extends Rectangle implements MShape, SaveableShape {
         if (width > 0) {
             setWidth(width);
         } else {
-            //tworzenie protokąta "w drugą stronę"
+            // tworzenie protokąta "w drugą stronę"
             setX(mouseX);
             setWidth(-width);
         }
         if (height > 0) {
             setHeight(height);
         } else {
-            //tworzenie protokąta "w drugą stronę"
+            // tworzenie protokąta "w drugą stronę"
             setY(mouseY);
             setHeight(-height);
         }
