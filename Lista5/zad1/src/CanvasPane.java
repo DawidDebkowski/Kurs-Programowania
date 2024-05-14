@@ -27,7 +27,6 @@ public class CanvasPane extends Pane {
      */
     public CanvasPane() {
         this.setStyle("-fx-background-color: black;");
-        chosenShape = MShapeTypes.Circle; // TODO do usunięca w ostatecznej wersji
         activeShape = null;
 
         setupHandlers();
