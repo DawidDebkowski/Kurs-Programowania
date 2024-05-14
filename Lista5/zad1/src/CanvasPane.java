@@ -138,7 +138,7 @@ public class CanvasPane extends Pane {
 
     /**
      * Procedura deaktywuje poprzednią figurę, a potem ustawią nową
-     * jako aktywną
+     * jako aktywną i ustawia jej efekty wizualne aktywnej figury
      * 
      * @param shape nowa figura do ustawienia jako aktywna
      *
@@ -148,6 +148,7 @@ public class CanvasPane extends Pane {
             return;
         deactivateShape();
         activeShape = shape;
+        activeShape.setStroke(CanvasPane.activeColor);
     }
 
     /**

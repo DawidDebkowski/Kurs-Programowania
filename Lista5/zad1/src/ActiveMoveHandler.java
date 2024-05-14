@@ -3,7 +3,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 /**
- * Klasa służąca do obsługi poruszania aktywną figurą 
+ * Klasa służąca do obsługi poruszania i zaznaczenia aktywnej figury. Włącza także menu pod prawym przyciskiem.
  */
 public class ActiveMoveHandler implements EventHandler<MouseEvent> {
     private CanvasPane canvasPane;
@@ -15,9 +15,14 @@ public class ActiveMoveHandler implements EventHandler<MouseEvent> {
         canvasPane = cp;
     }
 
-    public void Move(MouseEvent event) {
-        double dx = event.getSceneX() - startX;
-        double dy = event.getSceneY() - startY;
+    /**
+     * Porusza figurę na wskazaną pozycję.
+     * @param x docelowa pozycja X
+     * @param y docelowa pozycja Y
+     */
+    public void Move(double x, double y) {
+        double dx = x - startX;
+        double dy = y - startY;
 
         if (activeShape.isHit(startX, startY)) {
             activeShape.addX(dx);
@@ -32,14 +37,15 @@ public class ActiveMoveHandler implements EventHandler<MouseEvent> {
         activeShape = (MShape) event.getTarget();
         if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
             canvasPane.setActiveShape(activeShape);
-            activeShape.setStroke(CanvasPane.activeColor);
             startX = event.getSceneX();
             startY = event.getSceneY();
             if (event.getButton() == MouseButton.SECONDARY) {
                 canvasPane.popupMenu.show(canvasPane, event.getScreenX(), event.getScreenY());
             }
         } else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-            Move(event);
+            //getSceneX/Y, a nie getX/Y, ponieważ potrzebuje X/Y w odniesieniu do CanvasPane, a nie obiektu
+            //Aby trójkąt można było poprawnie poruszać
+            Move(event.getSceneX(), event.getSceneY());
         }
     }
 }
