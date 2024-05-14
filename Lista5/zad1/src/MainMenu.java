@@ -63,28 +63,54 @@ public class MainMenu extends MenuBar {
 
     private void InitInfoMenu() {
         Menu infoMenu = new Menu("Info");
-        MenuItem info = new MenuItem("Wyświetl");
 
-        Dialog<String> dialog = new Dialog<String>();
-        dialog.setTitle("Informacje");
-        ButtonType type = new ButtonType("Ok", ButtonData.CANCEL_CLOSE);
-        dialog.setContentText(
-                """
-                        Nazwa: Paint 2.0
-                        Przeznaczenie: Program służy do prostego generowania, obracania i przesuwania prostych figur geometrycznych.
-                        Autor: Dawid Dębkowski""");
-        dialog.getDialogPane().getButtonTypes().add(type);
-
-        info.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent arg0) {
-                dialog.showAndWait();
+        //Pomocnicza klasa aby łatwiej tworzyć proste okienko dialogowe
+        class DialogMenuItem extends MenuItem {
+            DialogMenuItem(String menuTitle, String dialogTitle, String dialogText, double width, double height)
+            {
+                super(menuTitle);
+                Dialog<String> dialog = new Dialog<String>();
+                dialog.setTitle(dialogTitle);
+                ButtonType type = new ButtonType("Ok", ButtonData.CANCEL_CLOSE);
+                dialog.setContentText(dialogText);
+                dialog.getDialogPane().setMinSize(width, height);
+                dialog.getDialogPane().getButtonTypes().add(type);
+                
+                this.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent arg0) {
+                        dialog.showAndWait();
+                    }
+                });
             }
-
-        });
-
-        infoMenu.getItems().add(info);
+        }
+        String infoDialogText = 
+        """     
+                Nazwa: Paint 2.0
+                Przeznaczenie: Program służy do generowania, obracania i przesuwania prostych figur geometrycznych.
+                Autor: Dawid Dębkowski""";
+        String instructionDialogText = """
+                1. Rysowanie figur
+                    Menu Głowne -> Rysuj
+                        Tutaj możesz wybrać figurę. Aby ją narysować zacznij przeciągać po planszy do rysowania.
+                2. Edytowanie figury
+                    Aby oznaczyć figuę jako aktywną kliknij w nią lewym przyciskiem myszy.
+                    Aktywną figurę można:
+                        a) przesunąć za pomocą przyciśnięcia a potem poruszania myszą
+                        b) zmniejszyć lub zwiększyć za pomocą scrolla
+                        c) obrócić za pomocą menu kontekstowego dostępnego pod prawym przyciskiem myszy
+                        d) zmienić jej kolor za pomocą menu kontekstowego dostępnego pod prawym przyciskiem myszy
+                3. Zapisywanie narysowanych figur
+                    Menu Głowne -> Plik -> Zapisz 
+                        Zapisuje stan całej planszy do poźniejszego wczytania.
+                    Menu Głowne -> Plik -> Wczytaj
+                        Pozwala wybrać plik do wczytania na planszy. 
+                    To co zostało już narysowane nie będzie usunięte w żadnym przypadku.
+                """;
+        DialogMenuItem info = new DialogMenuItem("O Programie", "Informacje", infoDialogText, 100, 200);
+        DialogMenuItem instruction = new DialogMenuItem("Instrukcja", "Instrukcja", instructionDialogText, 700, 400);
+        
+        infoMenu.getItems().addAll(info, instruction);
         this.getMenus().add(infoMenu);
     }
 
