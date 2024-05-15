@@ -1,8 +1,12 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuItem;
 
 /**
@@ -19,21 +23,37 @@ public class PopupMenu extends ContextMenu {
         setupAngles(canvasPane);
         setupColorPicker(canvasPane);
         setStyle("-fx-padding: 3px;");
-
     }
 
     private void setupColorPicker(CanvasPane canvasPane) {
-        ColorPicker picker = new ColorPicker();
-        MenuItem pickColor = new MenuItem(null, picker);
-        Menu changeColor = new Menu("Zmień wypełnienie");
+        // Chciałem podpiąć ColorPicker pod MenuItem
+        // jednak wtedy "Custom Color" crashuje całą aplikację i z tego co rozumiem nie da się tego naprawić
+        // Dlatego powstał ten Dialog
+        MenuItem changeColor = new MenuItem("Zmień wypełnienie");
 
-        picker.setOnAction(new EventHandler<ActionEvent>() {
+        Dialog<VBox> dialog = new Dialog<VBox>();
+        dialog.setTitle("Wybierz kolor");
+
+        ColorPicker picker = new ColorPicker();
+        Button confirm = new Button("Zmień");
+        VBox box = new VBox(picker, confirm);
+        dialog.getDialogPane().setGraphic(box);
+
+        ButtonType cancel = new ButtonType("Zamknij", ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().addAll(cancel);
+        confirm.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
                 canvasPane.getActiveShape().setFill(picker.getValue());
             }
         });
-        changeColor.getItems().add(pickColor);
+
+        changeColor.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent arg0) {
+                dialog.showAndWait();
+            }
+        });
         this.getItems().addAll(changeColor);
     }
 

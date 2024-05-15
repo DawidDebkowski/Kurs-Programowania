@@ -26,7 +26,7 @@ public class App extends Application {
 
         Scene scene = new Scene(root);
         stage.setMinHeight(400);
-        stage.setMinWidth(400);
+        stage.setMinWidth(500);
         stage.setScene(scene);
 
         stage.setTitle("Paint 2.0");
