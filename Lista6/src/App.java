@@ -9,7 +9,7 @@ public class App extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        MGridPane grid = new MGridPane(5, 10, 0, 0);
+        MGridPane grid = new MGridPane(3, 3, 0, 0);
 
         Scene scene = new Scene(grid);
 

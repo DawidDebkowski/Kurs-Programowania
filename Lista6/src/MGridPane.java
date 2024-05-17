@@ -6,7 +6,7 @@ public class MGridPane extends GridPane {
 
     public MGridPane(int n, int m, int k, int p) {
         super(n, m);
-        
+
         cells = new GridCell[n][m];
         CreatePanes(n, m);
     }
@@ -17,6 +17,10 @@ public class MGridPane extends GridPane {
                 GridCell cell = new GridCell(Color.rgb(m + 100, (i * 20) % 255, (j * 30) % 255));
                 cells[i][j] = cell;
                 this.add(cell, i, j);
+
+                CellThread hi = new CellThread(cell);
+                Thread t = new Thread(hi);
+                t.start();
             }
         }
     }

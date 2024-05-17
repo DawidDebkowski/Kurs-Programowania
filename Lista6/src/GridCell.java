@@ -10,4 +10,9 @@ public class GridCell extends Pane {
         this.setBackground(new Background(
                 new BackgroundFill(color, null, new Insets(5))));
     }
+
+    public void setBackgroundColor(Color color) {
+        this.setBackground(new Background(
+                new BackgroundFill(color, null, new Insets(5))));
+    }
 }
