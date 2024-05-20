@@ -9,7 +9,10 @@ public class App extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        MGridPane grid = new MGridPane(3, 3, 0, 0);
+        //inicjalizacja globalnego generatora
+        Generator generator = new Generator();
+
+        MGridPane grid = new MGridPane(10, 10, 200, 1);
 
         Scene scene = new Scene(grid);
 

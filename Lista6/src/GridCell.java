@@ -5,13 +5,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class GridCell extends Pane {
-    public GridCell(Color color) {
+    public String name;
+
+    public GridCell(Color color, String name) {
+        this.name = name;
         this.setMinSize(50, 50);
         this.setBackground(new Background(
                 new BackgroundFill(color, null, new Insets(5))));
     }
 
-    public void setBackgroundColor(Color color) {
+    public synchronized void setBackgroundColor(Color color) {
         this.setBackground(new Background(
                 new BackgroundFill(color, null, new Insets(5))));
     }
