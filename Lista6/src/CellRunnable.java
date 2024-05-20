@@ -1,5 +1,8 @@
 import javafx.scene.paint.Color;
 
+/**
+ * Klasa odpowiadająca za funkcjonalność kafelka
+ */
 public class CellRunnable implements Runnable {
     private int row;
     private int collumn;
@@ -8,6 +11,14 @@ public class CellRunnable implements Runnable {
     private double chance;
     private double delay;
 
+    /** Tworzy funckję dla wątku z podanymi parametrami
+     * @param pane
+     * @param cell
+     * @param k
+     * @param p
+     * @param r
+     * @param c
+     */
     public CellRunnable(MGridPane pane, GridCell cell, double k, double p, int r, int c) {
         this.pane = pane;
         this.cell = cell;
@@ -19,11 +30,6 @@ public class CellRunnable implements Runnable {
 
     @Override
     public void run() {
-        try {
-            Thread.sleep(Math.round(Generator.nextDoubleBounds(delay)));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         for (int j = 0; j < 50; j++) {
             System.out.println("Start: " + cell.name);
             if (Generator.Generator.nextDouble() < chance) {
@@ -33,15 +39,16 @@ public class CellRunnable implements Runnable {
                 changeToNeighbours();
             }
             System.out.println("End: " + cell.name);
+            
             try {
                 Thread.sleep(Math.round(Generator.nextDoubleBounds(delay)));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            // System.out.println(cell.name);
         }
     }
 
+    //branie koloru z sąsiadów nie może zostać przerwane
     private synchronized void changeToNeighbours() {
         Color up = pane.askColor(row, collumn+1);
         Color down = pane.askColor(row, collumn-1);
@@ -53,13 +60,12 @@ public class CellRunnable implements Runnable {
         cell.setBackgroundColor(newColor);
     }
 
-    private int getAverage(double a, double b, double c, double d)
-    {
-        //its less than 255
-        return (int)Math.round((a+b+c+d)/4*255);
-    }
-
     private synchronized void changeToRandom() {
         cell.setBackgroundColor(Color.rgb(Generator.Generator.nextInt(255), Generator.Generator.nextInt(255), Generator.Generator.nextInt(255)));
+    }
+
+    private int getAverage(double a, double b, double c, double d)
+    {
+        return (int)Math.round((a+b+c+d)/4*255);
     }
 }
