@@ -10,7 +10,7 @@ public class App extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         //inicjalizacja globalnego generatora
-        Generator generator = new Generator();
+        new Generator();
 
         MGridPane grid = new MGridPane(10, 10, 500, 0.007);
         grid.startThreads();

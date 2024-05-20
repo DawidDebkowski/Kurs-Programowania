@@ -9,13 +9,15 @@ import javafx.scene.paint.Color;
  */
 public class CellRunnable implements Runnable {
     private int row;
-    private int collumn;
+    private int column;
     private MGridPane pane;
     private GridCell cell;
     private double chance;
     private double delay;
 
-    /** Tworzy funckję dla wątku z podanymi parametrami
+    /**
+     * Tworzy funkcję dla wątku z podanymi parametrami
+     * 
      * @param pane
      * @param cell
      * @param k
@@ -29,7 +31,7 @@ public class CellRunnable implements Runnable {
         this.chance = p;
         this.delay = k;
         this.row = r;
-        this.collumn = c;
+        this.column = c;
     }
 
     @Override
@@ -38,12 +40,11 @@ public class CellRunnable implements Runnable {
             System.out.println("Start: " + cell.name);
             if (Generator.Generator.nextDouble() < chance) {
                 changeToRandom();
-            }
-            else {
+            } else {
                 changeToNeighbours();
             }
             System.out.println("End: " + cell.name);
-            
+
             try {
                 Thread.sleep(Math.round(Generator.nextDoubleBounds(delay)));
             } catch (InterruptedException e) {
@@ -52,22 +53,22 @@ public class CellRunnable implements Runnable {
         }
     }
 
-    //branie koloru z sąsiadów nie może zostać przerwane
+    // branie koloru z sąsiadów nie może zostać przerwane
     private synchronized void changeToNeighbours() {
-        //wez kolory sąsiadów
-        Color up = pane.askColor(row, collumn+1);
-        Color down = pane.askColor(row, collumn-1);
-        Color right = pane.askColor(row+1, collumn);
-        Color left = pane.askColor(row-1, collumn);
+        // wez kolory sąsiadów
+        Color up = pane.askColor(row, column + 1);
+        Color down = pane.askColor(row, column - 1);
+        Color right = pane.askColor(row + 1, column);
+        Color left = pane.askColor(row - 1, column);
 
-        //sprawdz które są aktywne
+        // sprawdz które są aktywne
         List<Color> colors = new ArrayList<Color>();
-        for (Color c : new Color[]{up, down, right, left}) {
-            if(c != null) {
+        for (Color c : new Color[] { up, down, right, left }) {
+            if (c != null) {
                 colors.add(c);
             }
         }
-        //oblicz średni kolor i go ustaw
+        // oblicz średni kolor i go ustaw
         Color newColor = getAverageColor(colors);
         cell.setBackgroundColor(newColor);
     }
@@ -82,7 +83,7 @@ public class CellRunnable implements Runnable {
             green += color.getGreen();
             blue += color.getBlue();
         }
-        return Color.color(red/n, green/n, blue/n);
+        return Color.color(red / n, green / n, blue / n);
     }
 
     private synchronized void changeToRandom() {
