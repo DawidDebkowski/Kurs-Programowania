@@ -35,13 +35,13 @@ public class CellRunnable implements Runnable {
     @Override
     public void run() {
         for (int j = 0; j < 500; j++) {
-            System.out.println("Start: " + cell.name);
             if (Generator.Generator.nextDouble() < chance) {
                 changeToRandom();
             } else {
+                System.out.println("Start: " + cell.name);
                 changeToNeighbours();
+                System.out.println("End: " + cell.name);
             }
-            System.out.println("End: " + cell.name);
 
             try {
                 Thread.sleep(Math.round(Generator.nextDoubleBounds(delay)));
@@ -71,7 +71,7 @@ public class CellRunnable implements Runnable {
         cell.setBackgroundColor(newColor);
     }
 
-    private Color getAverageColor(List<Color> colors) {
+    private synchronized Color getAverageColor(List<Color> colors) {
         int n = colors.size();
         double red = 0;
         double green = 0;

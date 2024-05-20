@@ -18,6 +18,7 @@ public class GridCell extends Pane {
      */
     public GridCell(Color color, String name) {
         this.name = name;
+        this.setPrefSize(1000, 1000);
         this.setBackground(new Background(
                 new BackgroundFill(color, null, new Insets(5))));
     }
@@ -34,7 +35,7 @@ public class GridCell extends Pane {
     /** Zwraca kolor tła
      * @return kolor
      */
-    public Color getBackgroundColor() {
+    public synchronized Color getBackgroundColor() {
         return (Color)this.getBackground().getFills().getFirst().getFill();
     }
 }
