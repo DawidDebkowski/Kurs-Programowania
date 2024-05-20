@@ -1,6 +1,6 @@
 import javafx.scene.paint.Color;
 
-public class CellThread implements Runnable {
+public class CellRunnable implements Runnable {
     private int row;
     private int collumn;
     private MGridPane pane;
@@ -8,7 +8,7 @@ public class CellThread implements Runnable {
     private double chance;
     private double delay;
 
-    public CellThread(MGridPane pane, GridCell cell, double k, double p, int r, int c) {
+    public CellRunnable(MGridPane pane, GridCell cell, double k, double p, int r, int c) {
         this.pane = pane;
         this.cell = cell;
         this.chance = p;
@@ -56,7 +56,7 @@ public class CellThread implements Runnable {
     private int getAverage(double a, double b, double c, double d)
     {
         //its less than 255
-        return (int)Math.round((c+d)/2*255);
+        return (int)Math.round((a+b+c+d)/4*255);
     }
 
     private synchronized void changeToRandom() {
