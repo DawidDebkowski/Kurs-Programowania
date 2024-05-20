@@ -56,7 +56,7 @@ public class CellThread implements Runnable {
     private int getAverage(double a, double b, double c, double d)
     {
         //its less than 255
-        return (int)Math.round((a+b+c+d)/4*255);
+        return (int)Math.round((c+d)/2*255);
     }
 
     private synchronized void changeToRandom() {

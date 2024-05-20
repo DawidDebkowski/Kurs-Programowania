@@ -18,7 +18,7 @@ public class GridCell extends Pane {
 
     public synchronized void setBackgroundColor(Color color) {
         Platform.runLater(() -> this.setBackground(new Background(
-                new BackgroundFill(color, null, new Insets(5)))));
+                new BackgroundFill(color, null, null))));
     }
 
     public Color getBackgroundColor() {

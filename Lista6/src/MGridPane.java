@@ -11,7 +11,8 @@ public class MGridPane extends GridPane {
 
     public MGridPane(int n, int m, double k, double p) {
         super(n, m);
-
+        this.setHgap(0);
+        this.setVgap(0);
         cells = new GridCell[n][m];
         threads = new Thread[n][m];
         CreatePanes(n, m, k, p);
@@ -25,13 +26,15 @@ public class MGridPane extends GridPane {
     }
 
     public Color askColor(int i, int j) {
+        System.out.println(i + " " + j);
         return cells[Math.floorMod(i, cells.length)][Math.floorMod(i, cells[0].length)].getBackgroundColor();
     }
     
     private void CreatePanes(int n, int m, double k, double p) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                GridCell cell = new GridCell(Color.rgb(m + 100, (i * 20) % 255, (j * 30) % 255), "" + i + " " + j);
+                //Color.rgb(m + 100, (i * 20) % 255, (j * 30) % 255)
+                GridCell cell = new GridCell(Generator.getRandomColor(), "" + i + " " + j);
                 cells[i][j] = cell;
                 this.add(cell, i, j);
 
