@@ -54,17 +54,21 @@ public class CellRunnable implements Runnable {
 
     //branie koloru z sąsiadów nie może zostać przerwane
     private synchronized void changeToNeighbours() {
+        //wez kolory sąsiadów
         Color up = pane.askColor(row, collumn+1);
         Color down = pane.askColor(row, collumn-1);
         Color right = pane.askColor(row+1, collumn);
         Color left = pane.askColor(row-1, collumn);
+
+        //sprawdz które są aktywne
         List<Color> colors = new ArrayList<Color>();
         for (Color c : new Color[]{up, down, right, left}) {
             if(c != null) {
                 colors.add(c);
             }
         }
-        Color newColor = getAverageColor(colors)
+        //oblicz średni kolor i go ustaw
+        Color newColor = getAverageColor(colors);
         cell.setBackgroundColor(newColor);
     }
 
@@ -83,10 +87,5 @@ public class CellRunnable implements Runnable {
 
     private synchronized void changeToRandom() {
         cell.setBackgroundColor(Generator.getRandomColor());
-    }
-
-    private int getAverage(double a, double b, double c, double d)
-    {
-        return (int)Math.round((a+b+c+d)/4*255);
     }
 }
