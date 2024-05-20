@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
 import javafx.scene.paint.Color;
 
 /**
@@ -54,10 +58,27 @@ public class CellRunnable implements Runnable {
         Color down = pane.askColor(row, collumn-1);
         Color right = pane.askColor(row+1, collumn);
         Color left = pane.askColor(row-1, collumn);
-        Color newColor = Color.rgb(getAverage(up.getRed(), down.getRed(), right.getRed(), left.getRed()),
-        getAverage(up.getGreen(), down.getGreen(), right.getGreen(), left.getGreen()),
-        getAverage(up.getBlue(), down.getBlue(), right.getBlue(), left.getBlue()));
+        List<Color> colors = new ArrayList<Color>();
+        for (Color c : new Color[]{up, down, right, left}) {
+            if(c != null) {
+                colors.add(c);
+            }
+        }
+        Color newColor = getAverageColor(colors)
         cell.setBackgroundColor(newColor);
+    }
+
+    private Color getAverageColor(List<Color> colors) {
+        int n = colors.size();
+        double red = 0;
+        double green = 0;
+        double blue = 0;
+        for (Color color : colors) {
+            red += color.getRed();
+            green += color.getGreen();
+            blue += color.getBlue();
+        }
+        return Color.color(red/n, green/n, blue/n);
     }
 
     private synchronized void changeToRandom() {
