@@ -17,7 +17,6 @@ public class MGridPane extends GridPane {
         CreatePanes(n, m, k, p);
         // Button b = debugButton();
 
-        this.add(b, n+1, m+1);
         for (int i = 0; i < threads.length; i++) {
             for (int j = 0; j < threads[i].length; j++) {
                 threads[i][j].start();
@@ -25,6 +24,9 @@ public class MGridPane extends GridPane {
         }
     }
 
+    public Color askColor(int i, int j) {
+        return cells[Math.floorMod(i, cells.length)][Math.floorMod(i, cells[0].length)].getBackgroundColor();
+    }
     
     private void CreatePanes(int n, int m, double k, double p) {
         for (int i = 0; i < n; i++) {
@@ -33,7 +35,7 @@ public class MGridPane extends GridPane {
                 cells[i][j] = cell;
                 this.add(cell, i, j);
 
-                CellThread hi = new CellThread(cell, k, p);
+                CellThread hi = new CellThread(this, cell, k, p, i, j);
                 Thread t = new Thread(hi);
                 threads[i][j] = t;
             }
@@ -53,7 +55,7 @@ public class MGridPane extends GridPane {
                             System.out.println(i+" "+j);
                             System.err.println("AAAAAAAAAAAAAa");
                             System.out.println(threads[i][j].getState());
-                            cells[i][j].setFill(Color.BLACK);
+                            // cells[i][j].setFill(Color.BLACK);
                             // System.out.println(cells[i][j].getBackground().getFills().getFirst().getFill());
                         }
                         // last = cells[i][j].getBackground().getFills().getFirst().getFill();

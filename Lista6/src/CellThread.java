@@ -1,39 +1,65 @@
-import java.util.Random;
-import java.util.random.RandomGenerator;
-
 import javafx.scene.paint.Color;
 
 public class CellThread implements Runnable {
+    private int row;
+    private int collumn;
+    private MGridPane pane;
     private GridCell cell;
     private double chance;
     private double delay;
 
-    public CellThread(GridCell cell, double k, double p) {
+    public CellThread(MGridPane pane, GridCell cell, double k, double p, int r, int c) {
+        this.pane = pane;
         this.cell = cell;
         this.chance = p;
         this.delay = k;
+        this.row = r;
+        this.collumn = c;
     }
 
     @Override
     public void run() {
         try {
-            int i=100;
-            for(int j=0;j<50;j++) {
-                // if(Generator.Generator.nextDouble() < chance) {
-                    {
-                    cell.setBackgroundColor(Color.rgb(100, i, i));
-                    i=i*10;
-                    i%=255;
-                }
-                try {
-                    Thread.sleep(Math.round(Generator.nextDoubleBounds(delay*0.5, delay*1.5)));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(cell.name);
-            }
-        } catch (Exception e) {
+            Thread.sleep(Math.round(Generator.nextDoubleBounds(delay)));
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        for (int j = 0; j < 50; j++) {
+            System.out.println("Start: " + cell.name);
+            if (Generator.Generator.nextDouble() < chance) {
+                changeToRandom();
+            }
+            else {
+                changeToNeighbours();
+            }
+            System.out.println("End: " + cell.name);
+            try {
+                Thread.sleep(Math.round(Generator.nextDoubleBounds(delay)));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // System.out.println(cell.name);
+        }
+    }
+
+    private synchronized void changeToNeighbours() {
+        Color up = pane.askColor(row, collumn+1);
+        Color down = pane.askColor(row, collumn-1);
+        Color right = pane.askColor(row+1, collumn);
+        Color left = pane.askColor(row-1, collumn);
+        Color newColor = Color.rgb(getAverage(up.getRed(), down.getRed(), right.getRed(), left.getRed()),
+        getAverage(up.getGreen(), down.getGreen(), right.getGreen(), left.getGreen()),
+        getAverage(up.getBlue(), down.getBlue(), right.getBlue(), left.getBlue()));
+        cell.setBackgroundColor(newColor);
+    }
+
+    private int getAverage(double a, double b, double c, double d)
+    {
+        //its less than 255
+        return (int)Math.round((a+b+c+d)/4*255);
+    }
+
+    private synchronized void changeToRandom() {
+        cell.setBackgroundColor(Color.rgb(Generator.Generator.nextInt(255), Generator.Generator.nextInt(255), Generator.Generator.nextInt(255)));
     }
 }
