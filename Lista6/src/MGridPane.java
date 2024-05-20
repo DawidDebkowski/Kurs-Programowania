@@ -8,7 +8,7 @@ public class MGridPane extends GridPane {
     private GridCell[][] cells;
     private Thread[][] threads;
     private int rows;
-    private int collumns;
+    private int columns;
     /**
      * Konstruktor tworzy plansze losowych kolorów i przypisuje im wątki.
      * @param n ilość kolumn
@@ -22,7 +22,7 @@ public class MGridPane extends GridPane {
         this.setVgap(0);
 
         this.rows = m;
-        this.collumns = n;
+        this.columns = n;
         createPanes(k, p);
     }
 
@@ -44,15 +44,15 @@ public class MGridPane extends GridPane {
      */
     public Color askColor(int i, int j) {
         System.out.println(i + " " + j);
-        return cells[Math.floorMod(i, rows)][Math.floorMod(j, collumns)].getBackgroundColor();
+        return cells[Math.floorMod(i, rows)][Math.floorMod(j, columns)].getBackgroundColor();
     }
     
     private void createPanes(double k, double p) {
-        cells = new GridCell[rows][collumns];
-        threads = new Thread[rows][collumns];
+        cells = new GridCell[rows][columns];
+        threads = new Thread[rows][columns];
         
         for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < collumns; j++) {
+            for (int j = 0; j < columns; j++) {
                 GridCell cell = new GridCell(Generator.getRandomColor(), "" + i + " " + j);
                 cells[i][j] = cell;
                 this.add(cell, j, i); //ma kolumna, wiersz

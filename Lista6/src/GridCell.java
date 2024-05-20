@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 /**
- * Klasa odpowiadająca za pojedyńczy kafelek
+ * Klasa odpowiadająca za pojedynczy kafelek
  */
 public class GridCell extends Pane {
     public String name;
@@ -18,7 +18,6 @@ public class GridCell extends Pane {
      */
     public GridCell(Color color, String name) {
         this.name = name;
-        this.setPrefSize(50, 50);
         this.setBackground(new Background(
                 new BackgroundFill(color, null, new Insets(5))));
     }
