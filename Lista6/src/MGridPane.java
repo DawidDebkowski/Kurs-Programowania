@@ -15,36 +15,17 @@ public class MGridPane extends GridPane {
         cells = new GridCell[n][m];
         threads = new Thread[n][m];
         CreatePanes(n, m, k, p);
-        Button b = new Button("aaaaaaaa");
-        b.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent arg0) {
-                Paint last = Color.BLACK;
-                for (int i = 0; i < threads.length; i++) {
-                    for (int j = 0; j < threads[i].length; j++) {
-                        if(!last.toString().equals(cells[i][j].getBackground().getFills().getFirst().getFill().toString()))
-                        {
-                            System.out.println(i+" "+j);
-                            System.err.println("AAAAAAAAAAAAAa");
-                            System.out.println(threads[i][j].getState());
-                            System.out.println(cells[i][j].getBackground().getFills().getFirst().getFill());
-                        }
-                        last = cells[i][j].getBackground().getFills().getFirst().getFill();
-                    }
-                }
-
-            }
-        });
+        // Button b = debugButton();
 
         this.add(b, n+1, m+1);
         for (int i = 0; i < threads.length; i++) {
             for (int j = 0; j < threads[i].length; j++) {
-                threads[i][j].setPriority(i + 1);
                 threads[i][j].start();
             }
         }
     }
 
+    
     private void CreatePanes(int n, int m, double k, double p) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
@@ -57,5 +38,30 @@ public class MGridPane extends GridPane {
                 threads[i][j] = t;
             }
         }
+    }
+
+    private Button debugButton() {
+        Button b = new Button("aaaaaaaa");
+        b.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent arg0) {
+                Paint last = Color.BLACK;
+                for (int i = 0; i < threads.length; i++) {
+                    for (int j = 0; j < threads[i].length; j++) {
+                        // if(!last.toString().equals(cells[i][j].getBackground().getFills().getFirst().getFill().toString()))
+                        {
+                            System.out.println(i+" "+j);
+                            System.err.println("AAAAAAAAAAAAAa");
+                            System.out.println(threads[i][j].getState());
+                            cells[i][j].setFill(Color.BLACK);
+                            // System.out.println(cells[i][j].getBackground().getFills().getFirst().getFill());
+                        }
+                        // last = cells[i][j].getBackground().getFills().getFirst().getFill();
+                    }
+                }
+    
+            }
+        });
+        return b;
     }
 }
