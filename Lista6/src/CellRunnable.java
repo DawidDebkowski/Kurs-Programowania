@@ -30,7 +30,7 @@ public class CellRunnable implements Runnable {
 
     @Override
     public void run() {
-        for (int j = 0; j < 50; j++) {
+        for (int j = 0; j < 500; j++) {
             System.out.println("Start: " + cell.name);
             if (Generator.Generator.nextDouble() < chance) {
                 changeToRandom();
@@ -61,7 +61,7 @@ public class CellRunnable implements Runnable {
     }
 
     private synchronized void changeToRandom() {
-        cell.setBackgroundColor(Color.rgb(Generator.Generator.nextInt(255), Generator.Generator.nextInt(255), Generator.Generator.nextInt(255)));
+        cell.setBackgroundColor(Generator.getRandomColor());
     }
 
     private int getAverage(double a, double b, double c, double d)

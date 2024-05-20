@@ -4,23 +4,37 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
+/**
+ * Klasa odpowiadająca za pojedyńczy kafelek
+ */
 public class GridCell extends Pane {
     public String name;
 
+    /**
+     * Tworzy Pane o wielkości 50x50 i podanym kolorze oraz przypisuje numer
+     * @param color
+     * @param name
+     */
     public GridCell(Color color, String name) {
         this.name = name;
-        this.setMinSize(50, 50);
+        this.setPrefSize(50, 50);
         this.setBackground(new Background(
                 new BackgroundFill(color, null, new Insets(5))));
     }
 
+    /**
+     * Ustawia kolor tła
+     * @param color nowy kolor
+     */
     public synchronized void setBackgroundColor(Color color) {
         Platform.runLater(() -> this.setBackground(new Background(
                 new BackgroundFill(color, null, null))));
     }
 
+    /** Zwraca kolor tła
+     * @return kolor
+     */
     public Color getBackgroundColor() {
         return (Color)this.getBackground().getFills().getFirst().getFill();
     }
