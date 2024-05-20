@@ -5,19 +5,32 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+/**
+ * Klasa zarządzająca planszą
+ */
 public class MGridPane extends GridPane {
-    GridCell[][] cells;
-    Thread[][] threads;
+    private GridCell[][] cells;
+    private Thread[][] threads;
 
+    /**
+     * Konstruktor tworzy plansze losowych kolorów i przypisuje im wątki.
+     * @param n ilość kolumn
+     * @param m ilość wierszy
+     * @param k opóźnienie
+     * @param p szansa na zmianę
+     */
     public MGridPane(int n, int m, double k, double p) {
         super(n, m);
         this.setHgap(0);
         this.setVgap(0);
-        cells = new GridCell[n][m];
-        threads = new Thread[n][m];
-        CreatePanes(n, m, k, p);
-        // Button b = debugButton();
 
+        createPanes(n, m, k, p);
+    }
+
+    /**
+     * Rozpoczyna działanie wątków
+     */
+    public void startThreads() {
         for (int i = 0; i < threads.length; i++) {
             for (int j = 0; j < threads[i].length; j++) {
                 threads[i][j].start();
@@ -25,15 +38,22 @@ public class MGridPane extends GridPane {
         }
     }
 
+    /** Zwraca kolor danej komórki
+     * @param i kolumna
+     * @param j wiersz
+     * @return kolor i,j-tej komórki
+     */
     public Color askColor(int i, int j) {
         System.out.println(i + " " + j);
         return cells[Math.floorMod(i, cells.length)][Math.floorMod(i, cells[0].length)].getBackgroundColor();
     }
     
-    private void CreatePanes(int n, int m, double k, double p) {
+    private void createPanes(int n, int m, double k, double p) {
+        cells = new GridCell[n][m];
+        threads = new Thread[n][m];
+        
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                //Color.rgb(m + 100, (i * 20) % 255, (j * 30) % 255)
                 GridCell cell = new GridCell(Generator.getRandomColor(), "" + i + " " + j);
                 cells[i][j] = cell;
                 this.add(cell, i, j);
@@ -45,7 +65,7 @@ public class MGridPane extends GridPane {
         }
     }
 
-    private Button debugButton() {
+    public Button debugButton() {
         Button b = new Button("aaaaaaaa");
         b.setOnAction(new EventHandler<ActionEvent>() {
             @Override
