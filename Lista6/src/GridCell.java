@@ -2,14 +2,41 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.StrokeType;
 
 /**
  * Klasa odpowiadająca za pojedynczy kafelek
  */
 public class GridCell extends Pane {
     public String name;
+    private boolean isActive = true;
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+        int inset = 0;
+        if(!isActive)
+            inset = 10;
+        setInsets(inset);
+    }
+
+    private void setInsets(int inset) {
+        // setBackground(new Background(new BackgroundFill(getBackgroundColor(), null, new Insets(inset))));
+        // setPadding(new Insets(inset));
+        if(!isActive)
+            setStyle(getStyle()+";"+"    -fx-border-color: rgb(0, 0, 0);" + "-fx-border-width: 1;");
+        else
+            setStyle("");
+    }
 
     /**
      * Tworzy Pane o wielkości 50x50 i podanym kolorze oraz przypisuje numer
@@ -36,6 +63,9 @@ public class GridCell extends Pane {
      * @return kolor
      */
     public synchronized Color getBackgroundColor() {
+        if(!isActive) {
+            return null;
+        }
         return (Color)this.getBackground().getFills().getFirst().getFill();
     }
 }

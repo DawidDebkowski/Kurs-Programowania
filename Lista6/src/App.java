@@ -12,7 +12,7 @@ public class App extends Application{
         //inicjalizacja globalnego generatora
         new Generator();
 
-        MGridPane grid = new MGridPane(20, 20, 100, 0.007);
+        MGridPane grid = new MGridPane(25, 25, 1000, 0.007);
         grid.setPrefSize(400, 400);
         
         Scene scene = new Scene(grid);

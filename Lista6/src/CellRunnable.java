@@ -1,18 +1,17 @@
-import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.paint.Color;
 
 /**
  * Klasa odpowiadająca za funkcjonalność kafelka
  */
-public class CellRunnable implements Runnable {
+public class CellRunnable implements Runnable, IActiveListener{
     private int row;
     private int column;
     private MGridPane pane;
     private GridCell cell;
     private double chance;
     private double delay;
-
+    private boolean isActive = true;
     /**
      * Tworzy funkcję dla wątku z podanymi parametrami
      * 
@@ -34,7 +33,7 @@ public class CellRunnable implements Runnable {
 
     @Override
     public void run() {
-        for (int j = 0; j < 500; j++) {
+        while(true) {
             if (Generator.Generator.nextDouble() < chance) {
                 changeToRandom();
             } else {
@@ -43,6 +42,14 @@ public class CellRunnable implements Runnable {
 
             try {
                 Thread.sleep(Math.round(Generator.nextDoubleBounds(delay)));
+
+                synchronized(this) {
+                    while(!isActive) {
+                        System.err.println("waiting");
+                        
+                        wait();
+                    }
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -82,5 +89,10 @@ public class CellRunnable implements Runnable {
 
     private void changeToRandom() {
         cell.setBackgroundColor(Generator.getRandomColor());
+    }
+
+    @Override
+    public void onActiveChanged(boolean newActive) {
+        isActive = newActive;
     }
 }

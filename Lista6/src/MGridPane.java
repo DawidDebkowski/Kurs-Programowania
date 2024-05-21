@@ -75,13 +75,15 @@ public class MGridPane extends GridPane {
         
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                GridCell cell = new GridCell(Generator.getRandomColor(), "" + i + " " + j);
+                GridCell cell = new GridCell(Color.WHITE, "" + i + " " + j);
                 cells[i][j] = cell;
                 this.add(cell, j, i); //ma kolumna, wiersz
 
-                CellRunnable hi = new CellRunnable(this, cell, k, p, i, j);
-                Thread t = new Thread(hi);
+                CellRunnable runnable = new CellRunnable(this, cell, k, p, i, j);
+                Thread t = new Thread(runnable);
                 threads[i][j] = t;
+
+                cell.setOnMouseClicked(new CellClickHandler(cell, runnable));
             }
         }
     }
