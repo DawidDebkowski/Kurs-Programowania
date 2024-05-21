@@ -38,9 +38,7 @@ public class CellRunnable implements Runnable {
             if (Generator.Generator.nextDouble() < chance) {
                 changeToRandom();
             } else {
-                System.out.println("Start: " + cell.name);
                 changeToNeighbours();
-                System.out.println("End: " + cell.name);
             }
 
             try {
@@ -52,26 +50,24 @@ public class CellRunnable implements Runnable {
     }
 
     // branie koloru z sąsiadów nie może zostać przerwane
-    private synchronized void changeToNeighbours() {
+    private void changeToNeighbours() {
+        
         // wez kolory sąsiadów
-        Color up = pane.askColor(row, column + 1);
-        Color down = pane.askColor(row, column - 1);
-        Color right = pane.askColor(row + 1, column);
-        Color left = pane.askColor(row - 1, column);
-
-        // sprawdz które są aktywne
-        List<Color> colors = new ArrayList<Color>();
-        for (Color c : new Color[] { up, down, right, left }) {
-            if (c != null) {
-                colors.add(c);
-            }
-        }
+        
         // oblicz średni kolor i go ustaw
-        Color newColor = getAverageColor(colors);
-        cell.setBackgroundColor(newColor);
+        List<Color> colors = pane.getNeighbouringColors(row, column);
+        synchronized (cell) {
+            System.out.println("StartCell: " + row + " " + column);
+            
+            Color newColor = getAverageColor(colors);
+            
+            cell.setBackgroundColor(newColor);
+            System.out.println("EndCell: " + row + " " + column);
+        }
+
     }
 
-    private synchronized Color getAverageColor(List<Color> colors) {
+    private Color getAverageColor(List<Color> colors) {
         int n = colors.size();
         double red = 0;
         double green = 0;
@@ -84,7 +80,7 @@ public class CellRunnable implements Runnable {
         return Color.color(red / n, green / n, blue / n);
     }
 
-    private synchronized void changeToRandom() {
+    private void changeToRandom() {
         cell.setBackgroundColor(Generator.getRandomColor());
     }
 }

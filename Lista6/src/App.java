@@ -12,14 +12,14 @@ public class App extends Application{
         //inicjalizacja globalnego generatora
         new Generator();
 
-        MGridPane grid = new MGridPane(100, 100, 500, 0.007);
+        MGridPane grid = new MGridPane(20, 20, 100, 0.007);
         grid.setPrefSize(400, 400);
         
         Scene scene = new Scene(grid);
         
         stage.setScene(scene);
         stage.show();   
-        Thread.sleep(5000);
+        // Thread.sleep(5000);
         grid.startThreads();
     }
 }

@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -47,6 +50,25 @@ public class MGridPane extends GridPane {
         return cells[Math.floorMod(i, rows)][Math.floorMod(j, columns)].getBackgroundColor();
     }
     
+    public List<Color> getNeighbouringColors(int row, int column) {
+        // System.out.println("Start: " + row + " " + column);
+        
+        Color up = askColor(row, column + 1);
+        Color down = askColor(row, column - 1);
+        Color right = askColor(row + 1, column);
+        Color left = askColor(row - 1, column);
+        
+        // sprawdz które są aktywne
+        List<Color> colors = new ArrayList<Color>();
+        for (Color c : new Color[] { up, down, right, left }) {
+            if (c != null) {
+                colors.add(c);
+            }
+        }
+        // System.out.println("End: " + row + " " + column); 
+        return colors;
+    }
+
     private void createPanes(double k, double p) {
         cells = new GridCell[rows][columns];
         threads = new Thread[rows][columns];
