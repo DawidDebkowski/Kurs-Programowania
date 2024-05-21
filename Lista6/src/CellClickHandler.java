@@ -15,7 +15,7 @@ public class CellClickHandler implements EventHandler<MouseEvent> {
     }
 
     @Override
-    public synchronized void handle(MouseEvent e) {
+    public void handle(MouseEvent e) {
         if (e.getButton() == MouseButton.PRIMARY) {
             cell.setActive(!cell.isActive());
             listener.onActiveChanged(cell.isActive());
@@ -25,18 +25,18 @@ public class CellClickHandler implements EventHandler<MouseEvent> {
                     listener.notify();
                 }
         } else {
-            if(e.getButton() == MouseButton.SECONDARY)
-                funLocking(Color.GREEN);
-            
+            if (e.getButton() == MouseButton.SECONDARY) {
+                funLocking(Color.rgb(255, 0, 0));
+            } else {
+                funLocking(Color.rgb(0, 255, 0));
+            }
         }
     }
 
     private void funLocking(Color c) {
-        System.err.println("else");
         cell.setActive(true);
         cell.setBackgroundColor(c);
         listener.onActiveChanged(false);
-        System.err.println(cell.isActive());
     }
 
 }

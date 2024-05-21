@@ -1,4 +1,6 @@
 import java.util.List;
+import java.util.logging.Logger;
+
 import javafx.scene.paint.Color;
 
 /**
@@ -34,12 +36,6 @@ public class CellRunnable implements Runnable, IActiveListener{
     @Override
     public void run() {
         while(true) {
-            if (Generator.Generator.nextDouble() < chance) {
-                changeToRandom();
-            } else {
-                changeToNeighbours();
-            }
-
             try {
                 Thread.sleep(Math.round(Generator.nextDoubleBounds(delay)));
 
@@ -53,14 +49,18 @@ public class CellRunnable implements Runnable, IActiveListener{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            if (Generator.Generator.nextDouble() < chance) {
+                changeToRandom();
+            } else {
+                changeToNeighbours();
+            }
+
         }
     }
 
     // branie koloru z sąsiadów nie może zostać przerwane
     private void changeToNeighbours() {
-        
-        // wez kolory sąsiadów
-        
         // oblicz średni kolor i go ustaw
         List<Color> colors = pane.getNeighbouringColors(row, column);
         synchronized (cell) {
@@ -81,7 +81,7 @@ public class CellRunnable implements Runnable, IActiveListener{
         double blue = 0;
         for (Color color : colors) {
             red += color.getRed();
-            green += color.getGreen();
+            green += color.getGreen();  
             blue += color.getBlue();
         }
         return Color.color(red / n, green / n, blue / n);

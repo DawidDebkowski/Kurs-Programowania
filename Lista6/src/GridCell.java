@@ -2,13 +2,8 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeLineJoin;
-import javafx.scene.shape.StrokeType;
 
 /**
  * Klasa odpowiadająca za pojedynczy kafelek
@@ -33,7 +28,7 @@ public class GridCell extends Pane {
         // setBackground(new Background(new BackgroundFill(getBackgroundColor(), null, new Insets(inset))));
         // setPadding(new Insets(inset));
         if(!isActive)
-            setStyle(getStyle()+";"+"    -fx-border-color: rgb(0, 0, 0);" + "-fx-border-width: 1;");
+            setStyle("-fx-border-color: rgb(0, 0, 0);" + "-fx-border-width: 1;");
         else
             setStyle("");
     }

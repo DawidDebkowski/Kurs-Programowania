@@ -45,7 +45,7 @@ public class MGridPane extends GridPane {
      * @param j kolumna
      * @return kolor i,j-tej komórki
      */
-    public synchronized Color askColor(int i, int j) {
+    public Color askColor(int i, int j) {
         // System.out.println(i + " " + j);
         return cells[Math.floorMod(i, rows)][Math.floorMod(j, columns)].getBackgroundColor();
     }
