@@ -1,5 +1,3 @@
-import java.awt.List;
-
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;

@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.logging.Logger;
 
 import javafx.scene.paint.Color;
 
@@ -33,6 +32,9 @@ public class CellRunnable implements Runnable, IActiveListener{
         this.column = c;
     }
 
+    /**
+     * Metoda głownej pętli wątku
+     */
     @Override
     public void run() {
         while(true) {
@@ -61,7 +63,7 @@ public class CellRunnable implements Runnable, IActiveListener{
 
     // branie koloru z sąsiadów nie może zostać przerwane
     private void changeToNeighbours() {
-        // oblicz średni kolor i go ustaw
+        //najpierw zapytaj, potem zablokuj siebie   
         List<Color> colors = pane.getNeighbouringColors(row, column);
         synchronized (cell) {
             System.out.println("StartCell: " + row + " " + column);

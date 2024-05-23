@@ -10,11 +10,17 @@ public class Generator extends Random {
             Generator = this;
     }
 
-    public static double nextDoubleBounds(double a) {
-        // System.out.println((Generator.nextDouble() + 0.5)*a);
-        return (Generator.nextDouble() + 0.5)*a;
+    /** Funkcja zwraca losową liczbę zmiennoprzecinkową z zakresu [0,5*multiplier, 1,5*multiplier]
+     * @param a
+     * @return
+     */
+    public static double nextDoubleBounds(double multiplier) {
+        return (Generator.nextDouble() + 0.5)*multiplier;
     }
 
+    /** Funkcja zwraca losowy kolor
+     * @return losowy kolor
+     */
     public static Color getRandomColor()
     {
         return Color.rgb(Generator.nextInt(255), Generator.nextInt(255), Generator.nextInt(255));
