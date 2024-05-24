@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 /**
  * Klasa odpowiadająca za funkcjonalność kafelka
  */
-public class CellRunnable implements Runnable, IActiveListener{
+public class CellRunnable implements Runnable, IActiveListener {
     private int row;
     private int column;
     private MGridPane pane;
@@ -13,6 +13,7 @@ public class CellRunnable implements Runnable, IActiveListener{
     private double chance;
     private double delay;
     private boolean isActive = true;
+
     /**
      * Tworzy funkcję dla wątku z podanymi parametrami
      * 
@@ -37,14 +38,14 @@ public class CellRunnable implements Runnable, IActiveListener{
      */
     @Override
     public void run() {
-        while(true) {
+        while (true) {
             try {
                 Thread.sleep(Math.round(Generator.nextDoubleBounds(delay)));
 
-                synchronized(this) {
-                    while(!isActive) {
+                synchronized (this) {
+                    while (!isActive) {
                         System.err.println("waiting");
-                        
+
                         wait();
                     }
                 }
@@ -63,13 +64,13 @@ public class CellRunnable implements Runnable, IActiveListener{
 
     // branie koloru z sąsiadów nie może zostać przerwane
     private void changeToNeighbours() {
-        //najpierw zapytaj, potem zablokuj siebie   
+        // najpierw zapytaj, potem zablokuj siebie
         List<Color> colors = pane.getNeighbouringColors(row, column);
-        synchronized (cell) {
+        /* /*synchronized*/ /*(cell) */ {
             System.out.println("StartCell: " + row + " " + column);
-            
+
             Color newColor = getAverageColor(colors);
-            
+
             cell.setBackgroundColor(newColor);
             System.out.println("EndCell: " + row + " " + column);
         }
@@ -83,7 +84,7 @@ public class CellRunnable implements Runnable, IActiveListener{
         double blue = 0;
         for (Color color : colors) {
             red += color.getRed();
-            green += color.getGreen();  
+            green += color.getGreen();
             blue += color.getBlue();
         }
         return Color.color(red / n, green / n, blue / n);

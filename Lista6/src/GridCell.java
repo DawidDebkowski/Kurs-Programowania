@@ -49,7 +49,7 @@ public class GridCell extends Pane {
      * Ustawia kolor tła
      * @param color nowy kolor
      */
-    public synchronized void setBackgroundColor(Color color) {
+    public /*synchronized*/ void setBackgroundColor(Color color) {
         Platform.runLater(() -> this.setBackground(new Background(
                 new BackgroundFill(color, null, null))));
     }
@@ -57,7 +57,7 @@ public class GridCell extends Pane {
     /** Zwraca kolor tła
      * @return kolor
      */
-    public synchronized Color getBackgroundColor() {
+    public /*synchronized*/ Color getBackgroundColor() {
         if(!isActive) {
             return null;
         }
