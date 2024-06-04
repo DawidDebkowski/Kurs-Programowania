@@ -65,14 +65,18 @@ public class CellRunnable implements Runnable, IActiveListener {
     // branie koloru z sąsiadów nie może zostać przerwane
     private void changeToNeighbours() {
         // najpierw zapytaj, potem zablokuj siebie
-        List<Color> colors = pane.getNeighbouringColors(row, column);
-        /* /*synchronized*/ /*(cell) */ {
-            System.out.println("StartCell: " + row + " " + column);
-
-            Color newColor = getAverageColor(colors);
-
+        synchronized (pane)  {
+            System.out.println("00000000 StartCell: " + row + " " + column);
+            List<Color> colors = pane.getNeighbouringColors(row, column);
+            Color newColor; 
+            if(colors.size() == 0) {
+                newColor = cell.getBackgroundColor();
+            }
+            else {
+                newColor = getAverageColor(colors);
+            }
             cell.setBackgroundColor(newColor);
-            System.out.println("EndCell: " + row + " " + column);
+            System.out.println("1111111 EndCell: " + row + " " + column);
         }
 
     }

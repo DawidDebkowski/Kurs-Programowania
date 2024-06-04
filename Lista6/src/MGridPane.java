@@ -12,8 +12,10 @@ public class MGridPane extends GridPane {
     private Thread[][] threads;
     private int rows;
     private int columns;
+
     /**
      * Konstruktor tworzy plansze losowych kolorów i przypisuje im wątki.
+     * 
      * @param n ilość kolumn
      * @param m ilość wierszy
      * @param k opóźnienie
@@ -40,7 +42,9 @@ public class MGridPane extends GridPane {
         }
     }
 
-    /** Zwraca kolor danej komórki
+    /**
+     * Zwraca kolor danej komórki
+     * 
      * @param i wiersz
      * @param j kolumna
      * @return kolor i,j-tej komórki
@@ -49,15 +53,15 @@ public class MGridPane extends GridPane {
         // System.out.println(i + " " + j);
         return cells[Math.floorMod(i, rows)][Math.floorMod(j, columns)].getBackgroundColor();
     }
-    
-    public List<Color> getNeighbouringColors(int row, int column) {
+
+    public synchronized List<Color> getNeighbouringColors(int row, int column) {
         // System.out.println("Start: " + row + " " + column);
-        
+
         Color up = askColor(row, column + 1);
         Color down = askColor(row, column - 1);
         Color right = askColor(row + 1, column);
         Color left = askColor(row - 1, column);
-        
+
         // sprawdz które są aktywne
         List<Color> colors = new ArrayList<Color>();
         for (Color c : new Color[] { up, down, right, left }) {
@@ -65,19 +69,19 @@ public class MGridPane extends GridPane {
                 colors.add(c);
             }
         }
-        // System.out.println("End: " + row + " " + column); 
+        // System.out.println("End: " + row + " " + column);
         return colors;
     }
 
     private void createPanes(double k, double p) {
         cells = new GridCell[rows][columns];
         threads = new Thread[rows][columns];
-        
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 GridCell cell = new GridCell(Color.WHITE, "" + i + " " + j);
                 cells[i][j] = cell;
-                this.add(cell, j, i); //ma kolumna, wiersz
+                this.add(cell, j, i); // ma kolumna, wiersz
 
                 CellRunnable runnable = new CellRunnable(this, cell, k, p, i, j);
                 Thread t = new Thread(runnable);

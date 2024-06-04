@@ -11,8 +11,9 @@ public class App extends Application{
     public void start(Stage stage) throws Exception {
         //inicjalizacja globalnego generatora
         new Generator();
+        // String[] args = getParameters();
 
-        MGridPane grid = new MGridPane(4,4, 100, 0.1);
+        MGridPane grid = new MGridPane(20,20, 100, 0);
         grid.setPrefSize(400, 400);
         
         Scene scene = new Scene(grid);
