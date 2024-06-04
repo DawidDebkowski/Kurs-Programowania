@@ -34,10 +34,6 @@ public class App extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        //inicjalizacja globalnego generatora
-        new Generator();
-        // String[] args = getParameters();
-
         grid = new MGridPane(n,m, k, p);
         grid.setPrefSize(400, 400);
         

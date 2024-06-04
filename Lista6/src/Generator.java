@@ -2,13 +2,8 @@ import java.util.Random;
 
 import javafx.scene.paint.Color;
 
-public class Generator extends Random {
-    public static Random Generator;
-
-    public Generator() {
-        if (Generator == null)
-            Generator = this;
-    }
+public class Generator {
+    public static Random Generator = new Random();
 
     /** Funkcja zwraca losową liczbę zmiennoprzecinkową z zakresu [0,5*multiplier, 1,5*multiplier]
      * @param a

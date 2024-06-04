@@ -9,44 +9,47 @@ import javafx.scene.paint.Color;
  * Klasa odpowiadająca za pojedynczy kafelek
  */
 public class GridCell extends Pane {
-    public String name;
     private boolean isActive = true;
 
+    /**
+     * Zwraca czy kafelek jest aktywny
+     * @return czyAktywny
+     */
     public boolean isActive() {
         return isActive;
     }
 
+    /**
+     * Zmienia status aktywności kafelka
+     * 
+     * @param isActive nowy stan aktywności
+     */
     public void setActive(boolean isActive) {
         this.isActive = isActive;
-        int inset = 0;
-        if(!isActive)
-            inset = 10;
-        setInsets(inset);
+        updateInsets();
     }
 
-    private void setInsets(int inset) {
-        // setBackground(new Background(new BackgroundFill(getBackgroundColor(), null, new Insets(inset))));
-        // setPadding(new Insets(inset));
-        if(!isActive)
+    private void updateInsets() {
+        if (!isActive)
             setStyle("-fx-border-color: rgb(0, 0, 0);" + "-fx-border-width: 1;");
         else
             setStyle("");
     }
 
     /**
-     * Tworzy Pane o wielkości 50x50 i podanym kolorze oraz przypisuje numer
-     * @param color
-     * @param name
+     * Tworzy Pane o podanym kolorze
+     * 
+     * @param color kolor początkowy
      */
-    public GridCell(Color color, String name) {
-        this.name = name;
+    public GridCell(Color color) {
         this.setPrefSize(1000, 1000);
         this.setBackground(new Background(
-                new BackgroundFill(color, null, new Insets(5))));
+                new BackgroundFill(color, null, new Insets(0))));
     }
 
     /**
      * Ustawia kolor tła
+     * 
      * @param color nowy kolor
      */
     public void setBackgroundColor(Color color) {
@@ -54,13 +57,15 @@ public class GridCell extends Pane {
                 new BackgroundFill(color, null, null))));
     }
 
-    /** Zwraca kolor tła
+    /**
+     * Zwraca kolor tła
+     * 
      * @return kolor
      */
     public Color getBackgroundColor() {
-        if(!isActive) {
+        if (!isActive) {
             return null;
         }
-        return (Color)this.getBackground().getFills().getFirst().getFill();
+        return (Color) this.getBackground().getFills().getFirst().getFill();
     }
 }
