@@ -7,34 +7,47 @@ public class CellClickHandler implements EventHandler<MouseEvent> {
     private GridCell cell;
     private IActiveListener listener;
 
+    /**
+     * Tworzy handler
+     * 
+     * @param cell     kafelek
+     * @param listener odpowiadający kafelkowi wątek
+     */
     public CellClickHandler(GridCell cell, IActiveListener listener) {
         this.cell = cell;
         this.listener = listener;
     }
 
+    /**
+     * Zmienia aktywność kafelka przy kliknięciu LPM
+     */
     @Override
     public void handle(MouseEvent e) {
+        // zwykłe blokowanie komórki
+        // tak jak w specyfikacji zadania
         if (e.getButton() == MouseButton.PRIMARY) {
             cell.setActive(!cell.isActive());
-            listener.onActiveChanged(cell.isActive());
+            listener.setActive(cell.isActive());
 
             if (cell.isActive())
                 synchronized (listener) {
                     listener.notify();
                 }
         } else {
+            // własne blokowanie
+            // komórka nie zmienia swojego koloru ale sąsiednie komórki nadal korzystają z jej koloru
+            // można tak tworzyć ciekawe obrazki
             if (e.getButton() == MouseButton.SECONDARY) {
-                funLocking(Color.rgb(255, 0, 0));
+                specialLock(Color.rgb(255, 0, 0));
             } else {
-                funLocking(Color.rgb(0, 255, 0));
+                specialLock(Color.rgb(0, 255, 0));
             }
         }
     }
 
-    private void funLocking(Color c) {
+    private void specialLock(Color c) {
         cell.setActive(true);
         cell.setBackgroundColor(c);
-        listener.onActiveChanged(false);
+        listener.setActive(false);
     }
-
 }

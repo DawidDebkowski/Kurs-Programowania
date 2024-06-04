@@ -1,3 +1,3 @@
 public interface IActiveListener {
-    public void onActiveChanged(boolean newActive);
+    public void setActive(boolean newActive);
 }

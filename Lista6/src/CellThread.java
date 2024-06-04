@@ -98,7 +98,7 @@ public class CellThread extends Thread implements IActiveListener {
     }
 
     @Override
-    public void onActiveChanged(boolean newActive) {
+    public void setActive(boolean newActive) {
         isActive = newActive;
     }
 
