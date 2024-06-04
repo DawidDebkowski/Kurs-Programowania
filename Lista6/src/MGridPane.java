@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
  */
 public class MGridPane extends GridPane {
     private GridCell[][] cells;
-    private Thread[][] threads;
+    private CellThread[][] threads;
     private int rows;
     private int columns;
 
@@ -42,6 +42,14 @@ public class MGridPane extends GridPane {
         }
     }
 
+    public void stopThreads() {
+        for (int i = 0; i < threads.length; i++) {
+            for (int j = 0; j < threads[i].length; j++) {
+                threads[i][j].shutdown();
+            }
+        }
+    }
+
     /**
      * Zwraca kolor danej komórki
      * 
@@ -55,8 +63,6 @@ public class MGridPane extends GridPane {
     }
 
     public synchronized List<Color> getNeighbouringColors(int row, int column) {
-        // System.out.println("Start: " + row + " " + column);
-
         Color up = askColor(row, column + 1);
         Color down = askColor(row, column - 1);
         Color right = askColor(row + 1, column);
@@ -69,13 +75,12 @@ public class MGridPane extends GridPane {
                 colors.add(c);
             }
         }
-        // System.out.println("End: " + row + " " + column);
         return colors;
     }
 
     private void createPanes(double k, double p) {
         cells = new GridCell[rows][columns];
-        threads = new Thread[rows][columns];
+        threads = new CellThread[rows][columns];
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -83,11 +88,11 @@ public class MGridPane extends GridPane {
                 cells[i][j] = cell;
                 this.add(cell, j, i); // ma kolumna, wiersz
 
-                CellRunnable runnable = new CellRunnable(this, cell, k, p, i, j);
-                Thread t = new Thread(runnable);
-                threads[i][j] = t;
+                CellThread thread = new CellThread(this, cell, k, p, i, j);
+                threads[i][j] = thread;
+                thread.setName("("+i+", "+j+")");
 
-                cell.setOnMouseClicked(new CellClickHandler(cell, runnable));
+                cell.setOnMouseClicked(new CellClickHandler(cell, thread));
             }
         }
     }

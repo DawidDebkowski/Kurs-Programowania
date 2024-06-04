@@ -5,14 +5,15 @@ import javafx.scene.paint.Color;
 /**
  * Klasa odpowiadająca za funkcjonalność kafelka
  */
-public class CellRunnable implements Runnable, IActiveListener {
+public class CellThread extends Thread implements IActiveListener {
     private int row;
     private int column;
     private MGridPane pane;
     private GridCell cell;
     private double chance;
     private double delay;
-    private boolean isActive = true;
+    volatile private boolean isActive = true;
+    volatile private boolean shutdown = false;
 
     /**
      * Tworzy funkcję dla wątku z podanymi parametrami
@@ -24,7 +25,7 @@ public class CellRunnable implements Runnable, IActiveListener {
      * @param r
      * @param c
      */
-    public CellRunnable(MGridPane pane, GridCell cell, double k, double p, int r, int c) {
+    public CellThread(MGridPane pane, GridCell cell, double k, double p, int r, int c) {
         this.pane = pane;
         this.cell = cell;
         this.chance = p;
@@ -38,15 +39,15 @@ public class CellRunnable implements Runnable, IActiveListener {
      */
     @Override
     public void run() {
-        while (true) {
+        while (!shutdown) {
             try {
                 Thread.sleep(Math.round(Generator.nextDoubleBounds(delay)));
 
-                synchronized (this) {
-                    while (!isActive) {
-                        System.err.println("waiting");
-
-                        wait();
+                if(!isActive) {
+                    synchronized (this) {
+                        while (!isActive && !shutdown) {    
+                            wait();
+                        }
                     }
                 }
             } catch (InterruptedException e) {
@@ -58,25 +59,23 @@ public class CellRunnable implements Runnable, IActiveListener {
             } else {
                 changeToNeighbours();
             }
-
         }
     }
 
-    // branie koloru z sąsiadów nie może zostać przerwane
+    //synchronizuje cały grid żeby uniknąć kolizji brania koloru
     private void changeToNeighbours() {
-        // najpierw zapytaj, potem zablokuj siebie
-        synchronized (pane)  {
-            System.out.println("00000000 StartCell: " + row + " " + column);
+        synchronized (pane) {
+            System.out.println("Start: " + this.getName());
             List<Color> colors = pane.getNeighbouringColors(row, column);
-            Color newColor; 
-            if(colors.size() == 0) {
-                newColor = cell.getBackgroundColor();
-            }
-            else {
+            Color newColor;
+
+            //jeżeli nie ma sąsiadów nie zmienia koloru 
+            if (colors.size() != 0) {
                 newColor = getAverageColor(colors);
+                cell.setBackgroundColor(newColor);
             }
-            cell.setBackgroundColor(newColor);
-            System.out.println("1111111 EndCell: " + row + " " + column);
+
+            System.out.println("End: " + this.getName());
         }
 
     }
@@ -101,5 +100,9 @@ public class CellRunnable implements Runnable, IActiveListener {
     @Override
     public void onActiveChanged(boolean newActive) {
         isActive = newActive;
+    }
+
+    public void shutdown() {
+        shutdown = true;
     }
 }
