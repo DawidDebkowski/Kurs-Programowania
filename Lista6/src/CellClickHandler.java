@@ -3,12 +3,15 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+/**
+ * Klasa odpowiadająca za obsługę kliknięcia myszą
+ */
 public class CellClickHandler implements EventHandler<MouseEvent> {
     private GridCell cell;
     private IActiveListener listener;
 
     /**
-     * Tworzy handler
+     * Podstawowy konstruktor
      * 
      * @param cell     kafelek
      * @param listener odpowiadający kafelkowi wątek
