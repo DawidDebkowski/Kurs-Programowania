@@ -23,8 +23,8 @@ public class MGridPane extends GridPane {
      */
     public MGridPane(int n, int m, double k, double p) {
         super(n, m);
-        this.setHgap(1);
-        this.setVgap(1);
+        this.setHgap(0);
+        this.setVgap(0);
 
         this.rows = m;
         this.columns = n;

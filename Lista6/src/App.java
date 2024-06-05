@@ -1,15 +1,21 @@
 import javafx.application.*;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+/**
+ * Głowna klasa uruchamiająca aplikację
+ */
 public class App extends Application{
-    private static int n = 20;
+    private static int n = 6;
     private static int m = 10;
     private static double k = 100;
-    private static double p = 0.05;
+    private static double p = 0.005;
 
     private MGridPane grid;
 
+    /**
+     * @param args lista arguemntów: szerokość, wysokość, interwał, szansa na zmianę
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         try {
             n = Integer.parseInt(args[0]);
@@ -31,7 +37,9 @@ public class App extends Application{
         }
         launch(args);
     }
-
+    /**
+     * Metoda tworząca scenę oraz grid, a następnie uruchamiająca wątki
+     */
     @Override
     public void start(Stage stage) throws Exception {
         grid = new MGridPane(n,m, k, p);
@@ -44,6 +52,7 @@ public class App extends Application{
         grid.startThreads();
     }
 
+    //Zatrzymanie pracy wątków po zamknięciu okna
     @Override
     public void stop() {
         grid.stopThreads();
