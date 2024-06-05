@@ -8,8 +8,11 @@ import javafx.scene.paint.Color;
  * Klasa zarządzająca planszą
  */
 public class MGridPane extends GridPane {
+    //referencja do kafelków
     private GridCell[][] cells;
+    //referencja do wątków
     private CellThread[][] threads;
+    //wielkość planszy
     private int rows;
     private int columns;
 
@@ -28,6 +31,7 @@ public class MGridPane extends GridPane {
 
         this.rows = m;
         this.columns = n;
+        //tworzy planszę
         createPanes(k, p);
     }
 
@@ -97,7 +101,7 @@ public class MGridPane extends GridPane {
             for (int j = 0; j < columns; j++) {
                 GridCell cell = new GridCell(Color.WHITE);
                 cells[i][j] = cell;
-                this.add(cell, j, i); // ma kolumna, wiersz
+                this.add(cell, j, i); // Grid ma kolumna, wiersz
 
                 CellThread thread = new CellThread(this, cell, k, p, i, j);
                 threads[i][j] = thread;

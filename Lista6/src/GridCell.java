@@ -1,5 +1,4 @@
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -8,7 +7,8 @@ import javafx.scene.paint.Color;
 /**
  * Klasa odpowiadająca za pojedynczy kafelek
  */
-public class GridCell extends Pane {
+public class GridCell extends Pane implements IActiveListener{
+    //aktywność kafelka (czy brany jest pod uwagę w symulacji)
     private boolean isActive = true;
 
     /**
@@ -42,9 +42,10 @@ public class GridCell extends Pane {
      * @param color kolor początkowy
      */
     public GridCell(Color color) {
+        //aby kafelek zajmował całą dostępną mu powierzchnię
         this.setPrefSize(1000, 1000);
-        this.setBackground(new Background(
-                new BackgroundFill(color, null, new Insets(0))));
+        //ustawia kolor tła
+        setBackgroundColor(color);
     }
 
     /**
@@ -53,6 +54,8 @@ public class GridCell extends Pane {
      * @param color nowy kolor
      */
     public void setBackgroundColor(Color color) {
+        //wątek javafx zmieni kolor tła dopiero gdy będzie mogła to zrobić
+        //inaczej kafelki czasami "psują się" i przestają zmieniać kolor
         Platform.runLater(() -> this.setBackground(new Background(
                 new BackgroundFill(color, null, null))));
     }

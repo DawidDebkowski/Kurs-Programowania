@@ -10,24 +10,33 @@ public class CellThread extends Thread implements IActiveListener {
     private int column;
     private MGridPane pane;
     private GridCell cell;
-    private double chance;
-    private double delay;
+    private double chance; // p
+    private double delay; // k
+    // zmienna odpowiadająca za wstrzymanie wątku
     volatile private boolean isActive = true;
-    volatile private boolean shutdown = false;
+    // zmienna warunkowa działania wątku
+    volatile private boolean isWorking = true;
 
     /**
-     * Tworzy funkcję dla wątku z podanymi parametrami
+     * Tworzy wątek z podanymi parametrami
      * 
-     * @param pane
-     * @param cell
-     * @param k
-     * @param p
-     * @param r
-     * @param c
+     * @param pane plansza
+     * @param cell przypisany kafelek
+     * @param k interwał
+     * @param p szansa na zmianę
+     * @param r wiersz
+     * @param c kolumna
      */
     public CellThread(MGridPane pane, GridCell cell, double k, double p, int r, int c) {
         this.pane = pane;
         this.cell = cell;
+        setParameters(k, p, r, c);
+    }
+
+    /**
+     * Funkcja do zmiany parametrów
+     */
+    public void setParameters(double k, double p, int r, int c) {
         this.chance = p;
         this.delay = k;
         this.row = r;
@@ -39,13 +48,15 @@ public class CellThread extends Thread implements IActiveListener {
      */
     @Override
     public void run() {
-        while (!shutdown) {
+        while (isWorking) {
             try {
+                //od razu po aktywowaniu (isActive) wątek zacznie pracować
                 Thread.sleep(Math.round(Generator.nextDoubleBounds(delay)));
 
-                if(!isActive) {
+                //nie musimy dokonywać niepotrzebnej synchronizacji jeżeli wątek jest aktywny
+                if (!isActive) {
                     synchronized (this) {
-                        while (!isActive && !shutdown) {    
+                        while (!isActive && isWorking) {
                             wait();
                         }
                     }
@@ -54,6 +65,7 @@ public class CellThread extends Thread implements IActiveListener {
                 e.printStackTrace();
             }
 
+            //zmiana koloru
             if (Generator.Generator.nextDouble() < chance) {
                 changeToRandom();
             } else {
@@ -62,14 +74,14 @@ public class CellThread extends Thread implements IActiveListener {
         }
     }
 
-    //synchronizuje cały grid żeby uniknąć kolizji brania koloru
+    // synchronizuje cały grid żeby uniknąć kolizji brania koloru
     private void changeToNeighbours() {
         synchronized (pane) {
             System.out.println("Start: " + this.getName());
             List<Color> colors = pane.getNeighbouringColors(row, column);
             Color newColor;
 
-            //jeżeli nie ma sąsiadów nie zmienia koloru 
+            // jeżeli nie ma sąsiadów nie zmienia koloru
             if (colors.size() != 0) {
                 newColor = getAverageColor(colors);
                 cell.setBackgroundColor(newColor);
@@ -80,6 +92,7 @@ public class CellThread extends Thread implements IActiveListener {
 
     }
 
+    //wylicza średni kolor z listy kolorów
     private Color getAverageColor(List<Color> colors) {
         int n = colors.size();
         double red = 0;
@@ -97,12 +110,17 @@ public class CellThread extends Thread implements IActiveListener {
         cell.setBackgroundColor(Generator.getRandomColor());
     }
 
-    @Override
+    /**
+     *  Wstrzymuje lub wznawia pracę wątku
+     */
     public void setActive(boolean newActive) {
         isActive = newActive;
     }
 
+    /**
+     * Całkowicie kończy pracę wątku
+     */
     public void shutdown() {
-        shutdown = true;
+        isWorking = false;
     }
 }
