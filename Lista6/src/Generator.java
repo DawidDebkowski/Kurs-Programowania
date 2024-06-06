@@ -6,7 +6,6 @@ import javafx.scene.paint.Color;
  * Klasa odpowiadająca za generowanie losowych liczb
  */
 public class Generator {
-
     /**
      * Jeden generator losowy na cały program.
      */

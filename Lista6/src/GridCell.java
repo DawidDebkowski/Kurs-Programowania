@@ -18,13 +18,14 @@ public class GridCell extends Pane implements IActiveListener{
     public boolean isActive() {
         return isActive;
     }
-
+    
+    //zsynchronizowana aby zapobiec odczytaniu koloru podczas zmiany aktywności
     /**
      * Zmienia status aktywności kafelka
      * 
      * @param isActive nowy stan aktywności
      */
-    public void setActive(boolean isActive) {
+    public synchronized void setActive(boolean isActive) {
         this.isActive = isActive;
         updateInsets();
     }
@@ -48,24 +49,26 @@ public class GridCell extends Pane implements IActiveListener{
         setBackgroundColor(color);
     }
 
+    //zsynchronizowana aby zapobiec odczytaniu koloru podczas zmiany aktywności
     /**
      * Ustawia kolor tła
      * 
      * @param color nowy kolor
      */
-    public void setBackgroundColor(Color color) {
+    public synchronized void setBackgroundColor(Color color) {
         //wątek javafx zmieni kolor tła dopiero gdy będzie mogła to zrobić
         //inaczej kafelki czasami "psują się" i przestają zmieniać kolor
         Platform.runLater(() -> this.setBackground(new Background(
                 new BackgroundFill(color, null, null))));
     }
 
+    //zsynchronizowana aby zapobiec odczytaniu koloru podczas zmiany aktywności
     /**
      * Zwraca kolor tła
      * 
      * @return kolor
      */
-    public Color getBackgroundColor() {
+    public synchronized Color getBackgroundColor() {
         if (!isActive) {
             return null;
         }

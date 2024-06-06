@@ -67,7 +67,7 @@ public class CanvasPane extends Pane {
     }
 
     /**
-     * Procedura deaktywuje poprzednią figurę, a potem ustawią nową
+     * Procedura dezaktywuje poprzednią figurę, a potem ustawią nową
      * jako aktywną i ustawia jej efekty wizualne aktywnej figury
      * 
      * @param shape nowa figura do ustawienia jako aktywna

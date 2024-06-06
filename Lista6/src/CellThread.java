@@ -30,17 +30,20 @@ public class CellThread extends Thread implements IActiveListener {
     public CellThread(MGridPane pane, GridCell cell, double k, double p, int r, int c) {
         this.pane = pane;
         this.cell = cell;
-        setParameters(k, p, r, c);
-    }
-
-    /**
-     * Funkcja do zmiany parametrów
-     */
-    public void setParameters(double k, double p, int r, int c) {
-        this.chance = p;
-        this.delay = k;
         this.row = r;
         this.column = c;
+        setParameters(k, p);
+    }
+
+    //gdybyśmy chcieli zmienić je w trakcie działania
+    /**
+     * Funkcja do zmiany parametrów
+     * @param k interwał
+     * @param p szansa na zmianę
+     */
+    public void setParameters(double k, double p) {
+        this.chance = p;
+        this.delay = k;
     }
 
     /**

@@ -17,7 +17,6 @@ public class App extends Application {
      * Funkcja main
      * 
      * @param args lista argumentów: szerokość, wysokość, interwał, szansa na zmianę
-     * @throws Exception
      */
     public static void main(String[] args) throws Exception {
         try {
@@ -54,7 +53,9 @@ public class App extends Application {
         grid.startThreads();
     }
 
-    // Zatrzymanie pracy wątków po zamknięciu okna
+    /**
+     * Zatrzymanie pracy wątków po zamknięciu okna
+     */
     @Override
     public void stop() {
         grid.stopThreads();
