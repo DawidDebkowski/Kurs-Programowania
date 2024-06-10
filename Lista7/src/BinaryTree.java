@@ -9,16 +9,24 @@ public class BinaryTree<T extends Comparable<T>> {
         insert(new Node<T>(rootKey, null));
     }
 
+    public Node<T> search(T key) {
+        return search(rootNode, key);
+    }
+
     public Node<T> search(Node<T> startNode, T key) {
         if (startNode == null ||
                 startNode.key.compareTo(key) == 0) {
             return startNode;
         }
 
-        if (startNode.key.compareTo(key) < 0) {
+        if (key.compareTo(startNode.key) < 0) {
             return search(startNode.left, key);
         } else
             return search(startNode.right, key);
+    }
+
+    public void insert(T key) {
+        insert(new Node<T>(key, null));
     }
 
     public void insert(Node<T> node) {
@@ -28,7 +36,7 @@ public class BinaryTree<T extends Comparable<T>> {
         // szukanie miejsca na węzeł
         while (searchNode != null) {
             parent = searchNode;
-            if (searchNode.key.compareTo(node.key) < 0) {
+            if (node.key.compareTo(searchNode.key) < 0) {
                 searchNode = searchNode.left;
             } else
                 searchNode = searchNode.right;
@@ -37,19 +45,42 @@ public class BinaryTree<T extends Comparable<T>> {
         // podpięcie węzła
         node.parent = parent;
         if (parent == null) {
-            rootNode = node;
-        } else if (parent.key.compareTo(node.key) < 0) {
+            setRoot(node);
+        } else if (node.key.compareTo(parent.key) < 0) {
             parent.left = node;
         } else {
             parent.right = node;
         }
     }
 
-    public void delete(Node<T> node) {
-        Node<T> newNode;
+    public Node<T> delete(Node<T> node) {
+        if(node == null)
+            return null;
+
+        Node<T> successor = null;
         if(node.left == null || node.right == null) {
-            newNode = node;
+            successor = node;
+        } else successor = treeSuccessor(node);
+        
+        Node<T> child = null;
+        if(successor.left != null) {
+            child = successor.left;
+        } else child = successor.right;
+
+        if(child != null) {
+            child.parent = successor.parent;
         }
+
+        if(successor.parent == null) {
+            setRoot(child);
+        } else if(successor == successor.parent.left) {
+            successor.parent.left = child;
+        } else successor.parent.right = child;
+
+        if(successor != node) {
+            node.copyNode(successor);
+        }
+        return successor;
     }
 
     private Node<T> treeSuccessor(Node<T> node) {
@@ -71,7 +102,19 @@ public class BinaryTree<T extends Comparable<T>> {
         return node;
     }
 
-    public void draw() {
+    private void setRoot(Node<T> newRoot) {
+        rootNode = newRoot;
+    }
 
+    public String toString() { return toS(rootNode); }
+    
+    private String toS(Node<T> w) { 
+      if( w!=null )
+        return "("+w.key+"l:"+toS(w.left)+"p:"+toS(w.right)+");";
+      return "()";
+    }
+
+    public String draw() {
+        return toS(rootNode);
     }
 }
