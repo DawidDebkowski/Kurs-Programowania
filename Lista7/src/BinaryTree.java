@@ -46,7 +46,29 @@ public class BinaryTree<T extends Comparable<T>> {
     }
 
     public void delete(Node<T> node) {
+        Node<T> newNode;
+        if(node.left == null || node.right == null) {
+            newNode = node;
+        }
+    }
 
+    private Node<T> treeSuccessor(Node<T> node) {
+        if(node.right != null)
+            return treeMinimum(node.right);
+        
+        Node<T> parent = node.parent;
+        while (parent != null && node == parent.right) {
+            node = parent;
+            parent = node.parent;
+        }
+        return parent;
+    }
+
+    private Node<T> treeMinimum(Node<T> node) {
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node;
     }
 
     public void draw() {
