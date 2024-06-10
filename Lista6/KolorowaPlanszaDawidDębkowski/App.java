@@ -6,15 +6,16 @@ import javafx.stage.Stage;
  * Głowna klasa uruchamiająca aplikację
  */
 public class App extends Application {
-    private static int n = 6;
+    private static int n = 10;
     private static int m = 10;
-    private static double k = 100;
-    private static double p = 0.005;
+    private static double k = 1000;
+    private static double p = 0.33;
 
     private MGridPane grid;
 
     /**
      * Funkcja main
+     * W przypadku braku argumentów uruchomi je z argumentami domyślnymi
      * 
      * @param args lista argumentów: szerokość, wysokość, interwał, szansa na zmianę
      */
@@ -33,7 +34,7 @@ public class App extends Application {
             return;
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Za mało argumentów");
-            // return; TODO: ADD RETURN
+            // return; //brak return aby można było uruchomić z domyślnymi argumentami
         }
         launch(args);
     }
@@ -49,6 +50,7 @@ public class App extends Application {
         Scene scene = new Scene(grid);
 
         stage.setScene(scene);
+        stage.setTitle("Kolorowa Symulacja");
         stage.show();
         grid.startThreads();
     }

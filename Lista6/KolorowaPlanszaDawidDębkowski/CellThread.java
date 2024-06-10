@@ -13,6 +13,8 @@ public class CellThread extends Thread implements IActiveListener {
     private double chance; // p
     private double delay; // k
     // zmienna odpowiadająca za wstrzymanie wątku
+    // jest osobna od kafelka, aby można było (ewentualnie) zaimplementować kafelek
+    // biorący udział w symulacji, ale nie zmieniający koloru
     volatile private boolean isActive = true;
     // zmienna warunkowa działania wątku
     volatile private boolean isWorking = true;
@@ -22,10 +24,10 @@ public class CellThread extends Thread implements IActiveListener {
      * 
      * @param pane plansza
      * @param cell przypisany kafelek
-     * @param k interwał
-     * @param p szansa na zmianę
-     * @param r wiersz
-     * @param c kolumna
+     * @param k    interwał
+     * @param p    szansa na zmianę
+     * @param r    wiersz
+     * @param c    kolumna
      */
     public CellThread(MGridPane pane, GridCell cell, double k, double p, int r, int c) {
         this.pane = pane;
@@ -35,9 +37,10 @@ public class CellThread extends Thread implements IActiveListener {
         setParameters(k, p);
     }
 
-    //gdybyśmy chcieli zmienić je w trakcie działania
+    // gdybyśmy chcieli zmienić je w trakcie działania
     /**
      * Funkcja do zmiany parametrów
+     * 
      * @param k interwał
      * @param p szansa na zmianę
      */
@@ -53,10 +56,10 @@ public class CellThread extends Thread implements IActiveListener {
     public void run() {
         while (isWorking) {
             try {
-                //od razu po aktywowaniu (isActive) wątek zacznie pracować
+                // od razu po aktywowaniu (isActive) wątek zacznie pracować
                 Thread.sleep(Math.round(Generator.nextDoubleBounds(delay)));
 
-                //nie musimy dokonywać niepotrzebnej synchronizacji jeżeli wątek jest aktywny
+                // nie musimy dokonywać niepotrzebnej synchronizacji jeżeli wątek jest aktywny
                 if (!isActive) {
                     synchronized (this) {
                         while (!isActive && isWorking) {
@@ -68,7 +71,7 @@ public class CellThread extends Thread implements IActiveListener {
                 e.printStackTrace();
             }
 
-            //zmiana koloru
+            // zmiana koloru
             if (Generator.Generator.nextDouble() < chance) {
                 changeToRandom();
             } else {
@@ -95,7 +98,7 @@ public class CellThread extends Thread implements IActiveListener {
 
     }
 
-    //wylicza średni kolor z listy kolorów
+    // wylicza średni kolor z listy kolorów
     private Color getAverageColor(List<Color> colors) {
         int n = colors.size();
         double red = 0;
@@ -114,7 +117,7 @@ public class CellThread extends Thread implements IActiveListener {
     }
 
     /**
-     *  Wstrzymuje lub wznawia pracę wątku
+     * Wstrzymuje lub wznawia pracę wątku
      */
     public void setActive(boolean newActive) {
         isActive = newActive;

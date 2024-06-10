@@ -99,7 +99,7 @@ public class MGridPane extends GridPane {
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                GridCell cell = new GridCell(Color.WHITE);
+                GridCell cell = new GridCell(Generator.getRandomColor());
                 cells[i][j] = cell;
                 this.add(cell, j, i); // Grid ma kolumna, wiersz
 

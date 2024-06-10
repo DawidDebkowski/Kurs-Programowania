@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}",
+            "vmArgs": "--module-path C:\\\"Program Files\"\\Java\\javafx-sdk-21.0.3\\lib --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "App",
+            "vmArgs": "--module-path C:\\\"Program Files\"\\Java\\javafx-sdk-21.0.3\\lib --add-modules javafx.controls,javafx.fxml",
+        }
+    ]
+}
+
+/*
+javadoc --module-path C:\\\"Program Files\"\\Java\\javafx-sdk-21.0.3\\lib --add-modules javafx.controls,javafx.fxml -encoding cp1250 -charset cp1250 ..\src\*.java
+*/
+
+// javadoc --module-path C:\\\"Program Files\"\\Java\\javafx-sdk-21.0.3\\lib --add-modules javafx.controls,javafx.fxml -top ”<p><i> Page top </i></p>” -encoding cp1250 -charset cp1250 -private *.java
