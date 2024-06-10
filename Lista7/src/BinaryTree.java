@@ -3,26 +3,22 @@ public class BinaryTree<T extends Comparable<T>> {
 
     public BinaryTree() {
     }
-    //TODO zmienić if () na if()
+
+    // TODO zmienić if () na if()
     public BinaryTree(T rootKey) {
         insert(new Node<T>(rootKey, null));
     }
 
     public Node<T> search(Node<T> startNode, T key) {
-        if (startNode == null) {
-            return null;
+        if (startNode == null ||
+                startNode.key.compareTo(key) == 0) {
+            return startNode;
         }
 
-        Node<T> head = startNode;
-        while (head.key != key) {
-            if (head.key.compareTo(key) < 0) {
-                head = head.left;
-            } else
-                head = head.right;
-
-            if(head == null) {return head;}
-        }
-        return head;
+        if (startNode.key.compareTo(key) < 0) {
+            return search(startNode.left, key);
+        } else
+            return search(startNode.right, key);
     }
 
     public void insert(Node<T> node) {
