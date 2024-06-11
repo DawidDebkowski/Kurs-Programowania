@@ -9,19 +9,34 @@ public class Server<T extends Comparable<T>> {
         tree = new BinaryTree<T>();
     }
 
-
-    public void insert(BinaryTree<T> t, T key) {
-        t.insert(key);
-        t.draw();
+    /**
+     * Wyszukuje czy podana wartość jest w drzewie.
+     * @param key klucz do wyszukania
+     * @return Prawa/Fałsz - Prawda jeżeli podana wartość jest w drzewie
+     */
+    public boolean search(T key) {
+        return tree.search(key) != null;
     }
 
-    public Node<T> search(BinaryTree<T> t, T key) {
-        return t.search(key);
+    /**
+     * Dodaje węzeł o wskazanym kluczu do drzewa
+     * 
+     * @param key klucz nowego węzła
+     * @return wygląd drzewa po zmianie
+     */
+    public String insert(T key) {
+        tree.insert(key);
+        return tree.draw();
     }
 
-    public Node<T> delete(BinaryTree<T> t, Node<T> node) {
-        Node<T> temp = t.delete(node);
-        t.draw();
-        return temp;
+    /**
+     * Usuwa węzeł o wskazanym kluczu z drzewa
+     * 
+     * @param key klucz węzła do usunięcia
+     * @return wygląd drzewa po zmianie
+     */
+    public String delete(T key) {
+        tree.delete(new Node<T>(key));
+        return tree.draw();
     }
 }
