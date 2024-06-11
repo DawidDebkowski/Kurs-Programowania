@@ -9,10 +9,23 @@ public class BinaryTree<T extends Comparable<T>> {
         insert(new Node<T>(rootKey, null));
     }
 
+    /**
+     * Wyszukuje węzeł o wskazanym kluczu zaczynając od korzenia
+     * 
+     * @param key klucz szukanego węzła
+     * @return obiekt węzła
+     */
     public Node<T> search(T key) {
         return search(rootNode, key);
     }
 
+    /**
+     * Wyszukuje węzeł o wskazanym kluczu zaczynając od startNode
+     * 
+     * @param startNode obiekt węzła do rozpoczęcia wyszukiwania
+     * @param key klucz szukanego węzła
+     * @return obiekt węzła
+     */
     public Node<T> search(Node<T> startNode, T key) {
         if (startNode == null ||
                 startNode.key.compareTo(key) == 0) {
@@ -25,11 +38,21 @@ public class BinaryTree<T extends Comparable<T>> {
             return search(startNode.right, key);
     }
 
+    /**
+     * Dodaje węzeł o wskazanym kluczu do drzewa
+     * 
+     * @param key klucz nowego węzła
+     */
     public void insert(T key) {
         insert(new Node<T>(key, null));
     }
 
-    public void insert(Node<T> node) {
+    /**
+     * Dodaje wskazany węzeł do drzewa
+     * 
+     * @param node obiekt węzła do dodania, musi mieć klucz
+     */
+    private void insert(Node<T> node) {
         Node<T> parent = null;
         Node<T> searchNode = rootNode;
 
@@ -53,40 +76,48 @@ public class BinaryTree<T extends Comparable<T>> {
         }
     }
 
+    /** Usuwa wskazany węzeł
+     * @param node węzeł do usunięcia
+     * @return usunięty węzeł
+     */
     public Node<T> delete(Node<T> node) {
-        if(node == null)
+        if (node == null)
             return null;
 
         Node<T> successor = null;
-        if(node.left == null || node.right == null) {
+        if (node.left == null || node.right == null) {
             successor = node;
-        } else successor = treeSuccessor(node);
-        
-        Node<T> child = null;
-        if(successor.left != null) {
-            child = successor.left;
-        } else child = successor.right;
+        } else
+            successor = treeSuccessor(node);
 
-        if(child != null) {
+        Node<T> child = null;
+        if (successor.left != null) {
+            child = successor.left;
+        } else
+            child = successor.right;
+
+        if (child != null) {
             child.parent = successor.parent;
         }
 
-        if(successor.parent == null) {
+        if (successor.parent == null) {
             setRoot(child);
-        } else if(successor == successor.parent.left) {
+        } else if (successor == successor.parent.left) {
             successor.parent.left = child;
-        } else successor.parent.right = child;
+        } else
+            successor.parent.right = child;
 
-        if(successor != node) {
+        if (successor != node) {
             node.copyNode(successor);
         }
         return successor;
     }
 
+    //podaje następnika wybranego węzła
     private Node<T> treeSuccessor(Node<T> node) {
-        if(node.right != null)
+        if (node.right != null)
             return treeMinimum(node.right);
-        
+
         Node<T> parent = node.parent;
         while (parent != null && node == parent.right) {
             node = parent;
@@ -95,23 +126,26 @@ public class BinaryTree<T extends Comparable<T>> {
         return parent;
     }
 
+    //znajduje najmniejszy(kluczem) węzeł w poddrzewie
     private Node<T> treeMinimum(Node<T> node) {
         while (node.left != null) {
             node = node.left;
         }
         return node;
     }
-
+    
     private void setRoot(Node<T> newRoot) {
         rootNode = newRoot;
     }
 
-    public String toString() { return toS(rootNode); }
-    
-    private String toS(Node<T> w) { 
-      if( w!=null )
-        return "("+w.key+"l:"+toS(w.left)+"p:"+toS(w.right)+");";
-      return "()";
+    public String toString() {
+        return toS(rootNode);
+    }
+
+    private String toS(Node<T> w) {
+        if (w != null)
+            return "(" + w.key + "l:" + toS(w.left) + "p:" + toS(w.right) + ");";
+        return "()";
     }
 
     public String draw() {
