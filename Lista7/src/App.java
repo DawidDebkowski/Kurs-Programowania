@@ -1,16 +1,37 @@
+import java.util.Scanner;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        Server<Integer> server = new Server<Integer>(10);
-        BinaryTree<Integer> bartoszSlowik = new BinaryTree<Integer>();
-        bartoszSlowik.insert(5);
-        bartoszSlowik.insert(10);
-        bartoszSlowik.insert(20);
-        bartoszSlowik.insert(15);
-        for (int i = 0; i <= 10; i++) {
-            bartoszSlowik.insert(i);
+        Scanner userInput = new Scanner(System.in);
+        System.out.println("-----DRZEWO BINARNE-----");
+        System.out.println("Wybierz typ drzewa: (S - String, I - Integer, D - Double)");
+        String type = userInput.nextLine();
+        Client<?> client = null;
+        switch (type) {
+            case "S":
+                client = new Client<String>();
+                break;
+            case "I":
+                client = new Client<Integer>();
+                break;
+            case "D":
+                client = new Client<Double>();
+                break;
         }
+
+        if(client == null) {
+            System.out.println("błędny typ");
+            close(userInput);
+        }
+        client.mainLoop();
+        userInput.close();
 
         TreeViewer view = new TreeViewer();
         view.show(args);
+    }
+
+    private static void close(Scanner s) {
+        s.close();
+        System.exit(0);
     }
 }

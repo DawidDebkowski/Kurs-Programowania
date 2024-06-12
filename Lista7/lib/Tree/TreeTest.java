@@ -1,11 +1,12 @@
-public class TreeTest 
-{
-  public static void main(String[] args)
-  {
-    // Drzewo dla elementow typu String  
+public class TreeTest {
+  public static void main(String[] args) {
+    // Drzewo dla elementow typu String
     Tree<String> d = new Tree<String>();
 
-    d.insert("Maciek"); d.insert("Ala"); d.insert("Kot"); d.insert("Zbyszek");
+    d.insert("Maciek");
+    d.insert("Ala");
+    d.insert("Kot");
+    d.insert("Zbyszek");
 
     System.out.println("Sprawdzenie czy wystepuje Ala");
     System.out.println(d.isElement("Ala"));

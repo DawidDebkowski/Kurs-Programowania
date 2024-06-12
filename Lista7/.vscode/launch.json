@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Server",
+            "request": "launch",
+            "mainClass": "Server"
+            
+        },
+        {
+            "type": "java",
+            "name": "Launch Client",
+            "request": "launch",
+            "mainClass": "Client"
+            
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}",
@@ -18,7 +32,15 @@
             "mainClass": "App",
             "vmArgs": "--module-path C:\\\"Program Files\"\\Java\\javafx-sdk-21.0.3\\lib --add-modules javafx.controls,javafx.fxml",
         }
-    ]
+    ],
+    "compounds": [
+        {
+          "name": "Server/Client",
+          "configurations": ["Launch Server", "Launch Client"],
+        //   "preLaunchTask": "${defaultBuildTask}",
+          "stopAll": true
+        }
+      ]
 }
 
 /*
