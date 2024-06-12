@@ -15,8 +15,8 @@ public class BinaryTree<T extends Comparable<T>> {
      * @param key klucz szukanego węzła
      * @return obiekt węzła
      */
-    public Node<T> search(T key) {
-        return search(rootNode, key);
+    public boolean search(T key) {
+        return search(rootNode, key) == null;
     }
 
     /**

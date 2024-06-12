@@ -31,12 +31,13 @@ public class Client<T extends Comparable<T>> {
             String text;
 
             do {
+                // Odbieranie z serwera
+                System.out.println(in.readLine());
+
                 text = console.readLine("Enter text: ");
 
                 // Wysyłanie do serwera
                 out.println(text);
-                // Odbieranie z serwera
-                System.out.println(in.readLine());
 
             } while (!text.equals("bye"));
             socket.close();

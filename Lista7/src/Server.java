@@ -6,7 +6,7 @@ import java.util.Map;
 enum TreeType {
     string("s"), integer("i"), doubleT("d");
 
-    String key;
+    final String key;
 
     TreeType(String key) {
         this.key = key;
@@ -33,7 +33,7 @@ public class Server {
                 Socket socket = serverSocket.accept();
                 System.out.println("New client connected");
 
-                new ServerThread(socket).start();
+                new ServerThread(socket, stringTree, integerTree, doubleTree).start();
             }
 
         } catch (IOException ex) {
