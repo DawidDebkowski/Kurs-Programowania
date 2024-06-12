@@ -8,14 +8,13 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Client<T extends Comparable<T>> {
-    private Server<T> server;
+    private Server server;
 
-    public Client(Server<T> server) {
+    public Client(Server server) {
         this.server = server;
     }
 
     public Client() {
-        this.server = new Server<T>();
     }
 
     public static void main(String[] args) {
@@ -77,7 +76,6 @@ public class Client<T extends Comparable<T>> {
             default:
                 break;
         }
-        Server<?> server;
 
     }
 }

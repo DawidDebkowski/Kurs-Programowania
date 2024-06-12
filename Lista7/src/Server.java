@@ -1,9 +1,27 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
 
-public class Server<T extends Comparable<T>> {
-    private BinaryTree<T> tree;
+enum TreeType {
+    string("s"), integer("i"), doubleT("d");
+
+    String key;
+
+    TreeType(String key) {
+        this.key = key;
+    }
+}
+
+public class Server {
+    private static BinaryTree<String> stringTree = new BinaryTree<String>();
+    private static BinaryTree<Integer> integerTree = new BinaryTree<Integer>();
+    private static BinaryTree<Double> doubleTree = new BinaryTree<Double>();
+
+    private static Map<String, BinaryTree<?>> treeMap = Map.of(TreeType.integer.key, integerTree,
+            TreeType.string.key, stringTree);
+    // new Map<String, BinaryTree<?>>(){{treeMap.put(TreeType.integer.key,
+    // integerTree);}};
 
     public static void main(String[] args) {
 
@@ -24,43 +42,12 @@ public class Server<T extends Comparable<T>> {
         }
     }
 
-    public Server(T rootKey) {
-        tree = new BinaryTree<T>(rootKey);
+    public static BinaryTree<?> getTree(String key) throws NullPointerException {
+        System.out.println(key + " k");
+        return treeMap.get(key);
     }
 
-    public Server() {
-        tree = new BinaryTree<T>();
-    }
-
-    /**
-     * Wyszukuje czy podana wartość jest w drzewie.
-     * 
-     * @param key klucz do wyszukania
-     * @return Prawa/Fałsz - Prawda jeżeli podana wartość jest w drzewie
-     */
-    public boolean search(T key) {
-        return tree.search(key) != null;
-    }
-
-    /**
-     * Dodaje węzeł o wskazanym kluczu do drzewa
-     * 
-     * @param key klucz nowego węzła
-     * @return wygląd drzewa po zmianie
-     */
-    public String insert(T key) {
-        tree.insert(key);
-        return tree.draw();
-    }
-
-    /**
-     * Usuwa węzeł o wskazanym kluczu z drzewa
-     * 
-     * @param key klucz węzła do usunięcia
-     * @return wygląd drzewa po zmianie
-     */
-    public String delete(T key) {
-        tree.delete(new Node<T>(key));
-        return tree.draw();
+    public static BinaryTree<Integer> getIntegerTree() {
+        return integerTree;
     }
 }

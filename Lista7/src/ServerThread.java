@@ -4,30 +4,41 @@ import java.net.*;
 
 public class ServerThread extends Thread {
     private Socket socket;
+    private Server server;
+    private BufferedReader in;
+    private PrintWriter out;
+    private TreeType treeType;
  
     public ServerThread(Socket socket) {
         this.socket = socket;
     }
  
     public void run() {
-
         try {
-             //Odbieranie od socketa
-            InputStream input = socket.getInputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(input));
-    
-            //Wysyłanie do socketa
-            OutputStream output = socket.getOutputStream();
-            PrintWriter out = new PrintWriter(output, true);
+             setupStreams();
     
             String line;
             do {
-                // Odbieranie od socketa
-                line = in.readLine();
+                System.out.println("new");
                 // Wypisywanie na serwerze
-                System.out.println(line);       
+                String type = null;
+                while (type == null) {
+                    try {
+                        type = ChooseTreeType();
+                        System.out.println(type);
+                    } catch (NullPointerException e) {
+                        type = null;
+                    }
+                }
+                line = type;
+
+                do {
+                    line = in.readLine();
+
+                    out.println("->("+line+")");
+                } while (!line.equals("bye"));
                 // Wysyłanie do socketa
-                out.println("-> ("+line+")");
+                // out.println("-> ("+type+")");
     
             } while (!line.equals("bye"));
     
@@ -36,5 +47,22 @@ public class ServerThread extends Thread {
             System.out.println("Server exception: " + ex.getMessage());
             ex.printStackTrace();
         }
+    }
+
+    private void setupStreams() throws IOException {
+        //Odbieranie od socketa
+        InputStream input = socket.getInputStream();
+        in = new BufferedReader(new InputStreamReader(input));
+   
+        //Wysyłanie do socketa
+        OutputStream output = socket.getOutputStream();
+        out = new PrintWriter(output, true);
+    }
+
+    private String ChooseTreeType() throws IOException, NullPointerException {
+        out.println("Wybierz typ drzewa. s - string, i - integer, d - double");
+        String line = in.readLine();
+        tree = Server.getTree(line);
+        return line;
     }
 }
