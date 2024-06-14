@@ -1,15 +1,17 @@
 import java.io.*;
+import java.lang.reflect.Method;
 import java.net.*;
 
-interface doStuff {
+interface runMethod {
     public String goDoIt(String arg);
 }
 
 public class ServerThread extends Thread {
     private final String ERROR_MESSAGE = "Error: ";
-    private BinaryTree<String> stringTree;
-    private BinaryTree<Integer> integerTree;
-    private BinaryTree<Double> doubleTree;
+    private final String METHODS = "search, insert, delete, draw";
+    private BinaryTree<String> treeString;
+    private BinaryTree<Integer> treeInteger;
+    private BinaryTree<Double> treeDouble;
 
     private Socket socket;
     private BufferedReader in;
@@ -18,38 +20,46 @@ public class ServerThread extends Thread {
 
     public ServerThread(Socket socket, BinaryTree<String> st, BinaryTree<Integer> it, BinaryTree<Double> dt) {
         this.socket = socket;
-        stringTree = st;
-        integerTree = it;
-        doubleTree = dt;
+        treeString = st;
+        treeInteger = it;
+        treeDouble = dt;
     }
 
     public void run() {
         try {
             setupStreams();
 
+            System.out.println("Wybieranie rodzaju drzewa");
             chooseTreeType();
             String line;
-            out.println("Podaj komendę: ");
+            out.println("Podaj komendę: " + "(" + METHODS + ")");
             do {
-                System.out.println("Start Loop");
-
+                System.out.println("Start pętli komendy");
+                
                 line = in.readLine();
+                if(line.equals("another_tree")) {
+                    chooseTreeType();
+                    System.out.println("Start pętli komendy po wybraniu nowego drzewa");
+                    line = in.readLine();
+                }
 
                 String outString = null;
-                String[] query = line.split(" ");
-                String command = query[0];
                 try {
+                    // wez input klienta
+                    String[] query = line.split(" ");
+                    String command = query[0];
                     String argument = query[1];
 
+                    // wykonaj odpowiednią metodę dla wybranego typu
                     if (treeType == TreeType.integer) {
-                        test<Integer> hi = new test<Integer>(integerTree);
-                        outString = hi.doStuff(command, Integer.parseInt(argument));
+                        TreeMethodHandler<Integer> hi = new TreeMethodHandler<Integer>(treeInteger);
+                        outString = hi.runMethod(command, Integer.parseInt(argument));
                     } else if (treeType == TreeType.doubleT) {
-                        test<Double> hi = new test<Double>(doubleTree);
-                        outString = hi.doStuff(command, Double.parseDouble(argument));
+                        TreeMethodHandler<Double> hi = new TreeMethodHandler<Double>(treeDouble);
+                        outString = hi.runMethod(command, Double.parseDouble(argument));
                     } else if (treeType == TreeType.string) {
-                        test<String> hi = new test<String>(stringTree);
-                        outString = hi.doStuff(command, argument);
+                        TreeMethodHandler<String> hi = new TreeMethodHandler<String>(treeString);
+                        outString = hi.runMethod(command, argument);
                     }
                 } catch (IndexOutOfBoundsException ex) {
                     outString = ERROR_MESSAGE + "za mało argumentów";
@@ -58,35 +68,13 @@ public class ServerThread extends Thread {
                 }
 
                 out.println(outString);
-
             } while (!line.equals("bye"));
 
             socket.close();
         } catch (IOException ex) {
             System.out.println("Server exception: " + ex.getMessage());
             ex.printStackTrace();
-        } 
-    }
-
-    private String search(String argument) {
-        String outString;
-        boolean successful = false;
-        if (treeType == TreeType.integer) {
-            successful = integerTree.search(Integer.parseInt(argument));
-        } else if (treeType == TreeType.doubleT) {
-            successful = doubleTree.search(Double.parseDouble(argument));
-        } else if (treeType == TreeType.string) {
-            successful = stringTree.search(argument);
         }
-
-        // stworzenie odpowiedzi
-        outString = "Search complete: ";
-        if (!successful) {
-            outString += "not ";
-        }
-        outString += "found";
-
-        return outString;
     }
 
     private void setupStreams() throws IOException {
@@ -116,42 +104,36 @@ public class ServerThread extends Thread {
     }
 }
 
-class test<T extends Comparable<T>> {
+class TreeMethodHandler<T extends Comparable<T>> {
     private BinaryTree<T> bt;
 
-    test(BinaryTree<T> bt) {
+    TreeMethodHandler(BinaryTree<T> bt) {
         this.bt = bt;
     }
 
-    public String doStuff(String methodName, T arg) {
+    public String runMethod(String methodName, T arg) {
         String outString = "";
-        try {
-            switch (methodName) {
-                case "search":
-                    boolean successful = bt.search(arg);
+        switch (methodName) {
+            case "search":
+                boolean successful = bt.search(arg);
 
-                    outString = "Search complete: ";
-                    if (!successful) {
-                        outString += "not ";
-                    }
-                    outString += "found";
+                outString = "Search complete: ";
+                if (!successful) {
+                    outString += "not ";
+                }
+                outString += "found";
 
-                    return outString;
-                case "insert":
-                    bt.insert(arg);
-                    return bt.draw();
-                case "delete":
-                    bt.delete(arg);
-                    return bt.draw();
-
-                case "draw":
-                    return bt.draw();
-                default:
-                    break;
-            }
-
-            return "error";
-        } 
-        return outString;
+                return outString;
+            case "insert":
+                bt.insert(arg);
+                return bt.draw();
+            case "delete":
+                bt.delete(arg);
+                return bt.draw();
+            case "draw":
+                return bt.draw();
+            default:
+                return "No such method.";
+        }
     }
 }
