@@ -5,22 +5,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 public class Client<T extends Comparable<T>> {
-    private Server server;
-
-    public Client(Server server) {
-        this.server = server;
-    }
-
-    public Client() {
-    }
+    public Client() {}
 
     public static void main(String[] args) {
 
         try {
-
             Socket socket = new Socket("localhost", 4444);
             // Wysyłanie do serwera
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -48,35 +39,5 @@ public class Client<T extends Comparable<T>> {
         } catch (IOException ex) {
             System.out.println("I/O error: " + ex.getMessage());
         }
-    }
-
-    public void mainLoop() {
-        Scanner userInput = new Scanner(System.in);
-        System.out.println("-----Klient DRZEWA BINARNEGO-----");
-        System.out.println("""
-                Wybierz polecenie:
-                s - search
-                i - insert
-                d - delete
-                w - draw
-                """);
-        String method = userInput.nextLine();
-        switch (method) {
-            case "s":
-                String input = userInput.nextLine();
-                T processed = null;
-                try {
-                    if (processed instanceof Integer) {
-                        int a = Integer.parseInt(input);
-                    }
-                } catch (Exception e) {
-
-                }
-                break;
-
-            default:
-                break;
-        }
-
     }
 }
