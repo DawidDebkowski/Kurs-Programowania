@@ -6,13 +6,18 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Client<T extends Comparable<T>> {
-    public Client() {}
+public class Client {
+    public Client() {
+    }
 
     public static void main(String[] args) {
+        Client client = new Client();
+        client.start("localhost", 4444);
+    }
 
+    public void start(String host, int port) {
         try {
-            Socket socket = new Socket("localhost", 4444);
+            Socket socket = new Socket(host, port);
             // Wysyłanie do serwera
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             // Odbieranie z serwera
@@ -39,5 +44,6 @@ public class Client<T extends Comparable<T>> {
         } catch (IOException ex) {
             System.out.println("I/O error: " + ex.getMessage());
         }
+
     }
 }

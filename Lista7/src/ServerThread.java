@@ -30,16 +30,18 @@ public class ServerThread extends Thread {
 
             System.out.println("Wybieranie rodzaju drzewa");
             chooseTreeType();
-            String line;
+            String line = "";
             out.println("Podaj komendę: " + "(" + METHODS + ")");
-            do {
+            while (!line.equals("bye")) {
                 System.out.println("Start pętli komendy");
                 
                 line = in.readLine();
-                if(line.equals("another_tree")) {
+                
+                if (line.equals("another_tree")) {
+                    System.out.println("Wybieranie rodzaju drzewa");
                     chooseTreeType();
-                    System.out.println("Start pętli komendy po wybraniu nowego drzewa");
-                    line = in.readLine();
+                    out.println("Podaj komendę: " + "(" + METHODS + ")");
+                    continue;
                 }
 
                 String outString = null;
@@ -67,7 +69,7 @@ public class ServerThread extends Thread {
                 }
 
                 out.println(outString);
-            } while (!line.equals("bye"));
+            }
 
             socket.close();
         } catch (IOException ex) {
@@ -92,8 +94,6 @@ public class ServerThread extends Thread {
             out.println("Wybierz typ drzewa. s - string, i - integer, d - double");
             String line = in.readLine();
             for (TreeType tt : TreeType.values()) {
-                System.out.println(line);
-                System.out.println("key: " + tt.key);
                 if (tt.key.equals(line)) {
                     this.treeType = tt;
                     isValid = true;
