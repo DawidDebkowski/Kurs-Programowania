@@ -38,59 +38,23 @@ public class ServerThread extends Thread {
                 String outString = null;
                 String[] query = line.split(" ");
                 String command = query[0];
-
-                class test<T extends Comparable<T>> {
-                    private BinaryTree<T> bt;
-
-                    test(BinaryTree<T> bt, T arg) {
-                        this.bt = bt;
-                    }
-
-                    public String doStuff(String methodName, T arg) {
-                        switch (methodName) {
-                            case "serach":
-                                String outString = "";
-                                boolean successful = bt.search(arg);
-
-                                outString = "Search complete: ";
-                                if (!successful) {
-                                    outString += "not ";
-                                }
-                                outString += "found";
-
-                                return outString;
-
-                            case "insert":
-                                bt.insert(arg);
-                                return bt.draw();
-                            case "delete":
-                                bt.delete(arg);
-                                return bt.draw();
-
-                            case "draw":
-                                return bt.draw();
-                            default:
-                                break;
-                        }
-
-                        return "error";
-                    }
-                }
-
-                doStuff method = null;
                 try {
                     String argument = query[1];
-                    if (command.equals("search")) {
-                        // method = (a) -> {stringTree.search(a);};
-                        method.goDoIt(argument);
-                        outString = search(argument);
-                    } else if (command.equals("insert")) {
 
+                    if (treeType == TreeType.integer) {
+                        test<Integer> hi = new test<Integer>(integerTree);
+                        outString = hi.doStuff(command, Integer.parseInt(argument));
+                    } else if (treeType == TreeType.doubleT) {
+                        test<Double> hi = new test<Double>(doubleTree);
+                        outString = hi.doStuff(command, Double.parseDouble(argument));
+                    } else if (treeType == TreeType.string) {
+                        test<String> hi = new test<String>(stringTree);
+                        outString = hi.doStuff(command, argument);
                     }
-                } catch (NumberFormatException ex) {
-                    outString = ERROR_MESSAGE + "zły typ danych";
                 } catch (IndexOutOfBoundsException ex) {
                     outString = ERROR_MESSAGE + "za mało argumentów";
+                } catch (NumberFormatException ex) {
+                    outString = ERROR_MESSAGE + "zły typ danych";
                 }
 
                 out.println(outString);
@@ -101,7 +65,7 @@ public class ServerThread extends Thread {
         } catch (IOException ex) {
             System.out.println("Server exception: " + ex.getMessage());
             ex.printStackTrace();
-        }
+        } 
     }
 
     private String search(String argument) {
@@ -149,5 +113,45 @@ public class ServerThread extends Thread {
                 }
             }
         }
+    }
+}
+
+class test<T extends Comparable<T>> {
+    private BinaryTree<T> bt;
+
+    test(BinaryTree<T> bt) {
+        this.bt = bt;
+    }
+
+    public String doStuff(String methodName, T arg) {
+        String outString = "";
+        try {
+            switch (methodName) {
+                case "search":
+                    boolean successful = bt.search(arg);
+
+                    outString = "Search complete: ";
+                    if (!successful) {
+                        outString += "not ";
+                    }
+                    outString += "found";
+
+                    return outString;
+                case "insert":
+                    bt.insert(arg);
+                    return bt.draw();
+                case "delete":
+                    bt.delete(arg);
+                    return bt.draw();
+
+                case "draw":
+                    return bt.draw();
+                default:
+                    break;
+            }
+
+            return "error";
+        } 
+        return outString;
     }
 }
