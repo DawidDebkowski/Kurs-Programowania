@@ -40,9 +40,13 @@ public class Client {
     }
 
     public String sendCommand(String command) {
+        out.println(command);
+        return getResponse();
+    }
+
+    public String getResponse() {
         String response;
         try {
-            out.println(command);
             response = in.readLine();
         } catch (IOException ex) {
             response = "I/O error: " + ex.getMessage();

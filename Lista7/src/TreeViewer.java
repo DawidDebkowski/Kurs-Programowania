@@ -17,9 +17,14 @@ import javafx.stage.Stage;
 public class TreeViewer extends Application {
     private Client client;
     private Label consoleOutput;
+    private TextField inputField;
 
-    public void setClient(Client client) {
-        this.client = client;
+    @Override
+    public void init() throws Exception{
+        client = new Client();
+        client.connect("localhost", 4444);
+        client.getResponse(); //welcome message
+        client.sendCommand("s");
     }
 
     @Override
@@ -31,21 +36,16 @@ public class TreeViewer extends Application {
         buttonBox.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
         buttonBox.setPadding(new Insets(20));
         buttonBox.setSpacing(10);
-        Button searchButton = new Button("Search");
-        Button insertButton = new Button("Insert");
-        Button deleteButton = new Button("Delete");
-        Button drawButton = new Button("Draw");
-        TextField inputField = new TextField();
-
-        searchButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent arg0) {
-                String out = client.sendCommand("search " + inputField.getText());
-                bottomPrint(out);
-            }
-
-        });
+        CommandButton insertButton = new CommandButton("Insert", client, inputField, consoleOutput);
+        CommandButton searchButton = new CommandButton("Search", client, inputField, consoleOutput);
+        CommandButton deleteButton = new CommandButton("Delete", client, inputField, consoleOutput);
+        CommandButton drawButton = new CommandButton("Draw", client, inputField, consoleOutput);
+        insertButton.setHandler("insert");
+        searchButton.setHandler("search");
+        deleteButton.setHandler("delete");
+        drawButton.setHandler("draw");
+        
+        inputField = new TextField();
 
         searchButton.setPrefWidth(Integer.MAX_VALUE);
         insertButton.setPrefWidth(Integer.MAX_VALUE);
@@ -76,6 +76,22 @@ public class TreeViewer extends Application {
     }
 }
 
-class CommandButton {
+class CommandButton extends Button{
+    Client client;
+    TextField input;
+    Label output;
 
+    public CommandButton(String text, Client client, TextField inputField, Label output) {
+        super(text);
+        this.client = client;
+        this.input = inputField;
+        this.output = output;
+    }
+
+    public void setHandler(String command) {
+        this.setOnAction((arg) -> {
+            String out = client.sendCommand("search " + input.getText());
+            output.setText(out);
+        });
+    }
 }
