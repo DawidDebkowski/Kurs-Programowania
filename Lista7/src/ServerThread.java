@@ -49,7 +49,12 @@ public class ServerThread extends Thread {
                     // wez input klienta
                     String[] query = line.split(" ");
                     String command = query[0];
-                    String argument = query[1];
+                    String argument = "";
+                    
+                    //TODO quick band aid
+                    if(!command.equals("draw")) {
+                        argument = query[1];
+                    }
 
                     // wykonaj odpowiednią metodę dla wybranego typu
                     if (treeType == TreeType.integer) {
