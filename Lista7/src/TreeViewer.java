@@ -1,6 +1,4 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,7 +8,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -26,9 +23,12 @@ public class TreeViewer extends Application {
         client.getResponse(); //welcome message
         client.sendCommand("s");
     }
-
+    
     @Override
     public void start(Stage stage) throws Exception {
+        inputField = new TextField();
+        consoleOutput = new Label();
+        
         BorderPane content = new BorderPane();
         content.setPrefSize(400, 400);
 
@@ -36,6 +36,7 @@ public class TreeViewer extends Application {
         buttonBox.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
         buttonBox.setPadding(new Insets(20));
         buttonBox.setSpacing(10);
+
         CommandButton insertButton = new CommandButton("Insert", client, inputField, consoleOutput);
         CommandButton searchButton = new CommandButton("Search", client, inputField, consoleOutput);
         CommandButton deleteButton = new CommandButton("Delete", client, inputField, consoleOutput);
@@ -45,7 +46,6 @@ public class TreeViewer extends Application {
         deleteButton.setHandler("delete");
         drawButton.setHandler("draw");
         
-        inputField = new TextField();
 
         searchButton.setPrefWidth(Integer.MAX_VALUE);
         insertButton.setPrefWidth(Integer.MAX_VALUE);
@@ -58,7 +58,6 @@ public class TreeViewer extends Application {
 
         content.setTop(buttonBox);
 
-        consoleOutput = new Label();
         content.setBottom(consoleOutput);
 
         Scene scene = new Scene(content);
@@ -90,7 +89,7 @@ class CommandButton extends Button{
 
     public void setHandler(String command) {
         this.setOnAction((arg) -> {
-            String out = client.sendCommand("search " + input.getText());
+            String out = client.sendCommand(command + " " + input.getText());
             output.setText(out);
         });
     }
