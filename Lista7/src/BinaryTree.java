@@ -76,7 +76,7 @@ public class BinaryTree<T extends Comparable<T>> {
         }
     }
 
-    public void delete(T key) {delete(new Node<T>(key));}
+    public void delete(T key) {delete(search(rootNode, key));}
 
     /** Usuwa wskazany węzeł
      * @param node węzeł do usunięcia
