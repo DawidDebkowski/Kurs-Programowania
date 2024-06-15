@@ -16,8 +16,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 public class TreeViewer extends Application {
@@ -25,6 +23,7 @@ public class TreeViewer extends Application {
     private Label consoleOutput;
     private TextField inputField;
     private HBox buttonBox;
+    private CommandButton drawButton;
 
     @Override
     public void init() throws Exception{
@@ -46,7 +45,7 @@ public class TreeViewer extends Application {
         consoleOutput.setPrefWidth(Integer.MAX_VALUE);
         consoleOutput.setAlignment(Pos.BASELINE_CENTER);;
         
-        setupInputBox();
+        buttonBox = setupInputBox();
         content.setTop(buttonBox);
         content.setBottom(consoleOutput);
         
@@ -78,8 +77,8 @@ public class TreeViewer extends Application {
         return mainMenu;
     }
 
-    private void setupInputBox() {
-        buttonBox = new HBox();
+    private HBox setupInputBox() {
+        HBox buttonBox = new HBox();
         buttonBox.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
         buttonBox.setPadding(new Insets(20));
         buttonBox.setSpacing(10);
@@ -87,47 +86,28 @@ public class TreeViewer extends Application {
         inputField = new TextField();
         inputField.setPrefWidth(Integer.MAX_VALUE);
 
+        CommandButton insertButton = new CommandButton("Wstaw", client, inputField, consoleOutput);
+        CommandButton searchButton = new CommandButton("Wyszukaj", client, inputField, consoleOutput);
+        CommandButton deleteButton = new CommandButton("Usuń", client, inputField, consoleOutput);
+        CommandButton drawButton = new CommandButton("Narysuj", client, inputField, consoleOutput);
+        insertButton.setHandler(TreeCommand.insert.name);
+        searchButton.setHandler(TreeCommand.search.name);
+        deleteButton.setHandler(TreeCommand.delete.name);
+        drawButton.setHandler(TreeCommand.draw.name);
+        this.drawButton = drawButton;
 
-        CommandButton insertButton = new CommandButton("Insert", client, inputField, consoleOutput);
-        CommandButton searchButton = new CommandButton("Search", client, inputField, consoleOutput);
-        CommandButton deleteButton = new CommandButton("Delete", client, inputField, consoleOutput);
-        CommandButton drawButton = new CommandButton("Draw", client, inputField, consoleOutput);
-        insertButton.setHandler("insert");
-        searchButton.setHandler("search");
-        deleteButton.setHandler("delete");
-        drawButton.setHandler("draw");
-        
         buttonBox.getChildren().addAll(inputField, searchButton,
         insertButton, deleteButton, drawButton);
+        return buttonBox;
     }
 
     private void ChangeTreeType(TreeType type) {
-        client.sendCommand("another_tree");
+        client.sendCommand(TreeCommand.changeTree.name);
         client.sendCommand(type.key);
+        drawButton.fire(); //wyswietl nowe drzewo
     }
 
     public void show(String... args) {
         launch(args);
-    }
-}
-
-class CommandButton extends Button{
-    Client client;
-    TextField input;
-    Label output;
-
-    public CommandButton(String text, Client client, TextField inputField, Label output) {
-        super(text);
-        this.setPrefWidth(Integer.MAX_VALUE);
-        this.client = client;
-        this.input = inputField;
-        this.output = output;
-    }
-
-    public void setHandler(String command) {
-        this.setOnAction((arg) -> {
-            String out = client.sendCommand(command + " " + input.getText());
-            output.setText(out);
-        });
     }
 }

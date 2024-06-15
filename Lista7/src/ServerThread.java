@@ -1,8 +1,15 @@
 import java.io.*;
 import java.net.*;
 
-interface runMethod {
-    public String goDoIt(String arg);
+enum TreeCommand {
+    search("search"), insert("insert"),
+    delete("delete"), draw("draw"), changeTree("another_tree");
+
+    public final String name;
+
+    private TreeCommand(String name) {
+        this.name = name;
+    }
 }
 
 public class ServerThread extends Thread {
@@ -34,13 +41,13 @@ public class ServerThread extends Thread {
             out.println("Podaj komendę: " + "(" + METHODS + ")");
             while (!line.equals("bye")) {
                 System.out.println("Start pętli komendy");
-                
+
                 line = in.readLine();
                 System.out.println(line);
                 String[] query = line.split(" ");
                 String command = query[0];
 
-                if (command.equals("another_tree")) {
+                if (command.equals(TreeCommand.changeTree.name)) {
                     System.out.println("Wybieranie rodzaju drzewa");
                     chooseTreeType();
                     out.println("Podaj komendę: " + "(" + METHODS + ")");
@@ -49,24 +56,26 @@ public class ServerThread extends Thread {
 
                 String outString = null;
                 try {
-                    // wez input klienta
-                    String argument = "";
-                    
-                    //TODO quick band aid
-                    if(!command.equals("draw")) {
-                        argument = query[1];
-                    }
-
                     // wykonaj odpowiednią metodę dla wybranego typu
                     if (treeType == TreeType.integer) {
                         TreeMethodHandler<Integer> hi = new TreeMethodHandler<Integer>(treeInteger);
-                        outString = hi.runMethod(command, Integer.parseInt(argument));
+                        Integer[] args = new Integer[query.length - 1];
+                        for (int i = 1; i < query.length; i++) {
+                            args[i - 1] = Integer.parseInt(query[i]);
+                        }
+                        outString = hi.runMethod(command, args);
                     } else if (treeType == TreeType.doubleT) {
                         TreeMethodHandler<Double> hi = new TreeMethodHandler<Double>(treeDouble);
-                        outString = hi.runMethod(command, Double.parseDouble(argument));
+                        Double[] args = new Double[query.length - 1];
+                        for (int i = 1; i < query.length; i++) {
+                            args[i - 1] = Double.parseDouble(query[i]);
+                        }
+                        outString = hi.runMethod(command, args);
                     } else if (treeType == TreeType.string) {
                         TreeMethodHandler<String> hi = new TreeMethodHandler<String>(treeString);
-                        outString = hi.runMethod(command, argument);
+                        String[] args = new String[query.length-1];
+                        System.arraycopy(query, 1, args, 0, query.length-1);
+                        outString = hi.runMethod(command, args);
                     }
                 } catch (IndexOutOfBoundsException ex) {
                     outString = ERROR_MESSAGE + "za mało argumentów";
@@ -116,11 +125,22 @@ class TreeMethodHandler<T extends Comparable<T>> {
         this.bt = bt;
     }
 
-    public String runMethod(String methodName, T arg) {
+    public String runMethod(String methodName, T[] args) {
+        TreeCommand command = null;
+        for (TreeCommand tCommand : TreeCommand.values()) {
+            if (methodName.equals(tCommand.name)) {
+                command = tCommand;
+                break;
+            }
+        }
+        if (command == null) {
+            return "No such method";
+        }
+
         String outString = "";
-        switch (methodName) {
-            case "search":
-                boolean successful = bt.search(arg);
+        switch (command) {
+            case TreeCommand.search:
+                boolean successful = bt.search(args[0]);
 
                 outString = "Search complete: ";
                 if (!successful) {
@@ -129,16 +149,16 @@ class TreeMethodHandler<T extends Comparable<T>> {
                 outString += "found";
 
                 return outString;
-            case "insert":
-                bt.insert(arg);
+            case TreeCommand.insert:
+                bt.insert(args[0]);
                 return bt.draw();
-            case "delete":
-                bt.delete(arg);
+            case TreeCommand.delete:
+                bt.delete(args[0]);
                 return bt.draw();
-            case "draw":
+            case TreeCommand.draw:
                 return bt.draw();
             default:
-                return "No such method.";
+                return "Not implemented.";
         }
     }
 }
