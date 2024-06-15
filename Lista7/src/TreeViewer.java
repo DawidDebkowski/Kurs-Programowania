@@ -4,8 +4,6 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -26,29 +24,30 @@ public class TreeViewer extends Application {
     private CommandButton drawButton;
 
     @Override
-    public void init() throws Exception{
+    public void init() throws Exception {
         client = new Client();
         client.connect("localhost", 4444);
-        client.getResponse(); //welcome message
-        client.sendCommand("s");
+        client.getResponse(); // welcome message
+        ChangeTreeType(TreeType.string); //podstawowy typ drzewa
     }
 
     @Override
     public void start(Stage stage) throws Exception {
         MenuBar mainMenu = setupTreeChangeMenu();
-        
+
         BorderPane content = new BorderPane();
-        content.setPrefSize(400, 400);
-        
+        content.setPrefSize(500, 500);
+
         consoleOutput = new Label();
         consoleOutput.setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
         consoleOutput.setPrefWidth(Integer.MAX_VALUE);
-        consoleOutput.setAlignment(Pos.BASELINE_CENTER);;
-        
+        consoleOutput.setAlignment(Pos.BASELINE_CENTER);
+        ;
+
         buttonBox = setupInputBox();
         content.setTop(buttonBox);
         content.setBottom(consoleOutput);
-        
+
         BorderPane menuHolder = new BorderPane();
         menuHolder.setTop(mainMenu);
         menuHolder.setCenter(content);
@@ -97,14 +96,20 @@ public class TreeViewer extends Application {
         this.drawButton = drawButton;
 
         buttonBox.getChildren().addAll(inputField, searchButton,
-        insertButton, deleteButton, drawButton);
+                insertButton, deleteButton, drawButton);
         return buttonBox;
     }
 
+    /**
+     * Wysyła komendę zmiany drzewa i klucz drzewa. 
+     * Potem wyświetla drzewo poprzez przycisk draw.
+     * 
+     * @param type nowy typ drzewa
+     */
     private void ChangeTreeType(TreeType type) {
         client.sendCommand(TreeCommand.changeTree.name);
         client.sendCommand(type.key);
-        drawButton.fire(); //wyswietl nowe drzewo
+        drawButton.fire(); // wyswietl nowe drzewo
     }
 
     public void show(String... args) {
