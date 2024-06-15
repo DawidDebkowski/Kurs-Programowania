@@ -36,20 +36,7 @@ public class TreeViewer extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        MenuBar mainMenu = new MenuBar();
-        Menu changeTree = new Menu("Change Tree");
-        ArrayList<MenuItem> trees = new ArrayList<MenuItem>();
-        for (TreeType treeType : TreeType.values()) {
-            MenuItem item = new MenuItem("Drzewo " + treeType.name);
-            item.setOnAction((arg) -> {
-                ChangeTreeType(treeType);
-            });
-            trees.add(item);
-        }
-        for (MenuItem menuItem : trees) {
-            changeTree.getItems().add(menuItem);
-        }
-        mainMenu.getMenus().add(changeTree);
+        MenuBar mainMenu = setupTreeChangeMenu();
         
         BorderPane content = new BorderPane();
         content.setPrefSize(400, 400);
@@ -73,6 +60,24 @@ public class TreeViewer extends Application {
         stage.show();
     }
 
+    private MenuBar setupTreeChangeMenu() {
+        MenuBar mainMenu = new MenuBar();
+        Menu changeTree = new Menu("Change Tree");
+        ArrayList<MenuItem> trees = new ArrayList<MenuItem>();
+        for (TreeType treeType : TreeType.values()) {
+            MenuItem item = new MenuItem("Drzewo " + treeType.name);
+            item.setOnAction((arg) -> {
+                ChangeTreeType(treeType);
+            });
+            trees.add(item);
+        }
+        for (MenuItem menuItem : trees) {
+            changeTree.getItems().add(menuItem);
+        }
+        mainMenu.getMenus().add(changeTree);
+        return mainMenu;
+    }
+
     private void setupInputBox() {
         buttonBox = new HBox();
         buttonBox.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
@@ -84,7 +89,6 @@ public class TreeViewer extends Application {
 
 
         CommandButton insertButton = new CommandButton("Insert", client, inputField, consoleOutput);
-        CommandButton switchTreeButton = new CommandButton("Switch Tree", client, inputField, consoleOutput);
         CommandButton searchButton = new CommandButton("Search", client, inputField, consoleOutput);
         CommandButton deleteButton = new CommandButton("Delete", client, inputField, consoleOutput);
         CommandButton drawButton = new CommandButton("Draw", client, inputField, consoleOutput);
@@ -92,10 +96,9 @@ public class TreeViewer extends Application {
         searchButton.setHandler("search");
         deleteButton.setHandler("delete");
         drawButton.setHandler("draw");
-        switchTreeButton.setHandler("another_tree");
         
         buttonBox.getChildren().addAll(inputField, searchButton,
-        insertButton, deleteButton, drawButton, switchTreeButton);
+        insertButton, deleteButton, drawButton);
     }
 
     private void ChangeTreeType(TreeType type) {
