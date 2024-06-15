@@ -3,12 +3,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 enum TreeType {
-    string("s"), integer("i"), doubleT("d");
+    string("s", "String"), integer("i", "Integer"), doubleT("d", "Double");
 
     final String key;
+    final String name;
 
-    TreeType(String key) {
+    TreeType(String key, String name) {
         this.key = key;
+        this.name = name;
     }
 }
 

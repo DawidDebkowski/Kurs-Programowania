@@ -36,8 +36,11 @@ public class ServerThread extends Thread {
                 System.out.println("Start pętli komendy");
                 
                 line = in.readLine();
-                
-                if (line.equals("another_tree")) {
+                System.out.println(line);
+                String[] query = line.split(" ");
+                String command = query[0];
+
+                if (command.equals("another_tree")) {
                     System.out.println("Wybieranie rodzaju drzewa");
                     chooseTreeType();
                     out.println("Podaj komendę: " + "(" + METHODS + ")");
@@ -47,8 +50,6 @@ public class ServerThread extends Thread {
                 String outString = null;
                 try {
                     // wez input klienta
-                    String[] query = line.split(" ");
-                    String command = query[0];
                     String argument = "";
                     
                     //TODO quick band aid
