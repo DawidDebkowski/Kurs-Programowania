@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -22,6 +24,7 @@ public class TreeViewer extends Application {
     private TextField inputField;
     private HBox buttonBox;
     private CommandButton drawButton;
+    private TreeVisualizer visualizer;
 
     @Override
     public void init() throws Exception {
@@ -44,8 +47,8 @@ public class TreeViewer extends Application {
         consoleOutput.setAlignment(Pos.BASELINE_CENTER);
 
         buttonBox = setupInputBox();
-        TreeVisualizer vis = new TreeVisualizer();
-        content.setCenter(vis);
+        visualizer = new TreeVisualizer();
+        content.setCenter(visualizer);
         content.setTop(buttonBox);
         content.setBottom(consoleOutput);
         
@@ -55,9 +58,8 @@ public class TreeViewer extends Application {
         
         Scene scene = new Scene(menuHolder);
         stage.setScene(scene);
-        stage.setTitle("Drzewo Binarne");
+        stage.setTitle("Klient drzewa binarnego");
         stage.show();
-        vis.visualizeTree("asdf");
     }
 
     private MenuBar setupTreeChangeMenu() {
@@ -87,14 +89,28 @@ public class TreeViewer extends Application {
         inputField = new TextField();
         inputField.setPrefWidth(Integer.MAX_VALUE);
 
-        CommandButton insertButton = new CommandButton("Wstaw", client, inputField, consoleOutput);
-        CommandButton searchButton = new CommandButton("Wyszukaj", client, inputField, consoleOutput);
-        CommandButton deleteButton = new CommandButton("Usuń", client, inputField, consoleOutput);
-        CommandButton drawButton = new CommandButton("Narysuj", client, inputField, consoleOutput);
-        insertButton.setHandler(TreeCommand.insert.name);
-        searchButton.setHandler(TreeCommand.search.name);
-        deleteButton.setHandler(TreeCommand.delete.name);
-        drawButton.setHandler(TreeCommand.draw.name);
+        class OnClickHandler implements EventHandler<ActionEvent> {
+            String command;
+
+            public OnClickHandler(String command) {
+                this.command = command;
+            }
+
+            @Override
+            public void handle(ActionEvent arg0) {
+                String out = client.sendCommand(command + " " + inputField.getText());
+                consoleOutput.setText(out);
+                visualizer.visualizeTree(client.sendCommand(TreeCommand.getArrayForm.name));
+            }
+        }
+        CommandButton insertButton = new CommandButton("Wstaw");
+        CommandButton searchButton = new CommandButton("Wyszukaj");
+        CommandButton deleteButton = new CommandButton("Usuń");
+        CommandButton drawButton = new CommandButton("Narysuj");
+        insertButton.setOnAction(new OnClickHandler(TreeCommand.insert.name));
+        searchButton.setOnAction(new OnClickHandler(TreeCommand.search.name));
+        deleteButton.setOnAction(new OnClickHandler(TreeCommand.delete.name));
+        drawButton.setOnAction(new OnClickHandler(TreeCommand.draw.name));
         this.drawButton = drawButton;
 
         buttonBox.getChildren().addAll(inputField, searchButton,
