@@ -41,8 +41,6 @@ public class ServerThread extends Thread {
             out.println("Podaj komendę: " + "(" + METHODS + ")");
             while (!line.equals("bye")) {
                 System.out.println("Start pętli komendy");
-                // System.out.println(treeString.finalTest());
-                treeString.finalTest();
                 
                 line = in.readLine();
                 System.out.println(line);

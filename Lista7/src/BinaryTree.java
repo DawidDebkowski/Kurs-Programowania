@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BinaryTree<T extends Comparable<T>> {
     private Node<T> rootNode = null;
@@ -152,7 +154,7 @@ public class BinaryTree<T extends Comparable<T>> {
 
     private String toS(Node<T> w) {
         if (w != null)
-            return "(" + w.key + ":" + toS(w.left) + ":" + toS(w.right) + ";);";
+            return "(" + w.key + "l:" + toS(w.left) + "r:" + toS(w.right) + ";);";
         return "()";
     }
 
@@ -160,61 +162,30 @@ public class BinaryTree<T extends Comparable<T>> {
         return toS(rootNode);
     }
 
-    public void printLevelOrder(Node<T> root) {
-        int h = 3;
-        int i;
-        for (i = 1; i <= h; i++)
-            printCurrentLevel(root, i);
-    }
-
-    // Print nodes at a current level
-    public void printCurrentLevel(Node<T> root, int level) {
-        if (root == null)
-            return;
-        if (level == 1)
-            System.out.print(root.key + " ");
-        else if (level > 1) {
-            printCurrentLevel(root.left, level - 1);
-            printCurrentLevel(root.right, level - 1);
+    public ArrayList<String> treeToKeyArray()
+    {
+        ArrayList<String> nodes = new ArrayList<String>();
+        if(rootNode == null) {
+            return null;
         }
-    }
+        Queue<Node<T>> queue = new LinkedList<Node<T>>();
+        queue.add(rootNode);
+        while (!queue.isEmpty()) {
 
-    public void finalTest() {
-        printLevelOrder(rootNode);
-    }
+            // poll() removes the present head.  
+            Node<T> tempNode = queue.poll();
+            nodes.add(tempNode.key.toString());
 
-    public void test(Node<T> w) {
-        String draw = draw();
-        int depth = 0;
-        int index = 1;
-        if (draw.length() < 3)
-            return;
-
-        String key = "";
-        for (int i = 1; i < draw.length() - 1; i++) {
-            if (draw.charAt(index) == '(') {
-                depth++;
-            } else if (draw.charAt(index) == ')') {
-                depth--;
-            } else {
-                while (draw.charAt(index) != ':' || draw.charAt(index) != ';') {
-                    key += draw.charAt(index);
-                }
+            // Enqueue left child
+            if (tempNode.left != null) {
+                queue.add(tempNode.left);
             }
 
+            // Enqueue right child
+            if (tempNode.right != null) {
+                queue.add(tempNode.right);
+            }
         }
-    }
-
-    public void arrayRepresentation(Node<T> w, int index, int depth, ArrayList<String> representation) {
-        // int index = 1;
-        // int depth = 0;
-        int arrayIndex = index + (int) (Math.pow(2, depth));
-        if (w == null) {
-            representation.set(arrayIndex, null);
-            return;
-        }
-
-        representation.set(arrayIndex, w.key.toString());
-        arrayRepresentation(w.left, index, depth, representation);
+        return nodes;
     }
 }
