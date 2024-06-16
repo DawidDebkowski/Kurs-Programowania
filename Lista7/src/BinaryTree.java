@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class BinaryTree<T extends Comparable<T>> {
     private Node<T> rootNode = null;
 
@@ -23,7 +25,7 @@ public class BinaryTree<T extends Comparable<T>> {
      * Wyszukuje węzeł o wskazanym kluczu zaczynając od startNode
      * 
      * @param startNode obiekt węzła do rozpoczęcia wyszukiwania
-     * @param key klucz szukanego węzła
+     * @param key       klucz szukanego węzła
      * @return obiekt węzła
      */
     public Node<T> search(Node<T> startNode, T key) {
@@ -76,9 +78,13 @@ public class BinaryTree<T extends Comparable<T>> {
         }
     }
 
-    public void delete(T key) {delete(search(rootNode, key));}
+    public void delete(T key) {
+        delete(search(rootNode, key));
+    }
 
-    /** Usuwa wskazany węzeł
+    /**
+     * Usuwa wskazany węzeł
+     * 
      * @param node węzeł do usunięcia
      * @return usunięty węzeł
      */
@@ -115,7 +121,7 @@ public class BinaryTree<T extends Comparable<T>> {
         return successor;
     }
 
-    //podaje następnika wybranego węzła
+    // podaje następnika wybranego węzła
     private Node<T> treeSuccessor(Node<T> node) {
         if (node.right != null)
             return treeMinimum(node.right);
@@ -128,14 +134,14 @@ public class BinaryTree<T extends Comparable<T>> {
         return parent;
     }
 
-    //znajduje najmniejszy(kluczem) węzeł w poddrzewie
+    // znajduje najmniejszy(kluczem) węzeł w poddrzewie
     private Node<T> treeMinimum(Node<T> node) {
         while (node.left != null) {
             node = node.left;
         }
         return node;
     }
-    
+
     private void setRoot(Node<T> newRoot) {
         rootNode = newRoot;
     }
@@ -146,11 +152,69 @@ public class BinaryTree<T extends Comparable<T>> {
 
     private String toS(Node<T> w) {
         if (w != null)
-            return "(" + w.key + "l:" + toS(w.left) + "p:" + toS(w.right) + ");";
+            return "(" + w.key + ":" + toS(w.left) + ":" + toS(w.right) + ";);";
         return "()";
     }
 
     public String draw() {
         return toS(rootNode);
+    }
+
+    public void printLevelOrder(Node<T> root) {
+        int h = 3;
+        int i;
+        for (i = 1; i <= h; i++)
+            printCurrentLevel(root, i);
+    }
+
+    // Print nodes at a current level
+    public void printCurrentLevel(Node<T> root, int level) {
+        if (root == null)
+            return;
+        if (level == 1)
+            System.out.print(root.key + " ");
+        else if (level > 1) {
+            printCurrentLevel(root.left, level - 1);
+            printCurrentLevel(root.right, level - 1);
+        }
+    }
+
+    public void finalTest() {
+        printLevelOrder(rootNode);
+    }
+
+    public void test(Node<T> w) {
+        String draw = draw();
+        int depth = 0;
+        int index = 1;
+        if (draw.length() < 3)
+            return;
+
+        String key = "";
+        for (int i = 1; i < draw.length() - 1; i++) {
+            if (draw.charAt(index) == '(') {
+                depth++;
+            } else if (draw.charAt(index) == ')') {
+                depth--;
+            } else {
+                while (draw.charAt(index) != ':' || draw.charAt(index) != ';') {
+                    key += draw.charAt(index);
+                }
+            }
+
+        }
+    }
+
+    public void arrayRepresentation(Node<T> w, int index, int depth, ArrayList<String> representation) {
+        // int index = 1;
+        // int depth = 0;
+        int arrayIndex = index + (int) (Math.pow(2, depth));
+        if (w == null) {
+            representation.set(arrayIndex, null);
+            return;
+        }
+
+        representation.set(arrayIndex, w.key.toString());
+        arrayRepresentation(w.left, index, depth, representation);
     }
 }

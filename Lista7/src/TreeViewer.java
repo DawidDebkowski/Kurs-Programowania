@@ -28,7 +28,7 @@ public class TreeViewer extends Application {
         client = new Client();
         client.connect("localhost", 4444);
         client.getResponse(); // welcome message
-        ChangeTreeType(TreeType.string); //podstawowy typ drzewa
+        client.sendCommand("s");
     }
 
     @Override
@@ -42,20 +42,22 @@ public class TreeViewer extends Application {
         consoleOutput.setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
         consoleOutput.setPrefWidth(Integer.MAX_VALUE);
         consoleOutput.setAlignment(Pos.BASELINE_CENTER);
-        ;
 
         buttonBox = setupInputBox();
+        TreeVisualizer vis = new TreeVisualizer();
+        content.setCenter(vis);
         content.setTop(buttonBox);
         content.setBottom(consoleOutput);
-
+        
         BorderPane menuHolder = new BorderPane();
         menuHolder.setTop(mainMenu);
         menuHolder.setCenter(content);
-
+        
         Scene scene = new Scene(menuHolder);
         stage.setScene(scene);
         stage.setTitle("Drzewo Binarne");
         stage.show();
+        vis.visualizeTree("asdf");
     }
 
     private MenuBar setupTreeChangeMenu() {
