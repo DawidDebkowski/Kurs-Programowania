@@ -1,21 +1,11 @@
 import java.util.ArrayList;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -29,7 +19,7 @@ import javafx.stage.Stage;
  */
 public class GUIClient extends Application {
     private Client client;
-    private CommandButton drawButton;
+    private TreeIOBox IOBox;
 
     @Override
     /**
@@ -49,13 +39,13 @@ public class GUIClient extends Application {
     public void start(Stage stage) throws Exception {
         MenuBar mainMenu = setupTreeChangeMenu();
 
-        TreeIOBox content = new TreeIOBox(client);
-        content.setPrefSize(500, 500);
-        content.init();
+        IOBox = new TreeIOBox(client);
+        IOBox.setPrefSize(500, 500);
+        IOBox.init();
 
         BorderPane menuHolder = new BorderPane();
         menuHolder.setTop(mainMenu);
-        menuHolder.setCenter(content);
+        menuHolder.setCenter(IOBox);
 
         Scene scene = new Scene(menuHolder);
         stage.setScene(scene);
@@ -90,7 +80,7 @@ public class GUIClient extends Application {
     private void ChangeTreeType(TreeType type) {
         client.sendCommand(TreeCommand.changeTree.name);
         client.sendCommand(type.key);
-        drawButton.fire(); // wyswietl nowe drzewo
+        IOBox.refresh();
     }
 
     public void show(String... args) {

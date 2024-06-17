@@ -31,6 +31,10 @@ public class TreeIOBox extends BorderPane{
         setupInputLogic();
     }
 
+    public void refresh() {
+        drawButton.fire();
+    }
+
     private void setupOutputs() {
         consoleOutput = new Label();
         consoleOutput.setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
