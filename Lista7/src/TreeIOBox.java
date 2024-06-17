@@ -10,7 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
-public class TreeIOBox extends BorderPane{
+public class TreeIOBox extends BorderPane {
     private Client client;
     private Label consoleOutput;
     private TreeVisualizer visualizer;
@@ -36,6 +36,10 @@ public class TreeIOBox extends BorderPane{
         drawButton.fire();
     }
 
+    /**
+     * Ustawia wizualną część outputu
+     * Tworzy konsolę na dole oraz środek do wizualizacji drzewa
+     */
     private void setupOutputs() {
         consoleOutput = new Label();
         consoleOutput.setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
@@ -48,6 +52,10 @@ public class TreeIOBox extends BorderPane{
         this.setBottom(consoleOutput);
     }
 
+    /**
+     * Tworzy wizualną część inputu
+     * Panel z guzikami do komend oraz pole tekstowe
+     */
     private void setupInputBox() {
         HBox buttonBox = new HBox();
         buttonBox.setBackground(new Background(new BackgroundFill(Color.web("#1D3857"), null, null)));
@@ -65,9 +73,12 @@ public class TreeIOBox extends BorderPane{
         buttonBox.getChildren().addAll(inputField, searchButton,
                 insertButton, deleteButton, drawButton);
 
-        this.setTop(buttonBox);        
+        this.setTop(buttonBox);
     }
 
+    /**
+     * Ustawia efekt przy kliknięciu dla każdego przycisku
+     */
     private void setupInputLogic() {
         class OnClickHandler implements EventHandler<ActionEvent> {
             String command;

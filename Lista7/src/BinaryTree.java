@@ -1,23 +1,26 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class BinaryTree<T extends Comparable<T>> {
-    private Node<T> rootNode = null;
+    private Node<T> rootNode;
 
+    /**
+     * Tworzy pusty obiekt klasy.
+     */
     public BinaryTree() {
+        rootNode = null;
     }
 
-    // TODO zmienić if () na if()
+    /**
+     * Tworzy drzewo binarne z korzeniem o podanej wartości.
+     */
     public BinaryTree(T rootKey) {
         insert(new Node<T>(rootKey, null));
     }
 
     /**
-     * Wyszukuje węzeł o wskazanym kluczu zaczynając od korzenia
+     * Wyszukuje czy klucz jest w drzewie zaczynając od korzenia
+     * Prawda - klucz
      * 
-     * @param key klucz szukanego węzła
-     * @return obiekt węzła
+     * @param key klucz
+     * @return Prawda/Fałsz jeżeli klucz jest/nie jest w drzewie
      */
     public boolean search(T key) {
         return search(rootNode, key) != null;
@@ -79,7 +82,11 @@ public class BinaryTree<T extends Comparable<T>> {
             parent.right = node;
         }
     }
-
+    /**
+     * Usuwa wskazany klucz drzewa.
+     * Jeżeli jest wiele węzłów o tym samym kluczu usuwa ten najgłębiej w drzewie.
+     * @param key klucz do usunięcia
+     */
     public void delete(T key) {
         delete(search(rootNode, key));
     }
@@ -144,6 +151,7 @@ public class BinaryTree<T extends Comparable<T>> {
         return node;
     }
 
+    //ustawia korzeń drzewa
     private void setRoot(Node<T> newRoot) {
         rootNode = newRoot;
     }
@@ -158,6 +166,10 @@ public class BinaryTree<T extends Comparable<T>> {
         return "()";
     }
 
+    /**
+     * Zwraca drzewo w formacie (klucz : lewe_poddrzewo : prawe_poddrzewo)
+     * @return drzewo jako napis
+     */
     public String draw() {
         return toS(rootNode);
     }
