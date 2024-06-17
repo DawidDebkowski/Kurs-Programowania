@@ -7,12 +7,13 @@ public class TreeVisualizer extends Pane {
     public TreeVisualizer() {
         super();
         this.widthProperty().addListener((arg) -> {
-            this.getChildren().clear();
             visualizeTree(lastFormat);
         });
     }
 
     public Pane visualizeTree(String format) {
+        this.getChildren().clear();
+
         lastFormat = format;
         format = format.substring(1, format.length()-1);
         format = format.replaceAll(":", "");
@@ -45,15 +46,13 @@ public class TreeVisualizer extends Pane {
         if(tree.length()<2) {
             return;
         }
+
         if(tree.charAt(1) == ')')
             return;
 
         //nawiasy zewnetrzne
         if (depth != 0)
             tree = tree.substring(1, tree.length() - 1); //+ ;
-        else {
-            this.getChildren().clear();
-        }
 
         String value = tree.substring(0, tree.indexOf("("));
         tree = tree.substring(tree.indexOf("(")); //depth++

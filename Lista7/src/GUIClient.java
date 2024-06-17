@@ -51,8 +51,15 @@ public class GUIClient extends Application {
         stage.setScene(scene);
         stage.setTitle("Klient drzewa binarnego");
         stage.show();
+
+        IOBox.refresh();
     }
 
+    /**
+     * Tworzy MenuBar odpowiadający za zmianę drzewa
+     * 
+     * @return główny MenuBar aplikacji
+     */
     private MenuBar setupTreeChangeMenu() {
         MenuBar mainMenu = new MenuBar();
         Menu changeTree = new Menu("Change Tree");
@@ -81,9 +88,5 @@ public class GUIClient extends Application {
         client.sendCommand(TreeCommand.changeTree.name);
         client.sendCommand(type.key);
         IOBox.refresh();
-    }
-
-    public void show(String... args) {
-        launch(args);
     }
 }
