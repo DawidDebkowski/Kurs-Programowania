@@ -18,15 +18,26 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class TreeViewer extends Application {
+/**
+ * Aplikacja javafx odpowiadająca za GUI do komunikacji Klienta z Serwerem
+ * 
+ * Tworzy proste okno, w którym za pomocą przycisków i pola tekstowego można
+ * wysyłać komendy do serwera i wyświetlać odpowiedź lub całe drzewo binarne w
+ * graficznej formie.
+ * Na dole ekranu posiada wyświetlacz oryginalnej odpowiedzi serwera. Można
+ * także zmienić typ drzewa za pomocą menu.
+ */
+public class GUIClient extends Application {
     private Client client;
-    private Label consoleOutput;
-    private TextField inputField;
-    private HBox buttonBox;
     private CommandButton drawButton;
-    private TreeVisualizer visualizer;
 
     @Override
+    /**
+     * Metoda uruchamiana przez javafx przed startem.
+     * Tworzy obiekt klienta, za pomocą którego będzie się komunikować z serwerem.
+     * 
+     * Wybiera też od razu typ drzewa String.
+     */
     public void init() throws Exception {
         client = new Client();
         client.connect("localhost", 4444);
@@ -38,24 +49,14 @@ public class TreeViewer extends Application {
     public void start(Stage stage) throws Exception {
         MenuBar mainMenu = setupTreeChangeMenu();
 
-        BorderPane content = new BorderPane();
+        TreeIOBox content = new TreeIOBox(client);
         content.setPrefSize(500, 500);
+        content.init();
 
-        consoleOutput = new Label();
-        consoleOutput.setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
-        consoleOutput.setPrefWidth(Integer.MAX_VALUE);
-        consoleOutput.setAlignment(Pos.BASELINE_CENTER);
-
-        buttonBox = setupInputBox();
-        visualizer = new TreeVisualizer();
-        content.setCenter(visualizer);
-        content.setTop(buttonBox);
-        content.setBottom(consoleOutput);
-        
         BorderPane menuHolder = new BorderPane();
         menuHolder.setTop(mainMenu);
         menuHolder.setCenter(content);
-        
+
         Scene scene = new Scene(menuHolder);
         stage.setScene(scene);
         stage.setTitle("Klient drzewa binarnego");
@@ -80,46 +81,8 @@ public class TreeViewer extends Application {
         return mainMenu;
     }
 
-    private HBox setupInputBox() {
-        HBox buttonBox = new HBox();
-        buttonBox.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-        buttonBox.setPadding(new Insets(20));
-        buttonBox.setSpacing(10);
-
-        inputField = new TextField();
-        inputField.setPrefWidth(Integer.MAX_VALUE);
-
-        class OnClickHandler implements EventHandler<ActionEvent> {
-            String command;
-
-            public OnClickHandler(String command) {
-                this.command = command;
-            }
-
-            @Override
-            public void handle(ActionEvent arg0) {
-                String out = client.sendCommand(command + " " + inputField.getText());
-                consoleOutput.setText(out);
-                visualizer.visualizeTree(client.sendCommand(TreeCommand.draw.name));
-            }
-        }
-        CommandButton insertButton = new CommandButton("Wstaw");
-        CommandButton searchButton = new CommandButton("Wyszukaj");
-        CommandButton deleteButton = new CommandButton("Usuń");
-        CommandButton drawButton = new CommandButton("Narysuj");
-        insertButton.setOnAction(new OnClickHandler(TreeCommand.insert.name));
-        searchButton.setOnAction(new OnClickHandler(TreeCommand.search.name));
-        deleteButton.setOnAction(new OnClickHandler(TreeCommand.delete.name));
-        drawButton.setOnAction(new OnClickHandler(TreeCommand.draw.name));
-        this.drawButton = drawButton;
-
-        buttonBox.getChildren().addAll(inputField, searchButton,
-                insertButton, deleteButton, drawButton);
-        return buttonBox;
-    }
-
     /**
-     * Wysyła komendę zmiany drzewa i klucz drzewa. 
+     * Wysyła komendę zmiany drzewa i klucz drzewa.
      * Potem wyświetla drzewo poprzez przycisk draw.
      * 
      * @param type nowy typ drzewa

@@ -1,6 +1,9 @@
 import java.io.*;
 import java.net.*;
 
+/**
+ * Możliwe komendy wraz z odpowiadającymi im napisami.
+ */
 enum TreeCommand {
     search("search"), insert("insert"),
     delete("delete"), draw("draw"), changeTree("another_tree"),
@@ -13,6 +16,14 @@ enum TreeCommand {
     }
 }
 
+/**
+ * Wątek obsługujący konkretnego klienta. Komunikacja odbywa się za pomocą
+ * socketa i strumienia napisów.
+ * 1 konkretna komenda zawsze zwraca 1 odpowiedź.
+ * Możliwe komendy znajdują się w TreeCommand
+ * 
+ * @see TreeCommand
+ */
 public class ServerThread extends Thread {
     private final String ERROR_MESSAGE = "Blad: ";
     private final String METHODS;
@@ -66,43 +77,58 @@ public class ServerThread extends Thread {
                     continue; // powrót do głównej pętli
                 }
 
-                // Wykonanie metody dla wybranego typu drzewa
-                String outString = null;
-                try {
-                    if (treeType == TreeType.integer) {
-                        TreeMethodHandler<Integer> hi = new TreeMethodHandler<Integer>(treeInteger);
-                        Integer[] args = new Integer[query.length - 1];
-                        for (int i = 1; i < query.length; i++) {
-                            args[i - 1] = Integer.parseInt(query[i]);
-                        }
-                        outString = hi.runMethod(command, args);
-                    } else if (treeType == TreeType.doubleT) {
-                        TreeMethodHandler<Double> hi = new TreeMethodHandler<Double>(treeDouble);
-                        Double[] args = new Double[query.length - 1];
-                        for (int i = 1; i < query.length; i++) {
-                            args[i - 1] = Double.parseDouble(query[i]);
-                        }
-                        outString = hi.runMethod(command, args);
-                    } else if (treeType == TreeType.string) {
-                        TreeMethodHandler<String> hi = new TreeMethodHandler<String>(treeString);
-                        String[] args = new String[query.length - 1];
-                        System.arraycopy(query, 1, args, 0, query.length - 1);
-                        outString = hi.runMethod(command, args);
-                    }
-                } catch (IndexOutOfBoundsException ex) {
-                    outString = ERROR_MESSAGE + "za mało argumentów";
-                } catch (NumberFormatException ex) {
-                    outString = ERROR_MESSAGE + "zły typ danych";
-                }
+                // wykonanie metody dla wybranego typu drzewa
+                String outString = executeCommand(query, command);
 
+                // zwrócenie rezultatu
                 out.println(outString);
             }
-
             socket.close();
         } catch (IOException ex) {
             System.out.println("Server exception: " + ex.getMessage());
             ex.printStackTrace();
         }
+    }
+
+    /**
+     * Dla wybranego typu drzewa przetwarza argumenty na wymagany typ i wykonuje
+     * metodę
+     * 
+     * Bierze argumenty z zapytania na miejscach [1, długość]
+     * 
+     * @param query   zapytanie
+     * @param command komenda do wykonania
+     * @return rezultat
+     */
+    private String executeCommand(String[] query, String command) {
+        String outString = null;
+        try {
+            if (treeType == TreeType.integer) {
+                TreeMethodHandler<Integer> hi = new TreeMethodHandler<Integer>(treeInteger);
+                Integer[] args = new Integer[query.length - 1];
+                for (int i = 1; i < query.length; i++) {
+                    args[i - 1] = Integer.parseInt(query[i]);
+                }
+                outString = hi.runMethod(command, args);
+            } else if (treeType == TreeType.doubleT) {
+                TreeMethodHandler<Double> hi = new TreeMethodHandler<Double>(treeDouble);
+                Double[] args = new Double[query.length - 1];
+                for (int i = 1; i < query.length; i++) {
+                    args[i - 1] = Double.parseDouble(query[i]);
+                }
+                outString = hi.runMethod(command, args);
+            } else if (treeType == TreeType.string) {
+                TreeMethodHandler<String> hi = new TreeMethodHandler<String>(treeString);
+                String[] args = new String[query.length - 1];
+                System.arraycopy(query, 1, args, 0, query.length - 1);
+                outString = hi.runMethod(command, args);
+            }
+        } catch (IndexOutOfBoundsException ex) {
+            outString = ERROR_MESSAGE + "za mało argumentów";
+        } catch (NumberFormatException ex) {
+            outString = ERROR_MESSAGE + "zły typ danych";
+        }
+        return outString;
     }
 
     private void setupStreams() throws IOException {

@@ -13,9 +13,9 @@ public class TreeVisualizer extends Pane {
     }
 
     public Pane visualizeTree(String format) {
+        lastFormat = format;
         format = format.substring(1, format.length()-1);
         format = format.replaceAll(":", "");
-        lastFormat = format;
         System.out.println(format);
 
         drawNode(format, 1, 0);
@@ -52,7 +52,6 @@ public class TreeVisualizer extends Pane {
         if (depth != 0)
             tree = tree.substring(1, tree.length() - 1); //+ ;
         else {
-            lastFormat = tree;
             this.getChildren().clear();
         }
 
