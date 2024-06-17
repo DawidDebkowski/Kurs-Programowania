@@ -161,7 +161,7 @@ public class BinaryTree<T extends Comparable<T>> {
     private String altToS(Node<T> w) {
         if (w != null)
             return w.key + "(" + altToS(w.left) + ")(" + altToS(w.right) + ")";
-        return "()";
+        return "";
     }
 
     public String draw() {

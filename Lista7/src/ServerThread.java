@@ -159,7 +159,7 @@ class TreeMethodHandler<T extends Comparable<T>> {
             case TreeCommand.draw:
                 return bt.draw();
             case TreeCommand.getArrayForm:
-                return bt.treeToKeyArray();
+                return bt.draw2();
             default:
                 return "Not implemented.";
         }
