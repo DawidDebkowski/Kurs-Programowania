@@ -1,9 +1,17 @@
 import javafx.scene.control.Button;
 
+/**
+ * Klasa ujednolicająca przyciski komend.
+ * Przycisk będzie zajmował całą możliwą szerokość.
+ */
 public class CommandButton extends Button{
+
+    /**
+     * Ustawia wskazany tekst na przycisku. Przycisk będzie zajmował całą możliwą szerokość.
+     * @param text
+     */
     public CommandButton(String text) {
         super(text);
-        // this.setStyle(getStyle() + "-fx-background-color: #CDE4FF;");
         this.setPrefWidth(Integer.MAX_VALUE);
     }
 }
