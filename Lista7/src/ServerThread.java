@@ -5,8 +5,7 @@ import java.net.*;
  * Możliwe komendy wraz z odpowiadającymi im napisami.
  */
 enum TreeCommand {
-    search("search"), insert("insert"),
-    delete("delete"), draw("draw"), changeTree("another_tree"),
+    search("search"), insert("insert"), delete("delete"), draw("draw"), changeTree("another_tree"),
     help("help"), bye("bye");
 
     public final String name;

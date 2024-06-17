@@ -54,10 +54,6 @@ public class Client {
         return response;
     }
 
-    public void GUIMainLoop() {
-
-    }
-
     public void connect(String host, int port) {
         try {
             socket = new Socket(host, port);
