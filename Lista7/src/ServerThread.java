@@ -3,7 +3,8 @@ import java.net.*;
 
 enum TreeCommand {
     search("search"), insert("insert"),
-    delete("delete"), draw("draw"), changeTree("another_tree");
+    delete("delete"), draw("draw"), changeTree("another_tree"),
+    help("help"), bye("bye");
 
     public final String name;
 
@@ -13,8 +14,8 @@ enum TreeCommand {
 }
 
 public class ServerThread extends Thread {
-    private final String ERROR_MESSAGE = "Error: ";
-    private final String METHODS = "search, insert, delete, draw";
+    private final String ERROR_MESSAGE = "Blad: ";
+    private final String METHODS;
     private BinaryTree<String> treeString;
     private BinaryTree<Integer> treeInteger;
     private BinaryTree<Double> treeDouble;
@@ -29,34 +30,45 @@ public class ServerThread extends Thread {
         treeString = st;
         treeInteger = it;
         treeDouble = dt;
+
+        // wypisz wszystkie metody
+        String methods = "";
+        for (TreeCommand tCommand : TreeCommand.values()) {
+            methods += tCommand.name + " ";
+        }
+        METHODS = methods;
     }
 
     public void run() {
         try {
             setupStreams();
 
+            // pierwsze wybranie drzewa
             System.out.println("Wybieranie rodzaju drzewa");
             chooseTreeType();
+
+            // rozpoczęcie głównej pętli
             String line = "";
             out.println("Podaj komendę: " + "(" + METHODS + ")");
-            while (!line.equals("bye")) {
+            while (!line.equals(TreeCommand.bye.name)) {
                 System.out.println("Start pętli komendy");
-                
+
                 line = in.readLine();
                 System.out.println(line);
                 String[] query = line.split(" ");
                 String command = query[0];
 
+                // możliwość zmiany drzewa
                 if (command.equals(TreeCommand.changeTree.name)) {
                     System.out.println("Wybieranie rodzaju drzewa");
                     chooseTreeType();
                     out.println("Podaj komendę: " + "(" + METHODS + ")");
-                    continue;
+                    continue; // powrót do głównej pętli
                 }
 
+                // Wykonanie metody dla wybranego typu drzewa
                 String outString = null;
                 try {
-                    // wykonaj odpowiednią metodę dla wybranego typu
                     if (treeType == TreeType.integer) {
                         TreeMethodHandler<Integer> hi = new TreeMethodHandler<Integer>(treeInteger);
                         Integer[] args = new Integer[query.length - 1];
@@ -73,8 +85,8 @@ public class ServerThread extends Thread {
                         outString = hi.runMethod(command, args);
                     } else if (treeType == TreeType.string) {
                         TreeMethodHandler<String> hi = new TreeMethodHandler<String>(treeString);
-                        String[] args = new String[query.length-1];
-                        System.arraycopy(query, 1, args, 0, query.length-1);
+                        String[] args = new String[query.length - 1];
+                        System.arraycopy(query, 1, args, 0, query.length - 1);
                         outString = hi.runMethod(command, args);
                     }
                 } catch (IndexOutOfBoundsException ex) {
@@ -114,51 +126,6 @@ public class ServerThread extends Thread {
                     isValid = true;
                 }
             }
-        }
-    }
-}
-
-class TreeMethodHandler<T extends Comparable<T>> {
-    private BinaryTree<T> bt;
-
-    TreeMethodHandler(BinaryTree<T> bt) {
-        this.bt = bt;
-    }
-
-    public String runMethod(String methodName, T[] args) {
-        TreeCommand command = null;
-        for (TreeCommand tCommand : TreeCommand.values()) {
-            if (methodName.equals(tCommand.name)) {
-                command = tCommand;
-                break;
-            }
-        }
-        if (command == null) {
-            return "No such method";
-        }
-
-        String outString = "";
-        switch (command) {
-            case TreeCommand.search:
-                boolean successful = bt.search(args[0]);
-
-                outString = "Search complete: ";
-                if (!successful) {
-                    outString += "not ";
-                }
-                outString += "found";
-
-                return outString;
-            case TreeCommand.insert:
-                bt.insert(args[0]);
-                return bt.draw();
-            case TreeCommand.delete:
-                bt.delete(args[0]);
-                return bt.draw();
-            case TreeCommand.draw:
-                return bt.draw();
-            default:
-                return "Not implemented.";
         }
     }
 }

@@ -2,6 +2,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Możliwe typy drzewa wraz z ich nazwą oraz odpowiadającą literą do wybrania
+ * podczas komunikacji z serwerem
+ */
 enum TreeType {
     string("s", "String"), integer("i", "Integer"), doubleT("d", "Double");
 
@@ -13,7 +17,10 @@ enum TreeType {
         this.name = name;
     }
 }
-
+/**
+ * Klasa odpowiadająca za podłączanie nowych klientów i przechowywanie drzew.
+ * Każdy klient ma pracuje na tych samych drzewach.
+ */
 public class Server {
     private static BinaryTree<String> stringTree = new BinaryTree<String>();
     private static BinaryTree<Integer> integerTree = new BinaryTree<Integer>();
