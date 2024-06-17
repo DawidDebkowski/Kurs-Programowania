@@ -3,8 +3,7 @@ import java.net.*;
 
 enum TreeCommand {
     search("search"), insert("insert"),
-    delete("delete"), draw("draw"), changeTree("another_tree"), 
-    getArrayForm("array");
+    delete("delete"), draw("draw"), changeTree("another_tree");
 
     public final String name;
 
@@ -158,8 +157,6 @@ class TreeMethodHandler<T extends Comparable<T>> {
                 return bt.draw();
             case TreeCommand.draw:
                 return bt.draw();
-            case TreeCommand.getArrayForm:
-                return bt.draw2();
             default:
                 return "Not implemented.";
         }

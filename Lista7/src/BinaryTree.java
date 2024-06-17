@@ -158,51 +158,7 @@ public class BinaryTree<T extends Comparable<T>> {
         return "()";
     }
 
-    private String altToS(Node<T> w) {
-        if (w != null)
-            return w.key + "(" + altToS(w.left) + ")(" + altToS(w.right) + ")";
-        return "";
-    }
-
     public String draw() {
         return toS(rootNode);
-    }
-
-    public String draw2() {
-        return altToS(rootNode);
-    }
-
-    public ArrayList<String> treeToKeyArrayPrivate() {
-        ArrayList<String> nodes = new ArrayList<String>();
-
-        Queue<Node<T>> queue = new LinkedList<Node<T>>();
-        queue.add(rootNode);
-        while (!queue.isEmpty()) {
-
-            // poll() removes the present head.  
-            Node<T> tempNode = queue.poll();
-            // nodes += tempNode.key.toString() + ":";
-
-            // Enqueue left child
-            if (tempNode.left != null) {
-                queue.add(tempNode.left);
-            } else
-
-            // Enqueue right child
-            if (tempNode.right != null) {
-                queue.add(tempNode.right);
-            }
-        }
-        return nodes;
-    }
-
-    public String treeToKeyArray()
-    {
-        String nodes = new String();
-        if(rootNode == null) {
-            return null;
-        }
-
-        return nodes;
     }
 }
