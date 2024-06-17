@@ -154,7 +154,7 @@ public class BinaryTree<T extends Comparable<T>> {
 
     private String toS(Node<T> w) {
         if (w != null)
-            return "(" + w.key + "l:" + toS(w.left) + "r:" + toS(w.right) + ";);";
+            return "(" + w.key + ":" + toS(w.left) + ":" + toS(w.right) + ")";
         return "()";
     }
 

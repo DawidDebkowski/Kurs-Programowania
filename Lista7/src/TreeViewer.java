@@ -100,7 +100,7 @@ public class TreeViewer extends Application {
             public void handle(ActionEvent arg0) {
                 String out = client.sendCommand(command + " " + inputField.getText());
                 consoleOutput.setText(out);
-                visualizer.visualizeTree(client.sendCommand(TreeCommand.getArrayForm.name));
+                visualizer.visualizeTree(client.sendCommand(TreeCommand.draw.name));
             }
         }
         CommandButton insertButton = new CommandButton("Wstaw");

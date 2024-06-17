@@ -1,10 +1,8 @@
-import java.util.ArrayList;
-
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 public class TreeVisualizer extends Pane {
-    private String lastFormat = " ";
+    private String lastFormat = "()";
 
     public TreeVisualizer() {
         super();
@@ -15,10 +13,12 @@ public class TreeVisualizer extends Pane {
     }
 
     public Pane visualizeTree(String format) {
+        format = format.substring(1, format.length()-1);
+        format = format.replaceAll(":", "");
         lastFormat = format;
         System.out.println(format);
 
-        drawNode(format.replaceAll(":", ""), 1, 0);
+        drawNode(format, 1, 0);
 
         System.out.println(this.getWidth());
         return this;
@@ -62,7 +62,6 @@ public class TreeVisualizer extends Pane {
         int rowIndex = index - (int)Math.pow(2, depth) + 1;
         Text text = new Text(rowIndex * this.getWidth() / (Math.pow(2, depth)+1), depth * 50 + 50, value);
         this.getChildren().add(text);
-
 
         int sRightIndex = getRightIndex(tree);
         if(sRightIndex == -1) {
