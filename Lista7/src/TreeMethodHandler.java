@@ -70,6 +70,8 @@ class TreeMethodHandler<T extends Comparable<T>> {
                 return bt.draw();
             case TreeCommand.draw:
                 return bt.draw();
+            case TreeCommand.help:
+                return "Dostępne komendy: " + "(" + TreeCommand.getAllMethods() + ")";
             default:
                 return "Metoda nie jest zaimplementowana.";
         }

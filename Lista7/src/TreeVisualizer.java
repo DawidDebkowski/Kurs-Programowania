@@ -1,6 +1,5 @@
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
@@ -8,7 +7,7 @@ import javafx.scene.text.TextAlignment;
 
 public class TreeVisualizer extends Pane {
     private String lastFormat = "()";
-    private final double CIRCLE_RADIUS = 20;
+    private final double CIRCLE_RADIUS = 23;
 
     public TreeVisualizer() {
         super();
@@ -71,12 +70,12 @@ public class TreeVisualizer extends Pane {
             double parentX = rowIndex * this.getWidth() / (Math.pow(2, depth - 1) + 1);
             double parentY = (depth - 1) * 50 + 50;
 
-            Line line = new Line(parentX, parentY + CIRCLE_RADIUS, x, y);
-            this.getChildren().add(line);
+            Line line = new Line(parentX, parentY, x, y);
+            this.getChildren().add(0, line);
         }
-        Circle circle = new Circle(x, y, CIRCLE_RADIUS);
+        Circle circle = new Circle(x, y, CIRCLE_RADIUS, Color.web("#57211D"));
         Text text = new Text(x - CIRCLE_RADIUS/2, y, value);
-        text.setTextAlignment(TextAlignment.RIGHT);
+        text.setTextAlignment(TextAlignment.CENTER);
         text.setFill(Color.WHITE);
         text.setWrappingWidth(CIRCLE_RADIUS);
         this.getChildren().addAll(circle, text);

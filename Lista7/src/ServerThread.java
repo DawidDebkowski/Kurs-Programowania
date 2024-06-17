@@ -13,6 +13,14 @@ enum TreeCommand {
     private TreeCommand(String name) {
         this.name = name;
     }
+
+    public static String getAllMethods() {
+        String methods = "";
+        for (TreeCommand tCommand : TreeCommand.values()) {
+            methods += tCommand.name + " ";
+        }
+        return methods;
+    }
 }
 
 /**
@@ -42,11 +50,7 @@ public class ServerThread extends Thread {
         treeDouble = dt;
 
         // wypisz wszystkie metody
-        String methods = "";
-        for (TreeCommand tCommand : TreeCommand.values()) {
-            methods += tCommand.name + " ";
-        }
-        METHODS = methods;
+        METHODS = TreeCommand.getAllMethods();
     }
 
     public void run() {

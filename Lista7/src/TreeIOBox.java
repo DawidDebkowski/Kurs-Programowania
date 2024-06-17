@@ -26,6 +26,7 @@ public class TreeIOBox extends BorderPane{
     }
 
     public void init() {
+        this.setBackground(new Background(new BackgroundFill(Color.GAINSBORO, null, null)));
         setupInputBox();
         setupOutputs();
         setupInputLogic();
@@ -49,7 +50,7 @@ public class TreeIOBox extends BorderPane{
 
     private void setupInputBox() {
         HBox buttonBox = new HBox();
-        buttonBox.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+        buttonBox.setBackground(new Background(new BackgroundFill(Color.web("#1D3857"), null, null)));
         buttonBox.setPadding(new Insets(20));
         buttonBox.setSpacing(10);
 
