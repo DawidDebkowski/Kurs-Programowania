@@ -5,4 +5,5 @@ class Node {
   Node<T>* parent;
   Node<T>* left;
   Node<T>* right;
+  ~Node()
 };
