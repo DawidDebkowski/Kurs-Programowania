@@ -19,5 +19,9 @@
         "inputu",
         "Slowik",
         "socketa"
-    ]
+    ],
+    "java.format.settings.url": "eclipse-formatter.xml",
+    "files.associations": {
+        "unordered_map": "cpp"
+    }
 }
