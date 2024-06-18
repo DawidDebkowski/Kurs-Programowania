@@ -23,5 +23,6 @@ public:
     bool search(T key);
     void insert(T key);
     void deleteKey(T key);
+    void hi(T test);
     std::string draw() const;
 };

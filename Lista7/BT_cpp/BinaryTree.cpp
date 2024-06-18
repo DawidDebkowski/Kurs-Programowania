@@ -1,166 +1,177 @@
-#include <iostream>
-#include <string>
+#include "BinaryTree.h"
 
-#include "Node.h"
-
+// Konstruktor drzewa binarnego
 template <typename T>
-class BinaryTree {
- private:
-  Node<T>* rootNode;
+BinaryTree<T>::BinaryTree() : rootNode(nullptr) {}
 
-  Node<T>* search(Node<T>* startNode, T key) {
+// Destruktor drzewa binarnego
+template <typename T>
+BinaryTree<T>::~BinaryTree() {
+    deleteSubtree(rootNode);
+}
+
+// Konstruktor drzewa binarnego z korzeniem
+template <typename T>
+BinaryTree<T>::BinaryTree(T rootKey) {
+    rootNode = nullptr;
+    insert(rootKey);
+}
+
+// Prywatna metoda wyszukiwania węzła
+template <typename T>
+Node<T>* BinaryTree<T>::search(Node<T>* startNode, T key) {
     if (!startNode || startNode->key == key) {
-      return startNode;
+        return startNode;
     }
 
     if (key < startNode->key) {
-      return search(startNode->left, key);
+        return search(startNode->left, key);
     } else {
-      return search(startNode->right, key);
+        return search(startNode->right, key);
     }
-  }
+}
 
-  void insert(Node<T>* node) {
+// Prywatna metoda wstawiania węzła
+template <typename T>
+void BinaryTree<T>::insert(Node<T>* node) {
     Node<T>* parent = nullptr;
     Node<T>* searchNode = rootNode;
 
-    // szuka miejsca na na node
     while (searchNode) {
-      parent = searchNode;
-      if (node->key < searchNode->key) {
-        searchNode = searchNode->left;
-      } else {
-        searchNode = searchNode->right;
-      }
+        parent = searchNode;
+        if (node->key < searchNode->key) {
+            searchNode = searchNode->left;
+        } else {
+            searchNode = searchNode->right;
+        }
     }
 
-    // podpina node
     node->parent = parent;
 
     if (!parent) {
-      setRoot(node);
+        setRoot(node);
     } else if (node->key < parent->key) {
-      parent->left = node;
+        parent->left = node;
     } else {
-      parent->right = node;
+        parent->right = node;
     }
-  }
+}
 
-  Node<T>* deleteNode(Node<T>* node) {
+// Prywatna metoda usuwania węzła
+template <typename T>
+Node<T>* BinaryTree<T>::deleteNode(Node<T>* node) {
     if (!node) return nullptr;
 
     Node<T>* successor = nullptr;
 
     if (!node->left || !node->right) {
-      successor = node;
+        successor = node;
     } else {
-      successor = treeSuccessor(node);
+        successor = treeSuccessor(node);
     }
 
     Node<T>* child = nullptr;
     if (successor->left) {
-      child = successor->left;
+        child = successor->left;
     } else {
-      child = successor->right;
+        child = successor->right;
     }
 
     if (child) {
-      child->parent = successor->parent;
+        child->parent = successor->parent;
     }
 
     if (!successor->parent) {
-      setRoot(child);
+        setRoot(child);
     } else if (successor == successor->parent->left) {
-      successor->parent->left = child;
+        successor->parent->left = child;
     } else {
-      successor->parent->right = child;
+        successor->parent->right = child;
     }
 
     if (successor != node) {
-      node->key = successor->key;
+        node->key = successor->key;
     }
 
-    delete successor;
-    return successor;
-  }
+    delete successor; // Usuwanie węzła z pamięci
 
-  Node<T>* treeSuccessor(Node<T>* node) {
+    return node;
+}
+
+// Prywatna metoda wyszukiwania następcy węzła
+template <typename T>
+Node<T>* BinaryTree<T>::treeSuccessor(Node<T>* node) {
     if (node->right) {
-      return treeMinimum(node->right);
+        return treeMinimum(node->right);
     }
 
     Node<T>* parent = node->parent;
     while (parent && node == parent->right) {
-      node = parent;
-      parent = parent->parent;
+        node = parent;
+        parent = parent->parent;
     }
     return parent;
-  }
+}
 
-  Node<T>* treeMinimum(Node<T>* node) {
+// Prywatna metoda wyszukiwania minimalnego węzła
+template <typename T>
+Node<T>* BinaryTree<T>::treeMinimum(Node<T>* node) {
     while (node->left) {
-      node = node->left;
+        node = node->left;
     }
     return node;
-  }
+}
 
-  void setRoot(Node<T>* newRoot) { rootNode = newRoot; }
+// Prywatna metoda ustawiania korzenia
+template <typename T>
+void BinaryTree<T>::setRoot(Node<T>* newRoot) {
+    rootNode = newRoot;
+}
 
-  std::string toS(Node<T>* node) const {
+// Prywatna metoda konwersji drzewa do stringa
+template <typename T>
+std::string BinaryTree<T>::toS(Node<T>* node) const {
     if (node) {
-      return "(" + std::to_string(node->key) + ":" + toS(node->left) + ":" +
-             toS(node->right) + ")";
+        return "(" + std::to_string(node->key) + ":" + toS(node->left) + ":" + toS(node->right) + ")";
     }
     return "()";
-  }
+}
 
-  void deleteSubtree(Node<T>* node) {
+// Prywatna metoda usuwania poddrzewa
+template <typename T>
+void BinaryTree<T>::deleteSubtree(Node<T>* node) {
     if (node) {
-      deleteSubtree(node->left);
-      deleteSubtree(node->right);
-      delete node;
+        deleteSubtree(node->left);
+        deleteSubtree(node->right);
+        delete node;
     }
-  }
+}
 
- public:
-  BinaryTree() : rootNode(nullptr) {}
+// Publiczna metoda wyszukiwania węzła
+template <typename T>
+bool BinaryTree<T>::search(T key) {
+    return search(rootNode, key) != nullptr;
+}
 
-  ~BinaryTree() { deleteSubtree(rootNode); }
-
-  BinaryTree(T rootKey) {
-    rootNode = nullptr;
-    insert(rootKey);
-  }
-
-  bool search(T key) { return search(rootNode, key) != nullptr; }
-
-  void insert(T key) {
+// Publiczna metoda wstawiania węzła
+template <typename T>
+void BinaryTree<T>::insert(T key) {
     Node<T>* node = new Node<T>(key);
     insert(node);
-  }
+}
 
-  void deleteKey(T key) {
+// Publiczna metoda usuwania węzła
+template <typename T>
+void BinaryTree<T>::deleteKey(T key) {
     Node<T>* node = search(rootNode, key);
     if (node) {
-      Node<T>* deletedNode = deleteNode(node);
-      delete deletedNode;  // Usuwanie węzła z pamięci
+        Node<T>* deletedNode = deleteNode(node);
+        delete deletedNode; // Usuwanie węzła z pamięci
     }
-  }
+}
 
-  std::string draw() const { return toS(rootNode); }
-};
-
-// int main() {
-//   BinaryTree<int> tree;
-//   tree.insert(10);
-//   tree.insert(5);
-//   tree.insert(20);
-
-//   std::cout << "Tree: " << tree.draw() << std::endl;
-
-//   tree.deleteKey(10);
-
-//   std::cout << "Tree after deletion: " << tree.draw() << std::endl;
-
-//   return 0;
-// }
+// Publiczna metoda rysowania drzewa
+template <typename T>
+std::string BinaryTree<T>::draw() const {
+    return toS(rootNode);
+}
