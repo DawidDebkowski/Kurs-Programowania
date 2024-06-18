@@ -135,7 +135,7 @@ class BinaryTree {
   bool search(T key) { return search(rootNode, key) != nullptr; }
 
   void insert(T key) {
-    Node<T>* node = new Node(key);
+    Node<T>* node = new Node<T>(key);
     insert(node);
   }
 
@@ -150,17 +150,17 @@ class BinaryTree {
   std::string draw() const { return toS(rootNode); }
 };
 
-int main() {
-  BinaryTree<int> tree;
-  tree.insert(10);
-  tree.insert(5);
-  tree.insert(20);
+// int main() {
+//   BinaryTree<int> tree;
+//   tree.insert(10);
+//   tree.insert(5);
+//   tree.insert(20);
 
-  std::cout << "Tree: " << tree.draw() << std::endl;
+//   std::cout << "Tree: " << tree.draw() << std::endl;
 
-  tree.deleteKey(10);
+//   tree.deleteKey(10);
 
-  std::cout << "Tree after deletion: " << tree.draw() << std::endl;
+//   std::cout << "Tree after deletion: " << tree.draw() << std::endl;
 
-  return 0;
-}
+//   return 0;
+// }
