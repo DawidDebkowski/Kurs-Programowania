@@ -10,21 +10,37 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
+/**
+ * Tree Input/Output Box. Klasa odpowiada za wygląd oraz logikę guzików
+ * wysyłania oraz wyświetlenie wizualizacji drzewa.
+ */
 public class TreeIOBox extends BorderPane {
     private Client client;
+
+    // Output
     private Label consoleOutput;
     private TreeVisualizer visualizer;
 
+    // Input
     private TextField inputField;
     private CommandButton insertButton;
     private CommandButton searchButton;
     private CommandButton deleteButton;
     private CommandButton drawButton;
 
+    /**
+     * Przypisuje klasie konkretnego klienta.
+     * Wymagana inicjacja do poprawnego działania klasy.
+     * 
+     * @param client klient
+     */
     public TreeIOBox(Client client) {
         this.client = client;
     }
 
+    /**
+     * Inicjacja wyglądu oraz logiki.
+     */
     public void init() {
         this.setBackground(new Background(new BackgroundFill(Color.GAINSBORO, null, null)));
         setupInputBox();
@@ -32,6 +48,9 @@ public class TreeIOBox extends BorderPane {
         setupInputLogic();
     }
 
+    /**
+     * Odświeża output poprzez sztuczne kliknięcie guzika draw.
+     */
     public void refresh() {
         drawButton.fire();
     }

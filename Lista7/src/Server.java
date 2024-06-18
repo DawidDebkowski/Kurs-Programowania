@@ -30,11 +30,11 @@ public class Server {
 
         try (ServerSocket serverSocket = new ServerSocket(4444)) {
 
-            System.out.println("Server is listening on port 4444");
+            System.out.println("Słucham na 4444");
 
             while (true) {
                 Socket socket = serverSocket.accept();
-                System.out.println("New client connected");
+                System.out.println("Podłączono nowego klienta");
 
                 new ServerThread(socket, stringTree, integerTree, doubleTree).start();
             }

@@ -32,17 +32,32 @@ enum TreeCommand {
  * @see TreeCommand
  */
 public class ServerThread extends Thread {
+    // stałe do łatwiejszego wypisywania odpowiedzi
     private final String ERROR_MESSAGE = "Blad: ";
     private final String METHODS;
+
+    // referencje do drzew przechowywanych na serwerze
     private BinaryTree<String> treeString;
     private BinaryTree<Integer> treeInteger;
     private BinaryTree<Double> treeDouble;
 
+    // aktualnie wybrany typ drzewa
+    private TreeType treeType;
+
+    // zmienne potrzebne do komunikacji z klientem
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
-    private TreeType treeType;
 
+    /**
+     * Tworzy instancję wraz z socketem do połączenia oraz referencjami do drzew
+     * binarnych dostępnych na serwerze.
+     * 
+     * @param socket socket do komunikacji z klientem
+     * @param st     drzewo string
+     * @param it     drzewo integer
+     * @param dt     drzewo double
+     */
     public ServerThread(Socket socket, BinaryTree<String> st, BinaryTree<Integer> it, BinaryTree<Double> dt) {
         this.socket = socket;
         treeString = st;
@@ -53,8 +68,14 @@ public class ServerThread extends Thread {
         METHODS = TreeCommand.getAllMethods();
     }
 
+    /**
+     * Uruchamia główną pętle komunikacji
+     * Następuje inicjacja strumieni, wybranie typu drzewa, a następnie odbieranie i
+     * odpowiadanie aż do komendy wyjścia.
+     */
     public void run() {
         try {
+            // inicjacja strumieni
             setupStreams();
 
             // pierwsze wybranie drzewa
@@ -144,6 +165,10 @@ public class ServerThread extends Thread {
         out = new PrintWriter(output, true);
     }
 
+    /**
+     * Pyta o typ drzewa dopóki poprawny nie zostanie wybrany.
+     * Gdy zostanie ustawia go.
+     */
     private void chooseTreeType() throws IOException, NullPointerException {
         boolean isValid = false;
         while (!isValid) {
