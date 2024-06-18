@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -88,5 +89,15 @@ public class GUIClient extends Application {
         client.sendCommand(TreeCommand.changeTree.name);
         client.sendCommand(type.key);
         IOBox.refresh();
+    }
+
+    @Override
+    public void stop() {
+        try {
+            client.disconnect();
+        } catch (IOException e) {
+            System.err.println("Nie udało się rozłączyć");
+            e.printStackTrace();
+        }
     }
 }
