@@ -1,4 +1,7 @@
 #include "BinaryTree.h"
+#include <iostream>
+
+using namespace std;
 
 // Konstruktor drzewa binarnego
 template <typename T>
@@ -36,16 +39,18 @@ template <typename T>
 void BinaryTree<T>::insert(Node<T>* node) {
     Node<T>* parent = nullptr;
     Node<T>* searchNode = rootNode;
+    cout << node->key;
 
     while (searchNode) {
         parent = searchNode;
+        // cout << "Teraz: " << node->key << "Rodzic: " << (searchNode == nullptr) << " ";
         if (node->key < searchNode->key) {
             searchNode = searchNode->left;
         } else {
             searchNode = searchNode->right;
         }
     }
-
+    cout << "\n";
     node->parent = parent;
 
     if (!parent) {
@@ -55,6 +60,7 @@ void BinaryTree<T>::insert(Node<T>* node) {
     } else {
         parent->right = node;
     }
+    cout << node->key;
 }
 
 // Prywatna metoda usuwania węzła
@@ -175,3 +181,23 @@ template <typename T>
 std::string BinaryTree<T>::draw() const {
     return toS(rootNode);
 }
+
+
+// int main() {
+//     BinaryTree<int> bt;
+//     bt.insert(1);
+//     bt.insert(2);
+//     bt.insert(3);
+//     bt.insert(5);
+//     cout << bt.draw();
+//     for(int i=10;i<50;i+=1) {
+//         cout << i;
+//         bt.insert(i);
+//         cout << i << "a";
+//     }
+//     cout << bt.draw();
+//     for(int i=50;i>10;i-=i/2) {
+//         bt.insert(i);
+//     }
+//     cout << bt.draw();
+// }

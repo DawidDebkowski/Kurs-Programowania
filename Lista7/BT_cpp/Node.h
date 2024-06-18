@@ -10,7 +10,7 @@ class Node {
 };
 
 template <typename T>
-Node<T>::Node(T key) {this->key = key;};
+Node<T>::Node(T key) {this->key = key;this-> left = nullptr; this->right = nullptr;};
 
 template <typename T>
 Node<T>::~Node() {};
