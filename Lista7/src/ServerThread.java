@@ -14,6 +14,9 @@ enum TreeCommand {
         this.name = name;
     }
 
+    /**
+     * Używane aby dostać wszystkie aktualne metody drzewa w wiadomości
+     */
     public static String getAllMethods() {
         String methods = "";
         for (TreeCommand tCommand : TreeCommand.values()) {
@@ -35,11 +38,14 @@ public class ServerThread extends Thread {
     // stałe do łatwiejszego wypisywania odpowiedzi
     private final String ERROR_MESSAGE = "Blad: ";
     private final String METHODS;
+    private final String TREE_TYPE_MESSAGE;
 
     // referencje do drzew przechowywanych na serwerze
     private BinaryTree<String> treeString;
     private BinaryTree<Integer> treeInteger;
     private BinaryTree<Double> treeDouble;
+    private BinaryTree<MyDataType> treeCustom;
+
 
     // aktualnie wybrany typ drzewa
     private TreeType treeType;
@@ -58,14 +64,16 @@ public class ServerThread extends Thread {
      * @param it     drzewo integer
      * @param dt     drzewo double
      */
-    public ServerThread(Socket socket, BinaryTree<String> st, BinaryTree<Integer> it, BinaryTree<Double> dt) {
+    public ServerThread(Socket socket, BinaryTree<String> st, BinaryTree<Integer> it, BinaryTree<Double> dt, BinaryTree<MyDataType> ct) {
         this.socket = socket;
         treeString = st;
         treeInteger = it;
         treeDouble = dt;
+        treeCustom = ct;
 
         // wypisz wszystkie metody
         METHODS = TreeCommand.getAllMethods();
+        TREE_TYPE_MESSAGE = "Wybierz typ drzewa: " + TreeType.getAllTrees();
     }
 
     /**
@@ -128,24 +136,31 @@ public class ServerThread extends Thread {
         String outString = null;
         try {
             if (treeType == TreeType.integer) {
-                TreeMethodHandler<Integer> hi = new TreeMethodHandler<Integer>(treeInteger);
+                TreeMethodHandler<Integer> handler = new TreeMethodHandler<Integer>(treeInteger);
                 Integer[] args = new Integer[query.length - 1];
                 for (int i = 1; i < query.length; i++) {
                     args[i - 1] = Integer.parseInt(query[i]);
                 }
-                outString = hi.runMethod(command, args);
+                outString = handler.runMethod(command, args);
             } else if (treeType == TreeType.doubleT) {
-                TreeMethodHandler<Double> hi = new TreeMethodHandler<Double>(treeDouble);
+                TreeMethodHandler<Double> handler = new TreeMethodHandler<Double>(treeDouble);
                 Double[] args = new Double[query.length - 1];
                 for (int i = 1; i < query.length; i++) {
                     args[i - 1] = Double.parseDouble(query[i]);
                 }
-                outString = hi.runMethod(command, args);
+                outString = handler.runMethod(command, args);
             } else if (treeType == TreeType.string) {
-                TreeMethodHandler<String> hi = new TreeMethodHandler<String>(treeString);
+                TreeMethodHandler<String> handler = new TreeMethodHandler<String>(treeString);
                 String[] args = new String[query.length - 1];
                 System.arraycopy(query, 1, args, 0, query.length - 1);
-                outString = hi.runMethod(command, args);
+                outString = handler.runMethod(command, args);
+            } else if (treeType == TreeType.custom) {
+                TreeMethodHandler<MyDataType> handler = new TreeMethodHandler<MyDataType>(treeCustom);
+                MyDataType[] args = new MyDataType[query.length/2 + 1];
+                for (int i = 1; i < query.length; i+=2) {
+                    args[i - 1] = MyDataType.parseFromString(query[i], query[i+1]);
+                }
+                outString = handler.runMethod(command, args);
             }
         } catch (IndexOutOfBoundsException ex) {
             outString = ERROR_MESSAGE + "za mało argumentów";
@@ -172,7 +187,7 @@ public class ServerThread extends Thread {
     private void chooseTreeType() throws IOException, NullPointerException {
         boolean isValid = false;
         while (!isValid) {
-            out.println("Wybierz typ drzewa. s - string, i - integer, d - double");
+            out.println(TREE_TYPE_MESSAGE);
             String line = in.readLine();
             for (TreeType tt : TreeType.values()) {
                 if (tt.key.equals(line)) {
