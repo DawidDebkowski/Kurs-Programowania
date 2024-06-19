@@ -54,6 +54,11 @@ public class GUIClient extends Application {
         stage.show();
 
         IOBox.refresh();
+
+        // for(int i=5;i<40;i+=5) {
+        // client.sendCommand("insert" + " " + i/2);
+        // client.sendCommand("insert" + " " + i);
+        // }
     }
 
     /**
@@ -62,20 +67,24 @@ public class GUIClient extends Application {
      * @return główny MenuBar aplikacji
      */
     private MenuBar setupTreeChangeMenu() {
+        final String infoText = "Wybrane drzewo: ";
+
         MenuBar mainMenu = new MenuBar();
-        Menu changeTree = new Menu("Change Tree");
+        Menu changeTree = new Menu("Zmień drzewo");
+        Menu treeInfo = new Menu(infoText + "String"); // "String" ze wzgledu na od razu wybrane drzewo String
         ArrayList<MenuItem> trees = new ArrayList<MenuItem>();
         for (TreeType treeType : TreeType.values()) {
             MenuItem item = new MenuItem("Drzewo " + treeType.name);
             item.setOnAction((arg) -> {
                 ChangeTreeType(treeType);
+                treeInfo.setText(infoText + treeType.name);
             });
             trees.add(item);
         }
         for (MenuItem menuItem : trees) {
             changeTree.getItems().add(menuItem);
         }
-        mainMenu.getMenus().add(changeTree);
+        mainMenu.getMenus().addAll(changeTree, treeInfo);
         return mainMenu;
     }
 
@@ -94,6 +103,7 @@ public class GUIClient extends Application {
     @Override
     public void stop() {
         try {
+            client.sendCommand("bye");
             client.disconnect();
         } catch (IOException e) {
             System.err.println("Nie udało się rozłączyć");
