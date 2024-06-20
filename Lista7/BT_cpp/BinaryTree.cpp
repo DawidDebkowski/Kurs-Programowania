@@ -1,9 +1,5 @@
 #include "BinaryTree.h"
 
-#include <iostream>
-
-using namespace std;
-
 /**
  * Tworzy pusty obiekt klasy drzewa binarnego.
  */
@@ -58,7 +54,7 @@ template <typename T>
 void BinaryTree<T>::insert(Node<T>* node) {
     Node<T>* parent = nullptr;
     Node<T>* searchNode = rootNode;
-    cout << node->key;
+    // cout << node->key;
 
     while (searchNode) {
         parent = searchNode;
@@ -70,7 +66,7 @@ void BinaryTree<T>::insert(Node<T>* node) {
             searchNode = searchNode->right;
         }
     }
-    cout << "\n";
+    // cout << "\n";
     node->parent = parent;
 
     if (!parent) {
@@ -80,7 +76,7 @@ void BinaryTree<T>::insert(Node<T>* node) {
     } else {
         parent->right = node;
     }
-    cout << node->key;
+    // cout << node->key;
 }
 
 /**
@@ -90,8 +86,8 @@ void BinaryTree<T>::insert(Node<T>* node) {
  * @return usunięty węzeł
  */
 template <typename T>
-Node<T>* BinaryTree<T>::deleteNode(Node<T>* node) {
-    if (!node) return nullptr;
+void BinaryTree<T>::deleteNode(Node<T>* node) {
+    if (!node) return;
 
     Node<T>* successor = nullptr;
 
@@ -125,8 +121,6 @@ Node<T>* BinaryTree<T>::deleteNode(Node<T>* node) {
     }
 
     delete successor;  // Usuwanie węzła z pamięci
-
-    return node;
 }
 
 // podaje następnika wybranego węzła
@@ -153,11 +147,26 @@ Node<T>* BinaryTree<T>::treeMinimum(Node<T>* node) {
     return node;
 }
 
+template <typename T>
+std::string BinaryTree<T>::to_string(std::string s) {
+    return s;
+}
+
+template <typename T>
+std::string BinaryTree<T>::to_string(int s) {
+    return std::to_string(s);
+}
+
+template <typename T>
+std::string BinaryTree<T>::to_string(double s) {
+    return std::to_string(s);
+}
+
 // Prywatna metoda konwersji drzewa do stringa
 template <typename T>
 std::string BinaryTree<T>::toS(Node<T>* node) {
     if (node) {
-        return "(" + std::to_string(node->key) + ":" + toS(node->left) + ":" +
+        return "(" + to_string(node->key) + ":" + toS(node->left) + ":" +
                toS(node->right) + ")";
     }
     return "()";
@@ -205,10 +214,7 @@ void BinaryTree<T>::insert(T key) {
 template <typename T>
 void BinaryTree<T>::deleteKey(T key) {
     Node<T>* node = search(rootNode, key);
-    if (node) {
-        Node<T>* deletedNode = deleteNode(node);
-        delete deletedNode;  // Usuwanie węzła z pamięci
-    }
+    deleteNode(node);
 }
 
 /**
