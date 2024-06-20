@@ -147,6 +147,7 @@ Node<T>* BinaryTree<T>::treeMinimum(Node<T>* node) {
     return node;
 }
 
+//niestety std::to_string nie działa dla stringa, więc jest to:
 template <typename T>
 std::string BinaryTree<T>::to_string(std::string s) {
     return s;
