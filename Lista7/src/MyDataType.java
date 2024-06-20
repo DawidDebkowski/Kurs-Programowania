@@ -1,12 +1,17 @@
 /**
- * Stworzenie klasy implementującej Comparable.
- * Dodanie drzewa na serwer.
- * Dodanie do możliwych typów drzewa. (enum)
- * Dodanie drzewa na ServerThread.
- * Przetwarzanie napisu na nasz typ danych. (executeCommand w ServerThread) + metoda toString to typu danych
- * Śmiga
+ * Dowolna klasa implementująca Comparable oraz posiadająca konwersję z napisu na siebie.
+ * 
+ * <h2>
+ * Jak dodać nowy typ drzewa:
+ * </h2>
+ * <ul>
+ * <li> Stworzenie klasy implementującej Comparable.
+ * <li> Dodanie zmiennej drzewa na serwer.
+ * <li> Dodanie do możliwych typów drzewa. (enum)
+ * <li> Dodanie zmiennej drzewa na ServerThread.
+ * <li> Przetwarzanie napisu na nasz typ danych. ({@link ServerThread#executeCommand executeCommand} w ServerThread)
+ * </ul>
  */
-
 public class MyDataType implements Comparable<MyDataType>{
     int key;
     String name;

@@ -2,7 +2,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -19,28 +23,26 @@ import javafx.stage.Stage;
  * także zmienić typ drzewa za pomocą menu.
  */
 public class GUIClient extends Application {
-    private Client client;
     private TreeIOBox IOBox;
+    private Client client;
+    private boolean connected = false;
+    private final String HOST_NAME = "localhost";
+    private final int PORT = 4444;
 
+    // chciałem początkowo dać połączenie z klientem i serwerem w metodzie init() javafx 
+    // ale wtedy nie mogłbym wyświetlać okna dialogowego w przypadku błędu
     @Override
     /**
-     * Metoda uruchamiana przez javafx przed startem.
-     * Tworzy obiekt klienta, za pomocą którego będzie się komunikować z serwerem.
+     * Metoda tworzy całą szatę wizualną aplikacji, a później łączy się z klientem.
      * 
+     * Tworzy obiekt klienta, za pomocą którego będzie się komunikować z serwerem.
      * Wybiera też od razu typ drzewa String.
+     * 
      */
-    public void init() throws Exception {
-        client = new Client();
-        client.connect("localhost", 4444);
-        client.getResponse(); // welcome message
-        client.sendCommand("s");
-    }
-
-    @Override
     public void start(Stage stage) throws Exception {
         MenuBar mainMenu = setupTreeChangeMenu();
 
-        IOBox = new TreeIOBox(client);
+        IOBox = new TreeIOBox(this);
         IOBox.setPrefSize(500, 500);
         IOBox.init();
 
@@ -53,12 +55,12 @@ public class GUIClient extends Application {
         stage.setTitle("Klient drzewa binarnego");
         stage.show();
 
-        IOBox.refresh();
+        client = new Client();
+        defaultConnection();
 
-        // for(int i=5;i<40;i+=5) {
-        // client.sendCommand("insert" + " " + i/2);
-        // client.sendCommand("insert" + " " + i);
-        // }
+        if (!connected)
+            return;
+        IOBox.refresh();
     }
 
     /**
@@ -95,19 +97,67 @@ public class GUIClient extends Application {
      * @param type nowy typ drzewa
      */
     private void ChangeTreeType(TreeType type) {
-        client.sendCommand(TreeCommand.changeTree.name);
-        client.sendCommand(type.key);
+        sendCommand(TreeCommand.changeTree.name);
+        sendCommand(type.key);
         IOBox.refresh();
+    }
+
+    /**
+     * Bezpieczne na błędy połączenia z serwerem wysłanie komendy przez klienta i
+     * odebranie odpowiedzi serwera.
+     * 
+     * @param command
+     * @return
+     */
+    public String sendCommand(String command) {
+        try {
+            return client.sendCommand(command);
+        } catch (NullPointerException | IOException e) {
+            showReconnectAlert();
+        }
+        return "Krytyczny błąd połączenia";
+    }
+
+    /**
+     * Pokazuje okno dialogowe z błędem połączenia z serwerem.
+     * Można spróbować się połączyć ponownie lub zamknąć program.
+     */
+    private void showReconnectAlert() {
+        Alert alert = new Alert(AlertType.ERROR,
+                "Połączenie z serwerem nieudane. Czy spróbować połączyć się ponownie?", ButtonType.OK,
+                ButtonType.CLOSE);
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.OK) {
+            defaultConnection();
+        } else {
+            Platform.exit();
+        }
+        return;
+    }
+
+    /**
+     * Bezpieczne na błedy połączenie z klientem i ustawienie typu drzewa na string.
+     */
+    private void defaultConnection() {
+        try {
+            connected = client.connect(HOST_NAME, PORT);
+            client.getResponse(); // wiadomosc powitania (prośba o wybranie drzewa)
+            sendCommand("s");
+        } catch (NullPointerException | IOException e) {
+            showReconnectAlert();
+        }
     }
 
     @Override
     public void stop() {
         try {
-            client.sendCommand("bye");
+            if (!connected)
+                return;
+            sendCommand("bye");
             client.disconnect();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException ex) {
             System.err.println("Nie udało się rozłączyć");
-            e.printStackTrace();
+            ex.printStackTrace();
         }
     }
 }

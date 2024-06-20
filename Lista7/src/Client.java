@@ -30,7 +30,11 @@ public class Client {
      */
     public static void main(String[] args) {
         Client client = new Client();
-        client.connect("localhost", 4444);
+        boolean connected = client.connect("localhost", 4444);
+        if (!connected) {
+            System.out.println("Połączenie nieudane");
+            return;
+        }
         client.consoleMainLoop();
     }
 
@@ -64,7 +68,7 @@ public class Client {
      * @param command tekst do wysłania
      * @return napis odpowiedzi
      */
-    public String sendCommand(String command) {
+    public String sendCommand(String command) throws IOException, NullPointerException {
         out.println(command);
         return getResponse();
     }
@@ -73,14 +77,11 @@ public class Client {
      * Odczytuje pojedynczą odpowiedź serwera
      * 
      * @return napis odpowiedzi
+     * @throws IOException 
      */
-    public String getResponse() {
+    public String getResponse() throws NullPointerException, IOException {
         String response;
-        try {
-            response = in.readLine();
-        } catch (IOException ex) {
-            response = "I/O error: " + ex.getMessage();
-        }
+        response = in.readLine();
         return response;
     }
 
@@ -89,20 +90,22 @@ public class Client {
      * 
      * @param host adres hosta
      * @param port numer portu
+     * @return czy połączenie się udało
      */
-    public void connect(String host, int port) {
+    public boolean connect(String host, int port) {
         try {
             socket = new Socket(host, port);
             // Wysyłanie do serwera
             out = new PrintWriter(socket.getOutputStream(), true);
             // Odbieranie z serwera
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
+            return true;
         } catch (UnknownHostException ex) {
-            System.out.println("Server not found: " + ex.getMessage());
-
+            System.out.println("Nie znaleziono serwera: " + ex.getMessage());
+            return false;
         } catch (IOException ex) {
             System.out.println("I/O error: " + ex.getMessage());
+            return false;
         }
     }
 

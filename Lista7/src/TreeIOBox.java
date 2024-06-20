@@ -12,10 +12,10 @@ import javafx.scene.paint.Color;
 
 /**
  * Tree Input/Output Box. Klasa odpowiada za wygląd oraz logikę guzików
- * wysyłania oraz wyświetlenie wizualizacji drzewa.
+ * wysyłania. Także za wyświetlenie wizualizacji drzewa.
  */
 public class TreeIOBox extends BorderPane {
-    private Client client;
+    private GUIClient client;
 
     // Output
     private Label consoleOutput;
@@ -34,7 +34,7 @@ public class TreeIOBox extends BorderPane {
      * 
      * @param client klient
      */
-    public TreeIOBox(Client client) {
+    public TreeIOBox(GUIClient client) {
         this.client = client;
     }
 
@@ -110,7 +110,9 @@ public class TreeIOBox extends BorderPane {
             public void handle(ActionEvent arg0) {
                 String out = client.sendCommand(command + " " + inputField.getText());
                 consoleOutput.setText(out);
-                visualizer.visualizeTree(client.sendCommand(TreeCommand.draw.name));
+                if(command != TreeCommand.search.name) {
+                    visualizer.visualizeTree(client.sendCommand(TreeCommand.draw.name));
+                }
             }
         }
 

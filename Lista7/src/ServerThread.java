@@ -124,7 +124,7 @@ public class ServerThread extends Thread {
 
     /**
      * Dla wybranego typu drzewa przetwarza argumenty na wymagany typ i wykonuje
-     * metodę
+     * metodę.
      * 
      * Bierze argumenty z zapytania na miejscach [1, długość]
      * 
