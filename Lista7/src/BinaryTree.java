@@ -1,8 +1,13 @@
+/**
+ * Drzewo binarne dla dowolnego typu danych.
+ * Może: dodawać, wyszukiwać, usuwać węzły. 
+ * Także narysować siebie w postaci napisu.
+ */
 public class BinaryTree<T extends Comparable<T>> {
     private Node<T> rootNode;
 
     /**
-     * Tworzy pusty obiekt klasy.
+     * Tworzy pusty obiekt klasy drzewa binarnego.
      */
     public BinaryTree() {
         rootNode = null;
@@ -82,9 +87,11 @@ public class BinaryTree<T extends Comparable<T>> {
             parent.right = node;
         }
     }
+
     /**
      * Usuwa wskazany klucz drzewa.
      * Jeżeli jest wiele węzłów o tym samym kluczu usuwa ten najgłębiej w drzewie.
+     * 
      * @param key klucz do usunięcia
      */
     public void delete(T key) {
@@ -151,7 +158,7 @@ public class BinaryTree<T extends Comparable<T>> {
         return node;
     }
 
-    //ustawia korzeń drzewa
+    // ustawia korzeń drzewa
     private void setRoot(Node<T> newRoot) {
         rootNode = newRoot;
     }
@@ -168,6 +175,7 @@ public class BinaryTree<T extends Comparable<T>> {
 
     /**
      * Zwraca drzewo w formacie (klucz : lewe_poddrzewo : prawe_poddrzewo)
+     * 
      * @return drzewo jako napis
      */
     public String draw() {
