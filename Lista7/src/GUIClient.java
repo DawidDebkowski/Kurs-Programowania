@@ -14,7 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
- * Aplikacja javafx odpowiadająca za GUI do komunikacji Klienta z Serwerem
+ * Aplikacja javafx odpowiadająca za GUI do komunikacji Klienta z Serwerem.
  * 
  * Tworzy proste okno, w którym za pomocą przycisków i pola tekstowego można
  * wysyłać komendy do serwera i wyświetlać odpowiedź lub całe drzewo binarne w

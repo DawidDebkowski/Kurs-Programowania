@@ -1,4 +1,5 @@
 /**
+ * Własny typ danych dla drzewa. 
  * Dowolna klasa implementująca Comparable oraz posiadająca konwersję z napisu na siebie.
  * 
  * <h2>

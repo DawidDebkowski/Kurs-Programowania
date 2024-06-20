@@ -11,6 +11,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 /**
+ * Guziki i wizualizacja drzewa. 
+ * 
  * Tree Input/Output Box. Klasa odpowiada za wygląd oraz logikę guzików
  * wysyłania. Także za wyświetlenie wizualizacji drzewa.
  */

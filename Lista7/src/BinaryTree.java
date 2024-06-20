@@ -21,8 +21,8 @@ public class BinaryTree<T extends Comparable<T>> {
     }
 
     /**
-     * Wyszukuje czy klucz jest w drzewie zaczynając od korzenia
-     * Prawda - klucz
+     * Wyszukuje czy klucz jest w drzewie zaczynając od korzenia.
+     * Prawda - klucz jest, wpp. fałsz.
      * 
      * @param key klucz
      * @return Prawda/Fałsz jeżeli klucz jest/nie jest w drzewie
