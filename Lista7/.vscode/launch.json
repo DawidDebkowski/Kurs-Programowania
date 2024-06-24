@@ -44,7 +44,7 @@
 }
 
 /*
-javadoc --module-path C:\\\"Program Files\"\\Java\\javafx-sdk-21.0.3\\lib --add-modules javafx.controls,javafx.fxml -encoding cp1250 -charset cp1250 ..\src\*.java
+javadoc --module-path C:\\\"Program Files\"\\Java\\javafx-sdk-21.0.3\\lib --add-modules javafx.controls,javafx.fxml ..\src\*.java
 */
 
 // javadoc --module-path C:\\\"Program Files\"\\Java\\javafx-sdk-21.0.3\\lib --add-modules javafx.controls,javafx.fxml -top ”<p><i> Page top </i></p>” -encoding cp1250 -charset cp1250 -private *.java

@@ -1,0 +1,11 @@
+Komenda kompilacji:
+javac --module-path C:\\\"Program Files\"\\Java\\javafx-sdk-21.0.3\\lib --add-modules javafx.controls,javafx.fxml App.java
+
+g++ *.cpp
+
+
+Wersja javy:
+java version "21.0.2" 2024-01-16 LTS
+
+Wersja g++: 
+gcc version 8.1.0 (x86_64-posix-seh-rev0, Built by MinGW-W64 project) 
